@@ -1,0 +1,4 @@
+rabbitmq
+.gitignore
+docker-compose.yaml
+LICENSE
