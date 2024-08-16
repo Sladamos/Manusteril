@@ -17,7 +17,7 @@ namespace Emergency.Bus
             this.bus = bus;
         }
 
-        internal static async Task<IBusInstance> createWithConfig(Action<IRabbitMqBusFactoryConfigurator> configBusInstance)
+        internal static IBusInstance createWithConfig(Action<IRabbitMqBusFactoryConfigurator> configBusInstance)
         {
             IBusControl busControl = MassTransit.Bus.Factory.CreateUsingRabbitMq(configBusInstance);
             return new RabbitMqBusInstance(busControl);
@@ -28,9 +28,9 @@ namespace Emergency.Bus
             await this.bus.Publish(message);
         }
 
-        public void Start()
+        public async Task Start()
         {
-            bus.Start();
+            await bus.StartAsync();
         }
     }
 }

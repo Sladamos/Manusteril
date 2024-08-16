@@ -11,9 +11,10 @@ namespace Emergency.Bus
 {
     internal class RabbitMqBusOperator : IBusOperator
     {
-        public async Task<IBusInstance> CreateBusInstance()
+        #pragma warning disable 4014
+        public IBusInstance CreateBusInstance()
         {
-            return await RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
+            return RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
 
         }
 

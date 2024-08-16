@@ -8,6 +8,6 @@ namespace Emergency.Bus
 {
     internal interface IBusOperator
     {
-        Task<IBusInstance> CreateBusInstance();
+        IBusInstance CreateBusInstance();
     }
 }

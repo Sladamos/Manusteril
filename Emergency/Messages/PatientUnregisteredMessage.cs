@@ -9,6 +9,6 @@ namespace Emergency.Messages
 {
     internal class PatientUnregisteredMessage : IPatientUnregisteredMessage
     {
-        public Guid pateintId { get; set; }
+        public Guid patientId { get; set; }
     }
 }

@@ -16,10 +16,12 @@ namespace Emergency
         {
             var kernel = new StandardKernel();
             kernel.Load<Bindings>();
+            //TODO create error handling layer
+            //TODO create GUI
             IBusOperator busOperator = kernel.Get<IBusOperator>();
-            IBusInstance busInstance = await busOperator.CreateBusInstance();
-            busInstance.Start();
-            await busInstance.Publish(new PatientUnregisteredMessage() { pateintId = Guid.NewGuid() });
+            IBusInstance busInstance = busOperator.CreateBusInstance();
+            await busInstance.Start();
+            await busInstance.Publish(new PatientUnregisteredMessage() { patientId = Guid.NewGuid() });
         }
     }
 }

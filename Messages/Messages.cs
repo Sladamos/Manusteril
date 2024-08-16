@@ -17,6 +17,6 @@
 
     public interface IPatientUnregisteredMessage
     {
-        Guid pateintId { get; }
+        Guid patientId { get; }
     }
 }

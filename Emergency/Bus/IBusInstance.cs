@@ -10,6 +10,6 @@ namespace Emergency.Bus
     internal interface IBusInstance
     {
         Task Publish(object patientUnregisteredMessage);
-        void Start();
+        Task Start();
     }
 }
