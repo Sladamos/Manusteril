@@ -25,7 +25,7 @@ namespace Emergency.Bus
 
         public async Task Publish(object message)
         {
-            await this.bus.Publish(message);
+            await bus.Publish(message);
         }
 
         public async Task Start()

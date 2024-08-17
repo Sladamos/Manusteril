@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Emergency.Config;
+using MassTransit;
 using MassTransit.Serialization;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,13 @@ namespace Emergency.Bus
 {
     internal class RabbitMqBusOperator : IBusOperator
     {
-        #pragma warning disable 4014
+        private readonly BusConfig busConfig;
+
+        public RabbitMqBusOperator(BusConfig busConfig)
+        {
+            this.busConfig = busConfig;
+        }
+
         public IBusInstance CreateBusInstance()
         {
             return RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
@@ -20,11 +27,11 @@ namespace Emergency.Bus
 
         private void ConfigBusInstance(IRabbitMqBusFactoryConfigurator sbc)
         {
-            var uri = new Uri("rabbitmq://localhost/");
+            var uri = new Uri(busConfig.Uri);
             sbc.Host(uri, h =>
             {
-                h.Username("guest");
-                h.Password("guest");
+                h.Username(busConfig.Login);
+                h.Password(busConfig.Password);
             });
         }
     }

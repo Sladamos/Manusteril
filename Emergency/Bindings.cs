@@ -1,4 +1,6 @@
 ﻿using Emergency.Bus;
+using Emergency.Config;
+using Microsoft.Extensions.Configuration;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,18 @@ namespace Emergency
     {
         public override void Load()
         {
+            var config = ParseConfig();
+            BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
+            Bind<BusConfig>().ToConstant(busConfig);
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
+        }
+
+        private IConfigurationRoot ParseConfig()
+        {
+            return new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
         }
     }
 }
