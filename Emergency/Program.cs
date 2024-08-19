@@ -16,8 +16,6 @@ namespace Emergency
         {
             var kernel = new StandardKernel();
             kernel.Load<Bindings>();
-            //TODO create error handling layer
-            //TODO create GUI
             IBusOperator busOperator = kernel.Get<IBusOperator>();
             IBusInstance busInstance = busOperator.CreateBusInstance();
             await busInstance.Start();
