@@ -1,4 +1,5 @@
 ﻿using Emergency.Bus;
+using Emergency.Command;
 using Emergency.Config;
 using Microsoft.Extensions.Configuration;
 using Ninject.Modules;
@@ -17,7 +18,12 @@ namespace Emergency
             var config = ParseConfig();
             BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
             Bind<BusConfig>().ToConstant(busConfig);
+            Bind<ExitProgramCommand>().ToConstant(new ExitProgramCommand());
+            Bind<CheckInsuranceCommand>().ToConstant(new CheckInsuranceCommand());
+            Bind<DeletePatientCommand>().ToConstant(new DeletePatientCommand());
+            Bind<AddPatientCommand>().ToConstant(new AddPatientCommand());
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
+            Bind<IMenu>().To<Menu>();
         }
 
         private IConfigurationRoot ParseConfig()
