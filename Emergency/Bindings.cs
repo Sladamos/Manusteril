@@ -1,7 +1,9 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
 using Emergency.Config;
+using Emergency.Middleware;
 using Microsoft.Extensions.Configuration;
+using Ninject;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -17,13 +19,20 @@ namespace Emergency
         {
             var config = ParseConfig();
             BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
+            ProdConfig prodConfig = config.GetSection("Production").Get<ProdConfig>()!;
             Bind<BusConfig>().ToConstant(busConfig);
-            Bind<ExitProgramCommand>().ToConstant(new ExitProgramCommand());
-            Bind<CheckInsuranceCommand>().ToConstant(new CheckInsuranceCommand());
-            Bind<DeletePatientCommand>().ToConstant(new DeletePatientCommand());
-            Bind<AddPatientCommand>().ToConstant(new AddPatientCommand());
+            Bind<ProdConfig>().ToConstant(prodConfig);
+            CreateMiddlewares();
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
             Bind<IMenu>().To<Menu>();
+        }
+
+        private void CreateMiddlewares()
+        {
+            Bind<IMiddleware>().To<ErrorHandlingMiddleware>();
+            Bind<MiddlewaresWrapper>()
+                .ToSelf()
+                .WithConstructorArgument("middlewares", ctx => ctx.Kernel.GetAll<IMiddleware>().ToList());
         }
 
         private IConfigurationRoot ParseConfig()
