@@ -1,6 +1,7 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
 using Emergency.Messages;
+using Emergency.Middleware;
 using MassTransit;
 using Ninject;
 using Ninject.Modules;
@@ -15,7 +16,8 @@ namespace Emergency
             var kernel = new StandardKernel();
             kernel.Load<Bindings>();
             IMenu menu = kernel.Get<IMenu>();
-            menu.Start();
+            MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
+            middlewares.execute(menu.Start);
         }
     }
 }
