@@ -6,6 +6,8 @@ using MassTransit;
 using Ninject;
 using Ninject.Modules;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
+
 namespace Emergency
 {
     internal class Program

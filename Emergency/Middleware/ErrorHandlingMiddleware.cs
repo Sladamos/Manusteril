@@ -1,4 +1,5 @@
 ﻿using Emergency.Config;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,13 @@ namespace Emergency.Middleware
     internal class ErrorHandlingMiddleware : IMiddleware
     {
         private readonly ProdConfig prodConfig;
+        private readonly ILog logger;
 
-        public ErrorHandlingMiddleware(ProdConfig prodConfig)
+
+        public ErrorHandlingMiddleware(ProdConfig prodConfig, ILog logger)
         {
             this.prodConfig = prodConfig;
+            this.logger = logger;
         }
 
         public void Invoke(Action task)
@@ -22,7 +26,8 @@ namespace Emergency.Middleware
             {
                 if (!prodConfig.IsProductionMode)
                 {
-                    Console.WriteLine("Uruchomienie warstwy łapiącej błędy");
+                    logger.Info("Uruchomienie warstwy łapiącej błędy");
+                    logger.Error("Ale bomba to działa");
                 }
                 task();
             }
@@ -33,7 +38,7 @@ namespace Emergency.Middleware
                 {
                     errorCommunicate += $" {ex.Message}";
                 }
-                Console.WriteLine(errorCommunicate);
+                logger.Error(errorCommunicate, ex);
             }
         }
     }
