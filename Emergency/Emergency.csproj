@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="C:\Users\karol\.nuget\packages\nlog.schema\5.3.3\contentFiles\any\any\NLog.xsd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +35,7 @@
 
   <ItemGroup>
     <None Update="log4net.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

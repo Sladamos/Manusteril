@@ -23,9 +23,7 @@ namespace Emergency
             ProdConfig prodConfig = config.GetSection("Production").Get<ProdConfig>()!;
             Bind<BusConfig>().ToConstant(busConfig);
             Bind<ProdConfig>().ToConstant(prodConfig);
-
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program)));
-
             CreateMiddlewares();
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
             Bind<IMenu>().To<Menu>();
