@@ -32,5 +32,10 @@ namespace Emergency.Bus
         {
             await bus.StartAsync();
         }
+
+        public async Task Stop()
+        {
+            await bus.StopAsync();
+        }
     }
 }
