@@ -24,11 +24,7 @@ namespace Emergency.Middleware
         {
             try
             {
-                if (!prodConfig.IsProductionMode)
-                {
-                    logger.Info("Uruchomienie warstwy łapiącej błędy");
-                    logger.Error("Ale bomba to działa");
-                }
+                logger.Info("Uruchomienie warstwy łapiącej błędy");
                 task();
             }
             catch (Exception ex)
