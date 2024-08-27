@@ -24,6 +24,7 @@ namespace Emergency
             Bind<BusConfig>().ToConstant(busConfig);
             Bind<ProdConfig>().ToConstant(prodConfig);
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program)));
+            Bind<ICommandsFactory>().ToConstant(new CommandsFactoryImpl());
             CreateMiddlewares();
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
             Bind<IMenu>().To<Menu>();

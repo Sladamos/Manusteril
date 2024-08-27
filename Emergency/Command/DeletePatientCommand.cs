@@ -14,6 +14,11 @@ namespace Emergency.Command
 
         public void Execute()
         {
+            /*
+             * - Podaj imie
+             * - Usun pacjenta (if imie)
+             * - Cofnij
+             */
             Console.WriteLine("TODO DeletePatientCommand");
         }
     }

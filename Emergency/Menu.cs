@@ -14,10 +14,11 @@ namespace Emergency
 
         private Dictionary<string, ICommand> commands = [];
 
-        public Menu(ExitProgramCommand exitProgramCommand,
-            CheckInsuranceCommand checkInsuranceCommand,
-            DeletePatientCommand deletePatientCommand,
-            AddPatientCommand addPatientCommand) {
+        public Menu(ICommandsFactory commandsFactory) {
+            ExitProgramCommand exitProgramCommand = commandsFactory.CreateExitProgramCommand();
+            CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
+            DeletePatientCommand deletePatientCommand = commandsFactory.DeletePatientCommand();
+            AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
             commands[deletePatientCommand.Name] = deletePatientCommand;

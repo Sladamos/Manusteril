@@ -1,5 +1,4 @@
 ﻿using Emergency.Bus;
-using Emergency.Command;
 using Emergency.Messages;
 using Emergency.Middleware;
 using MassTransit;
