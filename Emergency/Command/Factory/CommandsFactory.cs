@@ -1,5 +1,7 @@
-﻿using Emergency.Command.DeletePatient;
+﻿using Emergency.Bus;
+using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,15 @@ namespace Emergency.Command.Factory
     {
         private readonly ICommandsExecutioner commandsExecutioner;
 
-        public CommandsFactory(ICommandsExecutioner commandsExecutioner) {
+        private readonly IBusOperator busOperator;
+
+        private readonly ILog logger;
+
+        public CommandsFactory(ICommandsExecutioner commandsExecutioner, IBusOperator busOperator, ILog logger)
+        {
             this.commandsExecutioner = commandsExecutioner;
+            this.busOperator = busOperator;
+            this.logger = logger;
         }
 
         public ExitProgramCommand ExitProgramCommand() { return new ExitProgramCommand(); }
@@ -21,6 +30,8 @@ namespace Emergency.Command.Factory
         public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
 
         public DeletePatientCommand DeletePatientCommand() { return new DeletePatientCommand(this, commandsExecutioner); }
+
+        public DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new DeletePatientExecutionCommand(busOperator, logger, peselSupplier); }
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 

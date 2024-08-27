@@ -1,5 +1,6 @@
 ﻿using Emergency.Bus;
 using Emergency.Messages;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,14 @@ namespace Emergency.Command.DeletePatient
 
         private readonly IBusInstance busInstance;
 
-        public DeletePatientExecutionCommand(Func<string> peselSupplier, IBusInstance busInstance) {
+        private readonly ILog logger;
+
+        public Action? OnPatientDeleted;
+
+        public DeletePatientExecutionCommand(IBusOperator busOperator, ILog logger, Func<string> peselSupplier) {
             this.peselSupplier = peselSupplier;
-            this.busInstance = busInstance;
+            this.logger = logger;
+            busInstance = busOperator.CreateBusInstance();
         }
 
         public string Name => "Wypisz";
@@ -26,10 +32,13 @@ namespace Emergency.Command.DeletePatient
         public void Execute()
         {
             string pesel = peselSupplier();
-            Console.WriteLine("TODO: find patient by pesel and switch id");
+            Console.WriteLine("TODO: validate pesel with validator service");
+            Console.WriteLine("TODO: find patient by pesel and then switch id");
             Guid patientId = Guid.NewGuid();
             PatientUnregisteredMessage message = new PatientUnregisteredMessage{ patientId = patientId };
+            logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
             busInstance.Publish(message);
+            OnPatientDeleted?.Invoke();
         }
 
     }

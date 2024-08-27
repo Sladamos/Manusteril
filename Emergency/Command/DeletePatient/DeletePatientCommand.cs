@@ -23,10 +23,13 @@ namespace Emergency.Command.DeletePatient
             this.commandsExecutioner = commandsExecutioner;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
+            DeletePatientExecutionCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
+            commands[deletePatientExecutionCommand.Name] = deletePatientExecutionCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
+            deletePatientExecutionCommand.OnPatientDeleted += OnPatientDeleted;
         }
 
         public string Name => "Wypisz";
@@ -46,6 +49,12 @@ namespace Emergency.Command.DeletePatient
         private void OnPeselSelected(string pesel)
         {
             this.pesel = pesel;
+        }
+
+        private void OnPatientDeleted()
+        {
+            Console.WriteLine("Pomyślnie wypisano pacjenta");
+            enabled = false;
         }
 
         private string GetPesel() { return pesel; }
