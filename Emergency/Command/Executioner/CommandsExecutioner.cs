@@ -13,7 +13,7 @@ namespace Emergency.Command.Executioner
             DisplayOptions(commands);
             Console.WriteLine("Wybierz opcję");
             string? commandName = Console.ReadLine();
-            if (commandName != null && commands.TryGetValue(commandName, out ICommand? command))
+            if (commandName != null && commands.TryGetValue(commandName.Capitalize(), out ICommand? command))
             {
                 command.Execute();
             }

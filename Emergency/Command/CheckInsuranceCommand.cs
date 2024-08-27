@@ -14,15 +14,7 @@ namespace Emergency.Command
 
         public void Execute()
         {
-            Console.WriteLine("Podaj PESEL pacjenta");
-            string? pesel = Console.ReadLine();
-            if (pesel != null )
-            {
-                Console.WriteLine("TODO: NfzMockCheckInsurance");
-            } else
-            {
-                Console.WriteLine("PESEL niepoprawny");
-            }
+            Console.WriteLine("TODO: NfzMockCheckInsurance");
         }
     }
 }
