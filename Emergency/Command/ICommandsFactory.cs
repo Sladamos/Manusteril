@@ -12,5 +12,6 @@ namespace Emergency.Command
         DeletePatientCommand DeletePatientCommand();
         AddPatientCommand AddPatientCommand();
         CheckInsuranceCommand CheckInsuranceCommand();
+        SelectStringCommand SelectStringCommand(string parameter);
     }
 }

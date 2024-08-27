@@ -15,5 +15,14 @@ namespace Emergency.Command
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand();}
 
         public CheckInsuranceCommand CheckInsuranceCommand() {  return new CheckInsuranceCommand(); }
+
+        public SelectStringCommand SelectStringCommand(string parameter)
+        {
+            if(parameter == null || parameter.Length == 0)
+            {
+                throw new ArgumentException("Parameter for select string command must be specified");
+            }
+            return new SelectStringCommand(parameter);
+        }
     }
 }
