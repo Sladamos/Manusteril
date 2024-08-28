@@ -1,5 +1,7 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
+using Emergency.Command.Executioner;
+using Emergency.Command.Factory;
 using Emergency.Config;
 using Emergency.Middleware;
 using log4net;
@@ -26,6 +28,8 @@ namespace Emergency
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program)));
             CreateMiddlewares();
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
+            Bind<ICommandsExecutioner>().To<CommandsExecutioner>();
+            Bind<ICommandsFactory>().To<CommandsFactory>();
             Bind<IMenu>().To<Menu>();
         }
 

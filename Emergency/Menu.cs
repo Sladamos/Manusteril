@@ -1,4 +1,8 @@
-﻿using Emergency.Command;
+﻿using Emergency.Bus;
+using Emergency.Command;
+using Emergency.Command.DeletePatient;
+using Emergency.Command.Executioner;
+using Emergency.Command.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +18,18 @@ namespace Emergency
 
         private Dictionary<string, ICommand> commands = [];
 
-        public Menu(ExitProgramCommand exitProgramCommand,
-            CheckInsuranceCommand checkInsuranceCommand,
-            DeletePatientCommand deletePatientCommand,
-            AddPatientCommand addPatientCommand) {
+        private readonly ICommandsExecutioner commandsExecutioner;
+
+        private readonly IBusInstance busInstance;
+
+        public Menu(ICommandsFactory commandsFactory, ICommandsExecutioner commandsExecutioner, IBusOperator busOperator)
+        {
+            this.commandsExecutioner = commandsExecutioner;
+            this.busInstance = busOperator.CreateBusInstance();
+            ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
+            CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
+            DeletePatientCommand deletePatientCommand = commandsFactory.DeletePatientCommand();
+            AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
             commands[deletePatientCommand.Name] = deletePatientCommand;
@@ -27,27 +39,13 @@ namespace Emergency
 
         public void Start()
         {
+            busInstance.Start();
             enabled = true;
             while (enabled)
             {
-                DisplayOptions();
-                Console.WriteLine("Wybierz opcję");
-                string? commandName = Console.ReadLine();
-                if (commandName != null && commands.TryGetValue(commandName, out ICommand? command))
-                {
-                    command.Execute();
-                } else
-                {
-                    Console.WriteLine($"NIepoprawna opcja: {commandName}");
-                }
+                commandsExecutioner.Execute(commands);
             }
-        }
-
-        private void DisplayOptions()
-        {
-            foreach (var item in commands) {
-                Console.WriteLine($"[{item.Key}] {item.Value.Description}");
-            }
+            busInstance.Stop();
         }
     }
 }

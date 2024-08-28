@@ -14,6 +14,8 @@ namespace Emergency.Bus
     {
         private readonly BusConfig busConfig;
 
+        private IBusInstance? busInstance;
+
         public RabbitMqBusOperator(BusConfig busConfig)
         {
             this.busConfig = busConfig;
@@ -21,8 +23,10 @@ namespace Emergency.Bus
 
         public IBusInstance CreateBusInstance()
         {
-            return RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
-
+            if (busInstance == null) {
+                busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
+            }
+            return busInstance;
         }
 
         private void ConfigBusInstance(IRabbitMqBusFactoryConfigurator sbc)
