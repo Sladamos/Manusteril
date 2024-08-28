@@ -32,7 +32,6 @@ namespace Emergency.Command.DeletePatient
         public void Execute()
         {
             string pesel = peselSupplier();
-            Console.WriteLine("TODO: validate pesel with validator service");
             Console.WriteLine("TODO: find patient by pesel and then switch id");
             Guid patientId = Guid.NewGuid();
             PatientUnregisteredMessage message = new PatientUnregisteredMessage{ patientId = patientId };

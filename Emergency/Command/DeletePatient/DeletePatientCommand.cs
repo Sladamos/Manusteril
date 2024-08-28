@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
+using Emergency.Validator;
 
 namespace Emergency.Command.DeletePatient
 {
@@ -16,11 +17,16 @@ namespace Emergency.Command.DeletePatient
 
         private readonly ICommandsExecutioner commandsExecutioner;
 
+        private readonly IValidatorService validator;
+
         private string pesel = "";
 
-        public DeletePatientCommand(ICommandsFactory commandsFactory, ICommandsExecutioner commandsExecutioner)
+        public DeletePatientCommand(ICommandsFactory commandsFactory,
+            ICommandsExecutioner commandsExecutioner,
+            IValidatorService validator)
         {
             this.commandsExecutioner = commandsExecutioner;
+            this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             DeletePatientExecutionCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
@@ -48,7 +54,14 @@ namespace Emergency.Command.DeletePatient
 
         private void OnPeselSelected(string pesel)
         {
-            this.pesel = pesel;
+            var validationResult = validator.validatePesel(pesel);
+            if (validationResult.IsValid)
+            {
+                this.pesel = pesel;
+            } else
+            {
+                Console.WriteLine(validationResult?.ValidatorMessage ?? "Niepoprawny PESEL");
+            }
         }
 
         private void OnPatientDeleted()
