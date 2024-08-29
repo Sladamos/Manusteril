@@ -4,6 +4,8 @@ using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
 using Emergency.Config;
 using Emergency.Middleware;
+using Emergency.Patient;
+using Emergency.Validator;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Ninject;
@@ -28,6 +30,8 @@ namespace Emergency
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program)));
             CreateMiddlewares();
             Bind<IBusOperator>().To<RabbitMqBusOperator>();
+            Bind<IValidatorService>().To<ValidatorService>();
+            Bind<IPatientService>().To<PatientService>();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>();
             Bind<ICommandsFactory>().To<CommandsFactory>();
             Bind<IMenu>().To<Menu>();

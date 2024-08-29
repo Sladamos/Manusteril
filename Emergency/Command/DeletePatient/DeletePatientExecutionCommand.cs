@@ -1,5 +1,6 @@
 ﻿using Emergency.Bus;
 using Emergency.Messages;
+using Emergency.Patient;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,15 @@ namespace Emergency.Command.DeletePatient
 {
     internal class DeletePatientExecutionCommand : ICommand
     {
+        private readonly IPatientService patientService;
+
         private Func<string> peselSupplier;
-
-        private readonly IBusInstance busInstance;
-
-        private readonly ILog logger;
 
         public Action? OnPatientDeleted;
 
-        public DeletePatientExecutionCommand(IBusOperator busOperator, ILog logger, Func<string> peselSupplier) {
+        public DeletePatientExecutionCommand(IPatientService patientService, Func<string> peselSupplier) {
+            this.patientService = patientService;
             this.peselSupplier = peselSupplier;
-            this.logger = logger;
-            busInstance = busOperator.CreateBusInstance();
         }
 
         public string Name => "Wypisz";
@@ -32,13 +30,13 @@ namespace Emergency.Command.DeletePatient
         public void Execute()
         {
             string pesel = peselSupplier();
-            Console.WriteLine("TODO: validate pesel with validator service");
-            Console.WriteLine("TODO: find patient by pesel and then switch id");
-            Guid patientId = Guid.NewGuid();
-            PatientUnregisteredMessage message = new PatientUnregisteredMessage{ patientId = patientId };
-            logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
-            busInstance.Publish(message);
-            OnPatientDeleted?.Invoke();
+            try
+            {
+                patientService.DeletePatientByPesel(pesel);
+                OnPatientDeleted?.Invoke();
+            } catch (InvalidPeselException _) {
+                Console.WriteLine("Brak pacjenta o podanym PESELu");
+            }
         }
 
     }

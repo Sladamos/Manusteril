@@ -1,6 +1,8 @@
 ﻿using Emergency.Bus;
 using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
+using Emergency.Patient;
+using Emergency.Validator;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -14,24 +16,26 @@ namespace Emergency.Command.Factory
     {
         private readonly ICommandsExecutioner commandsExecutioner;
 
-        private readonly IBusOperator busOperator;
+        private readonly IPatientService patientService;
 
-        private readonly ILog logger;
+        private readonly IValidatorService validator;
 
-        public CommandsFactory(ICommandsExecutioner commandsExecutioner, IBusOperator busOperator, ILog logger)
+        public CommandsFactory(ICommandsExecutioner commandsExecutioner,
+            IPatientService patientService,
+            IValidatorService validator)
         {
             this.commandsExecutioner = commandsExecutioner;
-            this.busOperator = busOperator;
-            this.logger = logger;
+            this.patientService = patientService;
+            this.validator = validator;
         }
 
         public ExitProgramCommand ExitProgramCommand() { return new ExitProgramCommand(); }
 
         public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
 
-        public DeletePatientCommand DeletePatientCommand() { return new DeletePatientCommand(this, commandsExecutioner); }
+        public DeletePatientCommand DeletePatientCommand() { return new DeletePatientCommand(this, commandsExecutioner, validator); }
 
-        public DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new DeletePatientExecutionCommand(busOperator, logger, peselSupplier); }
+        public DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new DeletePatientExecutionCommand(patientService, peselSupplier); }
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 

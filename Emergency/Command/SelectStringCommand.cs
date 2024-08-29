@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Emergency.Command.Executioner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Emergency.Command
     internal class SelectStringCommand : ICommand
     {
         private readonly string _parameter;
+
         private readonly Func<string>? _parameterSupplier;
 
         public SelectStringCommand(string parameter, Func<string>? parameterSupplier) {
@@ -16,7 +18,7 @@ namespace Emergency.Command
             this._parameterSupplier = parameterSupplier;
         }
 
-        public string Name => _parameter;
+        public string Name => _parameter.Capitalize();
 
         public string Description
         {
