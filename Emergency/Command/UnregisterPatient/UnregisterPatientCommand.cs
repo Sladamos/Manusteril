@@ -9,7 +9,7 @@ using Emergency.Validator;
 
 namespace Emergency.Command.DeletePatient
 {
-    internal class DeletePatientCommand : ICommand
+    internal class UnregisterPatientCommand : ICommand
     {
         private bool enabled = false;
 
@@ -21,7 +21,7 @@ namespace Emergency.Command.DeletePatient
 
         private string pesel = "";
 
-        public DeletePatientCommand(ICommandsFactory commandsFactory,
+        public UnregisterPatientCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
             IValidatorService validator)
         {
@@ -29,7 +29,7 @@ namespace Emergency.Command.DeletePatient
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
-            DeletePatientExecutionCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
+            UnregisterPatientLogicCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[deletePatientExecutionCommand.Name] = deletePatientExecutionCommand;

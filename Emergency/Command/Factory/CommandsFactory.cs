@@ -33,9 +33,9 @@ namespace Emergency.Command.Factory
 
         public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
 
-        public DeletePatientCommand DeletePatientCommand() { return new DeletePatientCommand(this, commandsExecutioner, validator); }
+        public UnregisterPatientCommand DeletePatientCommand() { return new UnregisterPatientCommand(this, commandsExecutioner, validator); }
 
-        public DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new DeletePatientExecutionCommand(patientService, peselSupplier); }
+        public UnregisterPatientLogicCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new UnregisterPatientLogicCommand(patientService, peselSupplier); }
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 

@@ -11,8 +11,8 @@ namespace Emergency.Command.Factory
     {
         ExitProgramCommand ExitProgramCommand();
         ExitOptionCommand ExitOptionCommand();
-        DeletePatientCommand DeletePatientCommand();
-        DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier);
+        UnregisterPatientCommand DeletePatientCommand();
+        UnregisterPatientLogicCommand DeletePatientExecutionCommand(Func<string> peselSupplier);
         AddPatientCommand AddPatientCommand();
         CheckInsuranceCommand CheckInsuranceCommand();
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);

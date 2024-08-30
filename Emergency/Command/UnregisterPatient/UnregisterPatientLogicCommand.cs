@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Emergency.Command.DeletePatient
 {
-    internal class DeletePatientExecutionCommand : ICommand
+    internal class UnregisterPatientLogicCommand : ICommand
     {
         private readonly IPatientService patientService;
 
@@ -18,7 +18,7 @@ namespace Emergency.Command.DeletePatient
 
         public Action? OnPatientDeleted;
 
-        public DeletePatientExecutionCommand(IPatientService patientService, Func<string> peselSupplier) {
+        public UnregisterPatientLogicCommand(IPatientService patientService, Func<string> peselSupplier) {
             this.patientService = patientService;
             this.peselSupplier = peselSupplier;
         }
