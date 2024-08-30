@@ -36,11 +36,12 @@ namespace Emergency.Patient
             {
                 throw new InvalidPeselException();
             }
+            throw new NotImplementedException();
 
-            var temporaryPatient = new Patient { Pesel = pesel, PatientId = Guid.NewGuid() };
-            PatientUnregisteredMessage message = new() { patientId = temporaryPatient.PatientId };
-            logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
-            busInstance.Publish(message);
+            //var temporaryPatient = new Patient { Pesel = pesel, Id = Guid.NewGuid() };
+            //PatientVisitUnregisteredMessage message = new(temporaryPatient.PatientId, temporaryPatient.Pesel, Guid.NewGuid());
+            //logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
+            //busInstance.Publish(message);
         }
 
         public Patient GetPatientByPesel(string pesel)
@@ -50,7 +51,8 @@ namespace Emergency.Patient
             {
                 throw new InvalidPeselException();
             }
-            return new Patient { Pesel = pesel, PatientId = Guid.NewGuid() };
+            throw new NotImplementedException();
+            //return new Patient { Pesel = pesel, PatientId = Guid.NewGuid() };
         }
     }
 }
