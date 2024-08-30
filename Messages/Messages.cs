@@ -3,39 +3,40 @@
 
     public interface INewPatientRegistered
     {
-        Guid patientId { get; }
-        string patientFirstName { get; }
-        string patientSecondName { get; }
-        string patientPesel {  get; }
-        DateTime patientDateOfBirth { get; }
-        string patientCity { get; }
-        string patientPostalCode { get; }
-        string patientStreet { get; }
-        string patientPhoneNumber { get; }
-        int patientHouseNumber { get; }
-        int patientApartmentNumber { get; }
+        Guid PatientId { get; }
+        string PatientFirstName { get; }
+        string PatientSecondName { get; }
+        string PatientPesel {  get; }
+        DateTime PatientBirthDate { get; }
+        string PatientCity { get; }
+        string PatientPostalCode { get; }
+        string PatientStreet { get; }
+        string PatientPhoneNumber { get; }
+        int PatientHouseNumber { get; }
+        int PatientApartmentNumber { get; }
     }
 
     public interface IPatientVisitRegisteredMessage
     {
-        Guid patientId { get; }
-        string patientPesel { get; }
-        Guid visitId { get; }
-        WardType wardType { get; }
+        Guid PatientId { get; }
+        string PatientPesel { get; }
+        Guid VisitId { get; }
+        WardType WardType { get; }
     }
 
     public interface IPatientVisitUnregisteredMessage
     {
-        Guid patientId { get; }
-        string patientPesel { get; }
-        Guid visitId { get; }
+        Guid PatientId { get; }
+        string PatientPesel { get; }
+        Guid VisitId { get; }
     }
 
     public interface IPatientAllowedToLeave
     {
-        Guid patientId { get; }
-        string patientPesel { get; }
-        Guid doctorId { get; }
-        string doctorPwzNumber { get; }
+        Guid PatientId { get; }
+        string PatientPesel { get; }
+        Guid DoctorId { get; }
+        string DoctorPwzNumber { get; }
+        bool LeavedAtOwnRisk { get; }
     }
 }
