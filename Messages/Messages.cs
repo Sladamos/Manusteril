@@ -1,22 +1,41 @@
 ﻿namespace Messages
 {
-    public interface IPatientRegisteredMessage
+
+    public interface INewPatientRegistered
     {
         Guid patientId { get; }
-        String patientFirstName { get; }
-        String patientSecondName { get; }
-        String patientPesel {  get; }
+        string patientFirstName { get; }
+        string patientSecondName { get; }
+        string patientPesel {  get; }
         DateTime patientDateOfBirth { get; }
-        String patientCity { get; }
-        String patientPostalCode { get; }
-        String patientStreet { get; }
-        String patientPhoneNumber { get; }
+        string patientCity { get; }
+        string patientPostalCode { get; }
+        string patientStreet { get; }
+        string patientPhoneNumber { get; }
         int patientHouseNumber { get; }
         int patientApartmentNumber { get; }
     }
 
-    public interface IPatientUnregisteredMessage
+    public interface IPatientVisitRegisteredMessage
     {
         Guid patientId { get; }
+        string patientPesel { get; }
+        Guid visitId { get; }
+        WardType wardType { get; }
+    }
+
+    public interface IPatientVisitUnregisteredMessage
+    {
+        Guid patientId { get; }
+        string patientPesel { get; }
+        Guid visitId { get; }
+    }
+
+    public interface IPatientAllowedToLeave
+    {
+        Guid patientId { get; }
+        string patientPesel { get; }
+        Guid doctorId { get; }
+        string doctorPwzNumber { get; }
     }
 }
