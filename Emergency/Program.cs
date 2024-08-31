@@ -25,7 +25,7 @@ namespace Emergency
             kernel.Load<Bindings>();
             MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
             middlewares.execute(() =>
-            {
+            {   
                 IMenu menu = kernel.Get<IMenu>();
                 menu.Start();
             });

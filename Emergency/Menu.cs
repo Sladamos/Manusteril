@@ -28,7 +28,7 @@ namespace Emergency
             this.busInstance = busOperator.CreateBusInstance();
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
-            UnregisterPatientCommand deletePatientCommand = commandsFactory.DeletePatientCommand();
+            UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
             AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;

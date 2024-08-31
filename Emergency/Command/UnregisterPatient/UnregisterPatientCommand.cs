@@ -33,13 +33,13 @@ namespace Emergency.Command.DeletePatient
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
-            UnregisterPatientLogicCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
+            UnregisterPatientLogicCommand unregisterPatientLogicCommand = commandsFactory.UnregisterPatientLogicCommand(GetPesel);
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
-            commands[deletePatientExecutionCommand.Name] = deletePatientExecutionCommand;
+            commands[unregisterPatientLogicCommand.Name] = unregisterPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
-            deletePatientExecutionCommand.OnPatientDeleted += OnPatientDeleted;
+            unregisterPatientLogicCommand.OnPatientDeleted += OnPatientDeleted;
         }
 
         public void Execute()

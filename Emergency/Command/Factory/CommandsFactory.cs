@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Emergency.Command.Factory
 {
-    internal partial class CommandsFactory : ICommandsFactory
+    internal class CommandsFactory : ICommandsFactory
     {
         private readonly ICommandsExecutioner commandsExecutioner;
 
@@ -35,9 +35,9 @@ namespace Emergency.Command.Factory
 
         public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
 
-        public UnregisterPatientCommand DeletePatientCommand() { return new UnregisterPatientCommand(this, commandsExecutioner, validator); }
+        public UnregisterPatientCommand UnregisterPatientCommand() { return new UnregisterPatientCommand(this, commandsExecutioner, validator); }
 
-        public UnregisterPatientLogicCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new UnregisterPatientLogicCommand(visitService, peselSupplier); }
+        public UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier) { return new UnregisterPatientLogicCommand(visitService, peselSupplier); }
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 

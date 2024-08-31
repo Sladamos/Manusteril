@@ -29,12 +29,12 @@ namespace Emergency.Middleware
             }
             catch (Exception ex)
             {
-                string errorCommunicate = "Wystąpił niespodziewany błąd!";
+                string errorCommunicate = $"Wystąpił niespodziewany błąd! {ex.Message}";
                 if (!prodConfig.IsProductionMode)
                 {
-                    errorCommunicate += $" {ex.Message}";
+                    errorCommunicate += $" {ex.StackTrace}";
                 }
-                logger.Error(errorCommunicate, ex);
+                logger.Error(errorCommunicate);
             }
         }
     }
