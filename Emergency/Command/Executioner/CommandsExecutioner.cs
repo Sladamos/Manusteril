@@ -8,14 +8,14 @@ namespace Emergency.Command.Executioner
 {
     internal class CommandsExecutioner : ICommandsExecutioner
     {
-        public void Execute(Dictionary<string, ICommand> commands)
+        public async Task Execute(Dictionary<string, ICommand> commands)
         {
             DisplayOptions(commands);
             Console.WriteLine("Wybierz opcję");
             string? commandName = Console.ReadLine();
             if (commandName != null && commandName != "" && commands.TryGetValue(commandName.Capitalize(), out ICommand? command))
             {
-                command.Execute();
+                await command.Execute();
             }
             else
             {

@@ -12,10 +12,10 @@ namespace Emergency.Middleware
 
         public MiddlewaresWrapper(List<IMiddleware> middlewares) => this.middlewares = middlewares;
 
-        public void execute(Action task)
+        public async Task execute(Func<Task> task)
         {
-            Action pipeline = middlewares.AsEnumerable().Reverse().Aggregate(task, (next, middleware) => () => middleware.Invoke(next));
-            pipeline();
+            Func<Task> pipeline = middlewares.AsEnumerable().Reverse().Aggregate(task, (next, middleware) => async () => await middleware.Invoke(next));
+            await pipeline();
         }
 
     }

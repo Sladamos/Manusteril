@@ -23,6 +23,11 @@ namespace Emergency.Bus
             return new RabbitMqBusInstance(busControl);
         }
 
+        public IBusClient<TRequest> GetClient<TRequest>() where TRequest : class
+        {
+            return new RabbitMqBusClient<TRequest>(bus.CreateRequestClient<TRequest>());
+        }
+
         public async Task Publish(object message)
         {
             await bus.Publish(message);

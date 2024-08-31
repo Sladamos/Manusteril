@@ -8,6 +8,6 @@ namespace Emergency.Command.Executioner
 {
     internal interface ICommandsExecutioner
     {
-        void Execute(Dictionary<string, ICommand> commands);
+        Task Execute(Dictionary<string, ICommand> commands);
     }
 }

@@ -22,13 +22,17 @@ namespace Emergency.Command.Factory
 
         private readonly IValidatorService validator;
 
+        private readonly IPatientService patientService;
+
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
             IVisitService visitService,
-            IValidatorService validator)
+            IValidatorService validator,
+            IPatientService patientService)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.visitService = visitService;
             this.validator = validator;
+            this.patientService = patientService;
         }
 
         public ExitProgramCommand ExitProgramCommand() { return new ExitProgramCommand(); }
@@ -41,7 +45,7 @@ namespace Emergency.Command.Factory
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 
-        public CheckInsuranceCommand CheckInsuranceCommand() { return new CheckInsuranceCommand(); }
+        public CheckInsuranceCommand CheckInsuranceCommand() { return new CheckInsuranceCommand(patientService); }
 
         public SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier)
         {

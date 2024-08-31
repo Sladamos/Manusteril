@@ -20,12 +20,12 @@ namespace Emergency.Middleware
             this.logger = logger;
         }
 
-        public void Invoke(Action task)
+        public async Task Invoke(Func<Task> task)
         {
             try
             {
                 logger.Info("Uruchomienie warstwy łapiącej błędy");
-                task();
+                await task();
             }
             catch (Exception ex)
             {

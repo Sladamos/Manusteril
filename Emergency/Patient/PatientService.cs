@@ -3,6 +3,7 @@ using Emergency.Messages;
 using Emergency.Validator;
 using log4net;
 using log4net.Core;
+using Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +34,7 @@ namespace Emergency.Patient
 
         public void AddPatient(PatientEntity patient)
         {
-            var validationResult = validator.validatePesel(patient.Pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
+            ValidatePesel(patient.Pesel);
             logger.Info($"Dodanie pacjenta: {patient}");
             patientRepository.Save(patient);
             eventRepository.Create(patient);
@@ -45,23 +42,30 @@ namespace Emergency.Patient
 
         public void EditPatient(PatientEntity patient)
         {
-            var validationResult = validator.validatePesel(patient.Pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
+            ValidatePesel(patient.Pesel);
             logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
             patientRepository.Save(patient);
         }
 
         public PatientEntity GetPatientByPesel(string pesel)
         {
+            ValidatePesel(pesel);
+            return patientRepository.GetPatientByPesel(pesel);
+        }
+
+        public async Task<IIsPatientInsuredResponse> IsPatientInsured(string pesel)
+        {
+            ValidatePesel(pesel);
+            return await eventRepository.IsPatientInsured(pesel);
+        }
+
+        private void ValidatePesel(string pesel)
+        {
             var validationResult = validator.validatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException();
             }
-            return patientRepository.GetPatientByPesel(pesel);
         }
     }
 }

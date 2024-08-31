@@ -42,13 +42,13 @@ namespace Emergency.Command.DeletePatient
             unregisterPatientLogicCommand.OnPatientDeleted += OnPatientDeleted;
         }
 
-        public void Execute()
+        public async Task Execute()
         {
             Console.WriteLine("Wypisywanie pacjenta");
             enabled = true;
             while (enabled)
             {
-                commandsExecutioner.Execute(commands);
+                await commandsExecutioner.Execute(commands);
             }
         }
 

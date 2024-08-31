@@ -37,15 +37,15 @@ namespace Emergency
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 
-        public void Start()
+        public async Task Start()
         {
-            busInstance.Start();
+            await busInstance.Start();
             enabled = true;
             while (enabled)
             {
-                commandsExecutioner.Execute(commands);
+                await commandsExecutioner.Execute(commands);
             }
-            busInstance.Stop();
+            await busInstance.Stop();
         }
     }
 }

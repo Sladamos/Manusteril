@@ -1,7 +1,9 @@
 ﻿using Emergency.Bus;
 using Emergency.Message;
 using Emergency.Messages;
+using Emergency.Validator;
 using log4net;
+using log4net.Core;
 using Messages;
 using System;
 using System.Collections.Generic;
@@ -16,11 +18,15 @@ namespace Emergency.Patient
     {
         private IBusInstance busInstance;
 
+        private IBusClient<IIsPatientInsured> busClient;
+
         private ILog logger;
 
-        public PatientEventRepository(IBusOperator busOperator, ILog logger)
+        public PatientEventRepository(IBusOperator busOperator,
+            ILog logger)
         {
             busInstance = busOperator.CreateBusInstance();
+            busClient = busOperator.CreateBusClient<IIsPatientInsured>();
             this.logger = logger;
         }
 
@@ -42,6 +48,13 @@ namespace Emergency.Patient
             };
             logger.Info($"Wysłanie wiadomości o utworzeniu pacjenta: {patient}");
             busInstance.Publish(message);
+        }
+
+        public async Task<IIsPatientInsuredResponse> IsPatientInsured(string patientPesel)
+        {
+            IsPatientInsuredMessage message = new() { PatientPesel = patientPesel };
+            var response = busClient.GetResponse<IIsPatientInsuredResponse>(message, new TimeSpan(0, 0, 2));
+            return await response;
         }
 
         public void Update(PatientEntity patient)

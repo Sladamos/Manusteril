@@ -29,14 +29,14 @@ namespace Emergency.Command.DeletePatient
             this.peselSupplier = peselSupplier;
         }
 
-        public void Execute()
+        public async Task Execute()
         {
             string pesel = peselSupplier();
             try
             {
                 visitService.UnregisterPatientByPesel(pesel);
                 OnPatientDeleted?.Invoke();
-            } catch (InvalidPeselException _) {
+            } catch (InvalidPeselException) {
                 Console.WriteLine("Brak pacjenta o podanym PESELu");
             } catch (UnregisteredPatientException e)
             {

@@ -35,7 +35,7 @@ namespace Emergency.Command
     
         public event Action<string>? OnStringSelected;
 
-        public void Execute()
+        public async Task Execute()
         {
             Console.WriteLine($"Podaj {Name}");
             string input = Console.ReadLine() ?? string.Empty;

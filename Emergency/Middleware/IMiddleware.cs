@@ -8,6 +8,6 @@ namespace Emergency.Middleware
 {
     internal interface IMiddleware
     {
-        void Invoke(Action task);
+        Task Invoke(Func<Task> task);
     }
 }

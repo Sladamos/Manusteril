@@ -21,6 +21,11 @@ namespace Emergency.Bus
             this.busConfig = busConfig;
         }
 
+        public IBusClient<TRequest> CreateBusClient<TRequest>() where TRequest : class
+        {
+            return CreateBusInstance().GetClient<TRequest>();
+        }
+
         public IBusInstance CreateBusInstance()
         {
             if (busInstance == null)
