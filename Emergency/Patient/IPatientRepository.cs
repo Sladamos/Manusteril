@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Emergency.Patient
 {
-    internal interface IPatientService
+    internal interface IPatientRepository
     {
         PatientEntity GetPatientByPesel(string pesel);
-        void AddPatient(PatientEntity patient);
-        void EditPatient(PatientEntity patient);
+        void Save(PatientEntity visit);
     }
 }

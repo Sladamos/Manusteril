@@ -1,7 +1,9 @@
 ﻿using Emergency.Bus;
 using Emergency.Messages;
 using Emergency.Patient;
+using Emergency.Visit;
 using log4net;
+using MassTransit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,32 +12,35 @@ using System.Threading.Tasks;
 
 namespace Emergency.Command.DeletePatient
 {
-    internal class DeletePatientExecutionCommand : ICommand
+    internal class UnregisterPatientLogicCommand : ICommand
     {
-        private readonly IPatientService patientService;
+        private IVisitService visitService;
 
         private Func<string> peselSupplier;
-
-        public Action? OnPatientDeleted;
-
-        public DeletePatientExecutionCommand(IPatientService patientService, Func<string> peselSupplier) {
-            this.patientService = patientService;
-            this.peselSupplier = peselSupplier;
-        }
 
         public string Name => "Wypisz";
 
         public string Description => "Wypisz wybranego pacjenta";
+
+        public Action? OnPatientDeleted;
+
+        public UnregisterPatientLogicCommand(IVisitService visitService, Func<string> peselSupplier) {
+            this.visitService = visitService;
+            this.peselSupplier = peselSupplier;
+        }
 
         public void Execute()
         {
             string pesel = peselSupplier();
             try
             {
-                patientService.DeletePatientByPesel(pesel);
+                visitService.UnregisterPatientByPesel(pesel);
                 OnPatientDeleted?.Invoke();
             } catch (InvalidPeselException _) {
                 Console.WriteLine("Brak pacjenta o podanym PESELu");
+            } catch (UnregisteredPatientException e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 

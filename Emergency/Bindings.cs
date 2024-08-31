@@ -6,7 +6,9 @@ using Emergency.Config;
 using Emergency.Middleware;
 using Emergency.Patient;
 using Emergency.Validator;
+using Emergency.Visit;
 using log4net;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Ninject;
 using Ninject.Modules;
@@ -25,23 +27,30 @@ namespace Emergency
             var config = ParseConfig();
             BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
             ProdConfig prodConfig = config.GetSection("Production").Get<ProdConfig>()!;
-            Bind<BusConfig>().ToConstant(busConfig);
-            Bind<ProdConfig>().ToConstant(prodConfig);
-            Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program)));
+            DbConfig dbConfig = config.GetSection("Db").Get<DbConfig>()!;
+            Bind<BusConfig>().ToConstant(busConfig).InSingletonScope();
+            Bind<ProdConfig>().ToConstant(prodConfig).InSingletonScope();
+            Bind<DbConfig>().ToConstant(dbConfig).InSingletonScope();
+            Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program))).InSingletonScope();
             CreateMiddlewares();
-            Bind<IBusOperator>().To<RabbitMqBusOperator>();
-            Bind<IValidatorService>().To<ValidatorService>();
-            Bind<IPatientService>().To<PatientService>();
-            Bind<ICommandsExecutioner>().To<CommandsExecutioner>();
-            Bind<ICommandsFactory>().To<CommandsFactory>();
-            Bind<IMenu>().To<Menu>();
+            Bind<ApplicationDbContext>().ToSelf();
+            Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
+            Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
+            Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
+            Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
+            Bind<IPatientService>().To<PatientService>().InSingletonScope();
+            Bind<IVisitService>().To<VisitService>().InSingletonScope();
+            Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();
+            Bind<ICommandsFactory>().To<CommandsFactory>().InSingletonScope();
+            Bind<IMenu>().To<Menu>().InSingletonScope();
         }
 
         private void CreateMiddlewares()
         {
-            Bind<IMiddleware>().To<ErrorHandlingMiddleware>();
+            Bind<IMiddleware>().To<ErrorHandlingMiddleware>().InSingletonScope();
             Bind<MiddlewaresWrapper>()
                 .ToSelf()
+                .InSingletonScope()
                 .WithConstructorArgument("middlewares", ctx => ctx.Kernel.GetAll<IMiddleware>().ToList());
         }
 

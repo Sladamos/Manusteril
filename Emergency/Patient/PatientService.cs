@@ -2,6 +2,7 @@
 using Emergency.Messages;
 using Emergency.Validator;
 using log4net;
+using log4net.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,45 +15,48 @@ namespace Emergency.Patient
     {
         private readonly IValidatorService validator;
 
-        private readonly IBusInstance busInstance;
+        private readonly IPatientRepository patientRepository;
 
         private readonly ILog logger;
 
-        public PatientService(IBusOperator busOperator, ILog logger, IValidatorService validator) {
+        public PatientService(IValidatorService validator,
+            IPatientRepository patientRepository,
+            ILog logger) {
             this.validator = validator;
+            this.patientRepository = patientRepository;
             this.logger = logger;
-            busInstance = busOperator.CreateBusInstance();
         }
 
-        public void AddPatient(Patient patient)
+        public void AddPatient(PatientEntity patient)
         {
-            throw new NotImplementedException();
+            var validationResult = validator.validatePesel(patient.Pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException();
+            }
+            logger.Info($"Dodanie pacjenta: {patient}");
+            patientRepository.Save(patient);
         }
 
-        public void DeletePatientByPesel(string pesel)
+        public void EditPatient(PatientEntity patient)
+        {
+            var validationResult = validator.validatePesel(patient.Pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException();
+            }
+            logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
+            patientRepository.Save(patient);
+        }
+
+        public PatientEntity GetPatientByPesel(string pesel)
         {
             var validationResult = validator.validatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException();
             }
-            throw new NotImplementedException();
-
-            //var temporaryPatient = new Patient { Pesel = pesel, Id = Guid.NewGuid() };
-            //PatientVisitUnregisteredMessage message = new(temporaryPatient.PatientId, temporaryPatient.Pesel, Guid.NewGuid());
-            //logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
-            //busInstance.Publish(message);
-        }
-
-        public Patient GetPatientByPesel(string pesel)
-        {
-            var validationResult = validator.validatePesel(pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
-            throw new NotImplementedException();
-            //return new Patient { Pesel = pesel, PatientId = Guid.NewGuid() };
+            return patientRepository.GetPatientByPesel(pesel);
         }
     }
 }

@@ -3,7 +3,9 @@ using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
 using Emergency.Patient;
 using Emergency.Validator;
+using Emergency.Visit;
 using log4net;
+using Lombok.NET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +18,16 @@ namespace Emergency.Command.Factory
     {
         private readonly ICommandsExecutioner commandsExecutioner;
 
-        private readonly IPatientService patientService;
+        private readonly IVisitService visitService;
 
         private readonly IValidatorService validator;
 
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
-            IPatientService patientService,
+            IVisitService visitService,
             IValidatorService validator)
         {
             this.commandsExecutioner = commandsExecutioner;
-            this.patientService = patientService;
+            this.visitService = visitService;
             this.validator = validator;
         }
 
@@ -33,9 +35,9 @@ namespace Emergency.Command.Factory
 
         public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
 
-        public DeletePatientCommand DeletePatientCommand() { return new DeletePatientCommand(this, commandsExecutioner, validator); }
+        public UnregisterPatientCommand UnregisterPatientCommand() { return new UnregisterPatientCommand(this, commandsExecutioner, validator); }
 
-        public DeletePatientExecutionCommand DeletePatientExecutionCommand(Func<string> peselSupplier) { return new DeletePatientExecutionCommand(patientService, peselSupplier); }
+        public UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier) { return new UnregisterPatientLogicCommand(visitService, peselSupplier); }
 
         public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
 

@@ -9,7 +9,7 @@ using Emergency.Validator;
 
 namespace Emergency.Command.DeletePatient
 {
-    internal class DeletePatientCommand : ICommand
+    internal class UnregisterPatientCommand : ICommand
     {
         private bool enabled = false;
 
@@ -21,7 +21,11 @@ namespace Emergency.Command.DeletePatient
 
         private string pesel = "";
 
-        public DeletePatientCommand(ICommandsFactory commandsFactory,
+        public string Name => "Wypisz";
+
+        public string Description => "Wypisz pacjenta";
+
+        public UnregisterPatientCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
             IValidatorService validator)
         {
@@ -29,22 +33,18 @@ namespace Emergency.Command.DeletePatient
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
-            DeletePatientExecutionCommand deletePatientExecutionCommand = commandsFactory.DeletePatientExecutionCommand(GetPesel);
+            UnregisterPatientLogicCommand unregisterPatientLogicCommand = commandsFactory.UnregisterPatientLogicCommand(GetPesel);
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
-            commands[deletePatientExecutionCommand.Name] = deletePatientExecutionCommand;
+            commands[unregisterPatientLogicCommand.Name] = unregisterPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
-            deletePatientExecutionCommand.OnPatientDeleted += OnPatientDeleted;
+            unregisterPatientLogicCommand.OnPatientDeleted += OnPatientDeleted;
         }
-
-        public string Name => "Wypisz";
-
-        public string Description => "Wypisz pacjenta";
 
         public void Execute()
         {
-            Console.WriteLine("Usuwanie pacjenta");
+            Console.WriteLine("Wypisywanie pacjenta");
             enabled = true;
             while (enabled)
             {
