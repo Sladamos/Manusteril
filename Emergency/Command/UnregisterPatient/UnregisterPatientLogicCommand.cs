@@ -18,16 +18,16 @@ namespace Emergency.Command.DeletePatient
 
         private Func<string> peselSupplier;
 
+        public string Name => "Wypisz";
+
+        public string Description => "Wypisz wybranego pacjenta";
+
         public Action? OnPatientDeleted;
 
         public UnregisterPatientLogicCommand(IVisitService visitService, Func<string> peselSupplier) {
             this.visitService = visitService;
             this.peselSupplier = peselSupplier;
         }
-
-        public string Name => "Wypisz";
-
-        public string Description => "Wypisz wybranego pacjenta";
 
         public void Execute()
         {

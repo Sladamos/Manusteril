@@ -2,6 +2,7 @@
 using Emergency.Messages;
 using Emergency.Validator;
 using log4net;
+using log4net.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,38 @@ namespace Emergency.Patient
     {
         private readonly IValidatorService validator;
 
-        private readonly IBusInstance busInstance;
+        private readonly IPatientRepository patientRepository;
 
         private readonly ILog logger;
 
-        public PatientService(IBusOperator busOperator, ILog logger, IValidatorService validator) {
+        public PatientService(IValidatorService validator,
+            IPatientRepository patientRepository,
+            ILog logger) {
             this.validator = validator;
+            this.patientRepository = patientRepository;
             this.logger = logger;
-            busInstance = busOperator.CreateBusInstance();
         }
 
         public void AddPatient(PatientEntity patient)
         {
-            throw new NotImplementedException();
+            var validationResult = validator.validatePesel(patient.Pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException();
+            }
+            logger.Info($"Dodanie pacjenta: {patient}");
+            patientRepository.Save(patient);
+        }
+
+        public void EditPatient(PatientEntity patient)
+        {
+            var validationResult = validator.validatePesel(patient.Pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException();
+            }
+            logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
+            patientRepository.Save(patient);
         }
 
         public PatientEntity GetPatientByPesel(string pesel)
@@ -36,8 +56,7 @@ namespace Emergency.Patient
             {
                 throw new InvalidPeselException();
             }
-            throw new NotImplementedException();
-            //return new Patient { Pesel = pesel, PatientId = Guid.NewGuid() };
+            return patientRepository.GetPatientByPesel(pesel);
         }
     }
 }

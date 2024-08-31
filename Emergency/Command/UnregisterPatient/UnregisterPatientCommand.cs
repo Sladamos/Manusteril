@@ -21,6 +21,10 @@ namespace Emergency.Command.DeletePatient
 
         private string pesel = "";
 
+        public string Name => "Wypisz";
+
+        public string Description => "Wypisz pacjenta";
+
         public UnregisterPatientCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
             IValidatorService validator)
@@ -38,13 +42,9 @@ namespace Emergency.Command.DeletePatient
             deletePatientExecutionCommand.OnPatientDeleted += OnPatientDeleted;
         }
 
-        public string Name => "Wypisz";
-
-        public string Description => "Wypisz pacjenta";
-
         public void Execute()
         {
-            Console.WriteLine("Usuwanie pacjenta");
+            Console.WriteLine("Wypisywanie pacjenta");
             enabled = true;
             while (enabled)
             {

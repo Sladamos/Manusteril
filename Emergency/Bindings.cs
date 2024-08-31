@@ -36,6 +36,7 @@ namespace Emergency
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
+            Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
             Bind<IPatientService>().To<PatientService>().InSingletonScope();
             Bind<IVisitService>().To<VisitService>().InSingletonScope();

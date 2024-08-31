@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Emergency.Visit
 {
-    internal partial class VisitRepository : IVisitRepository
+    internal class VisitRepository : IVisitRepository
     {
         private readonly ApplicationDbContext _context;
 
