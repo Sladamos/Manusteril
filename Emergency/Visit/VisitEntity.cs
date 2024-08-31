@@ -31,12 +31,28 @@ namespace Emergency.Visit
         public Guid? LeavePermissionDoctorId { get; set; }
 
         public string? LeavePermissionDoctorPwz { get; set; }
+
+        public WardType Ward { get; set; }
+
         public override string ToString()
         {
-            return $"VisitEntity [Id={Id}, PatientId={PatientId}, PatientPesel={PatientPesel}, " +
-                   $"VisitStartDate={VisitStartDate}, VisitEndDate={VisitEndDate}, " +
-                   $"AllowedToLeave={AllowedToLeave}, LeavedAtOwnRisk={LeavedAtOwnRisk}, " +
-                   $"LeavePermissionDoctorId={LeavePermissionDoctorId}, LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}]";
+            var sb = new StringBuilder("VisitEntity [");
+            sb.Append($"Id={Id}, ");
+            sb.Append($"PatientId={PatientId}, ");
+            sb.Append($"PatientPesel={PatientPesel}, ");
+            sb.Append($"VisitStartDate={VisitStartDate}, ");
+            if (VisitEndDate.HasValue)
+                sb.Append($"VisitEndDate={VisitEndDate.Value}, ");
+            sb.Append($"AllowedToLeave={AllowedToLeave}, ");
+            if (LeavedAtOwnRisk.HasValue)
+                sb.Append($"LeavedAtOwnRisk={LeavedAtOwnRisk.Value}, ");
+            if (LeavePermissionDoctorId.HasValue)
+                sb.Append($"LeavePermissionDoctorId={LeavePermissionDoctorId.Value}, ");
+            if (!string.IsNullOrEmpty(LeavePermissionDoctorPwz))
+                sb.Append($"LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}, ");
+            sb.Append($"Ward={Ward}");
+            sb.Append("]");
+            return sb.ToString();
         }
     }
 }

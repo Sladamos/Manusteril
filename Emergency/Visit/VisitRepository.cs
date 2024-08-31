@@ -28,6 +28,16 @@ namespace Emergency.Visit
             return GetAll().Where(visit => visit.PatientPesel == pesel);
         }
 
+        /// <exception cref = "UnregisteredPatientException">
+        /// Thrown when no visit with a null VisitEndDate is found for the given patient.
+        /// </exception>
+        public VisitEntity GetPatientCurrentVisit(string pesel)
+        {
+            return GetAllByPatient(pesel)
+                .FirstOrDefault(visit => visit?.VisitEndDate == null)
+                ?? throw new UnregisteredPatientException("Pacjent nie jest na wizycie w placówce");
+        }
+
         public void Save(VisitEntity visit)
         {
            SaveOrUpdate(visit);

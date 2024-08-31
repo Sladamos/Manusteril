@@ -18,14 +18,18 @@ namespace Emergency.Visit
 
         private readonly IVisitRepository visitRepository;
 
+        private readonly IVisitEventRepository eventRepository;
+
         private readonly ILog logger;
 
         public VisitService(IValidatorService validator,
             IVisitRepository visitRepository,
+            IVisitEventRepository eventRepository,
             ILog logger)
         {
             this.validator = validator;
             this.visitRepository = visitRepository;
+            this.eventRepository = eventRepository;
             this.logger = logger;
         }
 
@@ -41,9 +45,7 @@ namespace Emergency.Visit
                 throw new InvalidPeselException();
             }
 
-            var visit = visitRepository.GetAllByPatient(pesel)
-                .FirstOrDefault(visit => visit?.VisitEndDate == null)
-                ?? throw new UnregisteredPatientException("Pacjent nie jest na wizycie w placówce");
+            var visit = visitRepository.GetPatientCurrentVisit(pesel);
             //TODO: execute manual logic if is not autofilled
 
             // dwie drogi:
@@ -51,11 +53,8 @@ namespace Emergency.Visit
             //if info o wypisce to wypisz i tyle
             visit.VisitEndDate = DateTime.Now;
             visitRepository.Save(visit);
+            eventRepository.Unregister(visit);
             logger.Info($"Wypisano pacjenta o peselu {pesel}");
-
-            //RESTREPOSITORY
-            //logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
-            //busInstance.Publish(message);
         }
 
 
