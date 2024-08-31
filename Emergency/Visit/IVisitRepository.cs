@@ -10,5 +10,6 @@ namespace Emergency.Visit
     {
         IEnumerable<VisitEntity> GetAll();
         IEnumerable<VisitEntity> GetAllByPatient(string pesel);
+        void Save(VisitEntity visit);
     }
 }

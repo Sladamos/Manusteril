@@ -38,6 +38,9 @@ namespace Emergency.Command.DeletePatient
                 OnPatientDeleted?.Invoke();
             } catch (InvalidPeselException _) {
                 Console.WriteLine("Brak pacjenta o podanym PESELu");
+            } catch (UnregisteredPatientException e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 

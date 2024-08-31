@@ -23,6 +23,9 @@ namespace Emergency.Visit
             this.visitRepository = visitRepository;
         }
 
+        /// <exception cref = "UnregisteredPatientException">
+        /// Thrown when no visit with a null VisitEndDate is found for the given patient.
+        /// </exception>
         public void UnregisterPatientByPesel(string pesel)
         {
             var validationResult = validator.validatePesel(pesel);
@@ -30,18 +33,28 @@ namespace Emergency.Visit
             {
                 throw new InvalidPeselException();
             }
-            //throw new NotImplementedException();
-            var visits = visitRepository.GetAllByPatient(pesel);
 
-            //checkMode : manual or automat
-            //askAnotherMicroserviceIfIsAllowed + retry, timeout : when timeouted manual 
-            //ifNotSendAlertMessage - patient want to escape e.t.c
-            //ifYes:
+            var visit = visitRepository.GetAllByPatient(pesel)
+                .FirstOrDefault(visit => visit?.VisitEndDate == null)
+                ?? throw new UnregisteredPatientException("Pacjent nie jest zarejestrowany w placówce");
+            //TODO: execute manual logic if is not autofilled
 
-            //var temporaryPatient = new Patient { Pesel = pesel, Id = Guid.NewGuid() };
-            //PatientVisitUnregisteredMessage message = new(temporaryPatient.PatientId, temporaryPatient.Pesel, Guid.NewGuid());
+            // dwie drogi:
+            //if nie ma info o wypisce then uzupelnij recznie (z możliwością przerwania) - jaki lekarz podał czy na włąsne życzenie
+            //if info o wypisce to wypisz i tyle
+            visit.VisitEndDate = DateTime.Now;
+            visitRepository.Save(visit);
+
+            //RESTREPOSITORY
             //logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
             //busInstance.Publish(message);
+
+
+            /*visit = new() { Id = Guid.NewGuid(),
+                PatientId = Guid.NewGuid(),
+                PatientPesel = pesel,
+                VisitStartDate = DateTime.Now,
+                AllowedToLeave = false}; */
         }
     }
 }

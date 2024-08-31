@@ -33,7 +33,7 @@ namespace Emergency
             Bind<DbConfig>().ToConstant(dbConfig).InSingletonScope();
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program))).InSingletonScope();
             CreateMiddlewares();
-            Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
+            Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
