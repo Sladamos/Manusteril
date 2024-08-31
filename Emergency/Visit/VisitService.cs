@@ -41,9 +41,7 @@ namespace Emergency.Visit
                 throw new InvalidPeselException();
             }
 
-            var visit = visitRepository.GetAllByPatient(pesel)
-                .FirstOrDefault(visit => visit?.VisitEndDate == null)
-                ?? throw new UnregisteredPatientException("Pacjent nie jest na wizycie w placówce");
+            var visit = visitRepository.GetPatientCurrentVisit(pesel);
             //TODO: execute manual logic if is not autofilled
 
             // dwie drogi:

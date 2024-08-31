@@ -23,7 +23,8 @@ namespace Emergency.Bus
 
         public IBusInstance CreateBusInstance()
         {
-            if (busInstance == null) {
+            if (busInstance == null)
+            {
                 busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
             }
             return busInstance;

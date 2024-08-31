@@ -39,4 +39,13 @@
         string DoctorPwzNumber { get; }
         bool LeavedAtOwnRisk { get; }
     }
+
+    public interface IPatientWardChanged
+    {
+        Guid PatientId { get; }
+        string PatientPesel { get; }
+        Guid DoctorId { get; }
+        string DoctorPwzNumber { get; }
+        WardType Destination { get; }
+    }
 }
