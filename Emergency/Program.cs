@@ -16,9 +16,12 @@ namespace Emergency
         {
             var kernel = new StandardKernel();
             kernel.Load<Bindings>();
-            IMenu menu = kernel.Get<IMenu>();
             MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
-            middlewares.execute(menu.Start);
+            middlewares.execute(() =>
+            {
+                IMenu menu = kernel.Get<IMenu>();
+                menu.Start();
+            });
         }
     }
 }

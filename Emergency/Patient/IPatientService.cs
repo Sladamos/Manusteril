@@ -8,8 +8,7 @@ namespace Emergency.Patient
 {
     internal interface IPatientService
     {
-        Patient GetPatientByPesel(string pesel);
-        void AddPatient(Patient patient);
-        void DeletePatientByPesel(string pesel);
+        PatientEntity GetPatientByPesel(string pesel);
+        void AddPatient(PatientEntity patient);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Emergency.Bus;
 using Emergency.Messages;
 using Emergency.Patient;
+using Emergency.Visit;
 using log4net;
+using MassTransit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +14,14 @@ namespace Emergency.Command.DeletePatient
 {
     internal class UnregisterPatientLogicCommand : ICommand
     {
-        private readonly IPatientService patientService;
+        private IVisitService visitService;
 
         private Func<string> peselSupplier;
 
         public Action? OnPatientDeleted;
 
-        public UnregisterPatientLogicCommand(IPatientService patientService, Func<string> peselSupplier) {
-            this.patientService = patientService;
+        public UnregisterPatientLogicCommand(IVisitService visitService, Func<string> peselSupplier) {
+            this.visitService = visitService;
             this.peselSupplier = peselSupplier;
         }
 
@@ -32,7 +34,7 @@ namespace Emergency.Command.DeletePatient
             string pesel = peselSupplier();
             try
             {
-                patientService.DeletePatientByPesel(pesel);
+                visitService.UnregisterPatientByPesel(pesel);
                 OnPatientDeleted?.Invoke();
             } catch (InvalidPeselException _) {
                 Console.WriteLine("Brak pacjenta o podanym PESELu");

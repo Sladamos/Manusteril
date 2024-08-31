@@ -24,27 +24,12 @@ namespace Emergency.Patient
             busInstance = busOperator.CreateBusInstance();
         }
 
-        public void AddPatient(Patient patient)
+        public void AddPatient(PatientEntity patient)
         {
             throw new NotImplementedException();
         }
 
-        public void DeletePatientByPesel(string pesel)
-        {
-            var validationResult = validator.validatePesel(pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
-            throw new NotImplementedException();
-
-            //var temporaryPatient = new Patient { Pesel = pesel, Id = Guid.NewGuid() };
-            //PatientVisitUnregisteredMessage message = new(temporaryPatient.PatientId, temporaryPatient.Pesel, Guid.NewGuid());
-            //logger.Info($"Wysyłanie wiadomości o wypisaniu pacjenta: {message}");
-            //busInstance.Publish(message);
-        }
-
-        public Patient GetPatientByPesel(string pesel)
+        public PatientEntity GetPatientByPesel(string pesel)
         {
             var validationResult = validator.validatePesel(pesel);
             if (!validationResult.IsValid)
