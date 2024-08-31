@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Emergency.Visit
 {
-    internal class VisitEventRepositoryImpl : IVisitEventRepository
+    internal class VisitEventRepository : IVisitEventRepository
     {
         private IBusInstance busInstance;
 
         private ILog logger;
 
-        public VisitEventRepositoryImpl(IBusOperator busOperator, ILog logger)
+        public VisitEventRepository(IBusOperator busOperator, ILog logger)
         {
             busInstance = busOperator.CreateBusInstance();
             this.logger = logger;
@@ -27,7 +27,7 @@ namespace Emergency.Visit
                 PatientPesel = visit.PatientPesel,
                 VisitId = visit.Id,
                 WardType = visit.Ward};
-            logger.Info($"Wysłanie wiadomości o zarejestrowaniu: {message}");
+            logger.Info($"Wysłanie wiadomości o zarejestrowaniu: {visit}");
             busInstance.Publish(message);
         }
 
@@ -36,7 +36,7 @@ namespace Emergency.Visit
             PatientVisitUnregisteredMessage message = new() { PatientId = visit.PatientId,
                 PatientPesel = visit.PatientPesel,
                 VisitId = visit.Id};
-            logger.Info($"Wysłanie wiadomości o wyrejestrowaniu: {message}");
+            logger.Info($"Wysłanie wiadomości o wyrejestrowaniu: {visit}");
             busInstance.Publish(message);
         }
     }

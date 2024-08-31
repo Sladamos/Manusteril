@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Emergency.Patient
+{
+    internal interface IPatientEventRepository
+    {
+        void Create(PatientEntity patient);
+        void Update(PatientEntity patient);
+    }
+}

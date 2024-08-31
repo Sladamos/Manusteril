@@ -17,13 +17,17 @@ namespace Emergency.Patient
 
         private readonly IPatientRepository patientRepository;
 
+        private readonly IPatientEventRepository eventRepository;
+
         private readonly ILog logger;
 
         public PatientService(IValidatorService validator,
             IPatientRepository patientRepository,
+            IPatientEventRepository eventRepository,
             ILog logger) {
             this.validator = validator;
             this.patientRepository = patientRepository;
+            this.eventRepository = eventRepository;
             this.logger = logger;
         }
 
@@ -36,6 +40,7 @@ namespace Emergency.Patient
             }
             logger.Info($"Dodanie pacjenta: {patient}");
             patientRepository.Save(patient);
+            eventRepository.Create(patient);
         }
 
         public void EditPatient(PatientEntity patient)
