@@ -10,7 +10,7 @@ namespace Emergency.Command
     {
         public string Name => "Nowy";
 
-        public string Description => "Zarejestruj wizytę pacjenta";
+        public string Description => "Dodaj nowego pacjenta";
 
         public async Task Execute()
         {

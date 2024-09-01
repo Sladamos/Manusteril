@@ -1,6 +1,7 @@
 ﻿using Emergency.Patient;
 using Emergency.Validator;
 using log4net;
+using log4net.Core;
 using Messages;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,19 @@ namespace Emergency.Visit
             this.visitRepository = visitRepository;
             this.eventRepository = eventRepository;
             this.logger = logger;
+        }
+
+        public void AddVisit(VisitEntity visit)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
+            var validationResult = validator.validatePesel(visit.PatientPesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException();
+            }
+            visitRepository.Save(visit);
+            eventRepository.Register(visit);
+            logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
         /// <exception cref = "UnregisteredPatientException">

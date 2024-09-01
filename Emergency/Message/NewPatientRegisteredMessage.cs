@@ -13,7 +13,7 @@ namespace Emergency.Messages
 
         public required string PatientFirstName { get; set; }
 
-        public required string PatientSecondName { get; set; }
+        public required string PatientLastName { get; set; }
 
         public required string PatientPesel {  get; set; }
 

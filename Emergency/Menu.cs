@@ -1,7 +1,7 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
 using Emergency.Command.CheckInsurance;
-using Emergency.Command.DeletePatient;
+using Emergency.Command.UnregisterPatient;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
 using System;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Emergency.Command.RegisterPatient;
 
 namespace Emergency
 {
@@ -30,11 +31,13 @@ namespace Emergency
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
             UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
+            RegisterPatientCommand registerPatientCommand = commandsFactory.RegisterPatientCommand();
             AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
             commands[deletePatientCommand.Name] = deletePatientCommand;
             commands[addPatientCommand.Name] = addPatientCommand;
+            commands[registerPatientCommand.Name] = registerPatientCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 

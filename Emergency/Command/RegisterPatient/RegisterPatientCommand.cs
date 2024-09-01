@@ -1,17 +1,16 @@
-﻿using Emergency.Command.UnregisterPatient;
-using Emergency.Command.Executioner;
-using Emergency.Command.Factory;
-using Emergency.Validator;
-using Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Emergency.Command.Executioner;
+using Emergency.Command.Factory;
+using Emergency.Validator;
+using Messages;
 
-namespace Emergency.Command.CheckInsurance
+namespace Emergency.Command.RegisterPatient
 {
-    internal class CheckInsuranceCommand : ICommand
+    internal class RegisterPatientCommand : ICommand
     {
         private bool enabled = false;
 
@@ -23,7 +22,13 @@ namespace Emergency.Command.CheckInsurance
 
         private string pesel = "";
 
-        public CheckInsuranceCommand(ICommandsFactory commandsFactory,
+        private WardType? ward;
+
+        public string Name => "Zarejestruj";
+
+        public string Description => "Zarejestruj pacjenta na wizytę";
+
+        public RegisterPatientCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
             IValidatorService validator)
         {
@@ -31,27 +36,28 @@ namespace Emergency.Command.CheckInsurance
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
-            CheckInsuranceLogicCommand checkInsuranceLogicCommand = commandsFactory.CheckInsuranceLogicCommand(GetPesel);
+            SelectWardCommand selectWardCommand = commandsFactory.SelectWardCommand(GetWard);
+            RegisterPatientLogicCommand registerPatientLogicCommand = commandsFactory.RegisterPatientLogicCommand(GetPesel, GetWard);
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
-            commands[checkInsuranceLogicCommand.Name] = checkInsuranceLogicCommand;
+            commands[selectWardCommand.Name] = selectWardCommand;
+            commands[registerPatientLogicCommand.Name] = registerPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
-            checkInsuranceLogicCommand.OnResponseArrived += OnInsuranceChecked;
+            selectWardCommand.OnWardSelected += OnWardSelected;
+            registerPatientLogicCommand.OnPatientRegistered += OnPatientRegistered;
         }
-
-        public string Name => "Ubezpieczenie";
-
-        public string Description => "Sprawdź, czy pacjent jest ubezpieczony";
 
         public async Task Execute()
         {
-            Console.WriteLine("Sprawdzanie ubezpieczenia pacjenta");
+            Console.WriteLine("Wypisywanie pacjenta");
             enabled = true;
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);
             }
+            pesel = "";
+            ward = null;
         }
 
         private void OnPeselSelected(string pesel)
@@ -60,26 +66,25 @@ namespace Emergency.Command.CheckInsurance
             if (validationResult.IsValid)
             {
                 this.pesel = pesel;
-            }
-            else
+            } else
             {
                 Console.WriteLine(validationResult?.ValidatorMessage ?? "Niepoprawny PESEL");
             }
         }
 
-        private void OnInsuranceChecked(IIsPatientInsuredResponse isPatientInsured)
+        private void OnWardSelected(WardType ward)
         {
-            if (isPatientInsured.PatientPesel == pesel)
-            {
-                Console.WriteLine($"Pacjent${(isPatientInsured.IsInsured ? "" : " nie")} jest ubezpieczony");
-            }
-            else
-            {
-                Console.WriteLine("Niepoprawna odpowiedź od NFZ - dotyczy innego pacjenta");
-            }
+            this.ward = ward;
+        }
+
+        private void OnPatientRegistered()
+        {
+            Console.WriteLine("Pomyślnie zarejestrowano pacjenta");
             enabled = false;
         }
 
         private string GetPesel() { return pesel; }
+
+        private WardType? GetWard() { return ward; }
     }
 }

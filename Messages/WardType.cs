@@ -17,4 +17,23 @@ namespace Messages
         ICU,
         UROLOGY
     }
+
+    public static class WardTypeExtensions
+    {
+        public static string ToPolish(this WardType wardType)
+        {
+            return wardType switch
+            {
+                WardType.GENERAL => "Ogólny",
+                WardType.PAEDIATRICS => "Pediatria",
+                WardType.SURGERY => "Chirurgia",
+                WardType.PSYCHIATRIC => "Psychiatryczny",
+                WardType.CARDIOLOGY => "Kardiologia",
+                WardType.PULMONOLOGY => "Pulmonologia",
+                WardType.ICU => "OIOM",
+                WardType.UROLOGY => "Urologia",
+                _ => throw new ArgumentOutOfRangeException(nameof(wardType), wardType, null)
+            };
+        }
+    }
 }

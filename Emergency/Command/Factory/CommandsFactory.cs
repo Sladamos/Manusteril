@@ -1,6 +1,6 @@
 ﻿using Emergency.Bus;
 using Emergency.Command.CheckInsurance;
-using Emergency.Command.DeletePatient;
+using Emergency.Command.UnregisterPatient;
 using Emergency.Command.Executioner;
 using Emergency.Patient;
 using Emergency.Validator;
@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Emergency.Command.RegisterPatient;
+using Messages;
 
 namespace Emergency.Command.Factory
 {
@@ -47,7 +49,12 @@ namespace Emergency.Command.Factory
 
         public UnregisterPatientCommand UnregisterPatientCommand() 
         { 
-            return new UnregisterPatientCommand(this, commandsExecutioner, validator); 
+            return new UnregisterPatientCommand(this, commandsExecutioner, validator);
+        }
+
+        public RegisterPatientCommand RegisterPatientCommand()
+        {
+            return new RegisterPatientCommand(this, commandsExecutioner, validator);
         }
 
         public UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier) 
@@ -77,6 +84,16 @@ namespace Emergency.Command.Factory
                 throw new ArgumentException("Parameter for select string command must be specified");
             }
             return new SelectStringCommand(parameter, paremeterSupplier);
+        }
+
+        public SelectWardCommand SelectWardCommand(Func<WardType?> paremeterSupplier)
+        {
+            return new SelectWardCommand(paremeterSupplier);
+        }
+
+        public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType?> getWard)
+        {
+            return new RegisterPatientLogicCommand(visitService, patientService, getPesel, getWard);
         }
     }
 }

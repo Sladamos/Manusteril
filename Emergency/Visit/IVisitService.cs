@@ -8,6 +8,7 @@ namespace Emergency.Visit
 {
     internal interface IVisitService
     {
+        void AddVisit(VisitEntity visit);
         void UnregisterPatientByPesel(string pesel);
     }
 }

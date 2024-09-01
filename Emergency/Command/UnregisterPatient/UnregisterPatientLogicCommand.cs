@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Command.DeletePatient
+namespace Emergency.Command.UnregisterPatient
 {
     internal class UnregisterPatientLogicCommand : ICommand
     {
