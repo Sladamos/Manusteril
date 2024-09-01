@@ -10,33 +10,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Command
+namespace Emergency.Command.CheckInsurance
 {
-    internal class CheckInsuranceCommand : ICommand
+    internal class CheckInsuranceLogicCommand : ICommand
     {
         private IPatientService patientService;
 
-        public CheckInsuranceCommand(IPatientService patientService)
+        private readonly Func<string> peselProvider;
+
+        public Action<IIsPatientInsuredResponse>? OnResponseArrived;
+
+        public CheckInsuranceLogicCommand(IPatientService patientService, Func<string> peselProvider)
         {
             this.patientService = patientService;
+            this.peselProvider = peselProvider;
         }
 
         public string Name => "Ubezpieczenie";
 
-        public string Description => "Sprawdź, czy pacjent jest ubezpieczony";
+        public string Description => "Wyślij zapytanie do NFZ z zapytaniem czy pacjent jest ubezpieczony";
 
         public async Task Execute()
         {
-            Console.WriteLine("TODO: NfzMockCheckInsurance");
-            string pesel = "12312312311";
+            string pesel = peselProvider.Invoke();
             try
             {
                 Console.WriteLine("Oczekiwanie na odpowiedź o ubezpieczeniu");
                 var response = await patientService.IsPatientInsured(pesel);
                 ReactToResponse(response, pesel);
-            } catch (InvalidPeselException) {
+            }
+            catch (InvalidPeselException)
+            {
                 Console.WriteLine("Brak pacjenta o podanym PESELu");
-            } catch (RequestTimeoutException) {
+            }
+            catch (RequestTimeoutException)
+            {
                 Console.WriteLine("Nie można uzyskać informacji o ubezpieczeniu pacjenta");
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
+using Emergency.Command.CheckInsurance;
 using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;

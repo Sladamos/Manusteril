@@ -1,4 +1,5 @@
 ﻿using Emergency.Bus;
+using Emergency.Command.CheckInsurance;
 using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
 using Emergency.Patient;
@@ -35,17 +36,40 @@ namespace Emergency.Command.Factory
             this.patientService = patientService;
         }
 
-        public ExitProgramCommand ExitProgramCommand() { return new ExitProgramCommand(); }
+        public ExitProgramCommand ExitProgramCommand() 
+        { 
+            return new ExitProgramCommand(); 
+        }
 
-        public ExitOptionCommand ExitOptionCommand() { return new ExitOptionCommand(); }
+        public ExitOptionCommand ExitOptionCommand()
+        { 
+            return new ExitOptionCommand(); 
+        }
 
-        public UnregisterPatientCommand UnregisterPatientCommand() { return new UnregisterPatientCommand(this, commandsExecutioner, validator); }
+        public UnregisterPatientCommand UnregisterPatientCommand() 
+        { 
+            return new UnregisterPatientCommand(this, commandsExecutioner, validator); 
+        }
 
-        public UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier) { return new UnregisterPatientLogicCommand(visitService, peselSupplier); }
+        public UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier) 
+        { 
+            return new UnregisterPatientLogicCommand(visitService, peselSupplier); 
+        }
 
-        public AddPatientCommand AddPatientCommand() { return new AddPatientCommand(); }
+        public AddPatientCommand AddPatientCommand() 
+        { 
+            return new AddPatientCommand(); 
+        }
 
-        public CheckInsuranceCommand CheckInsuranceCommand() { return new CheckInsuranceCommand(patientService); }
+        public CheckInsuranceCommand CheckInsuranceCommand() 
+        { 
+            return new CheckInsuranceCommand(this, commandsExecutioner, validator); 
+        }
+
+        public CheckInsuranceLogicCommand CheckInsuranceLogicCommand(Func<string> getPesel)
+        {
+            return new CheckInsuranceLogicCommand(patientService, getPesel);
+        }
 
         public SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier)
         {
