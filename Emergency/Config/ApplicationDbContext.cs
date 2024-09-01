@@ -1,6 +1,5 @@
 ﻿using Emergency.Visit;
 using Emergency.Patient;
-using Lombok.NET;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

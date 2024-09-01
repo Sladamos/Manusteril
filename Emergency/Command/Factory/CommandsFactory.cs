@@ -6,7 +6,6 @@ using Emergency.Patient;
 using Emergency.Validator;
 using Emergency.Visit;
 using log4net;
-using Lombok.NET;
 using System;
 using System.Collections.Generic;
 using System.Linq;

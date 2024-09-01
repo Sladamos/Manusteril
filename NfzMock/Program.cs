@@ -1,10 +1,20 @@
-﻿namespace NfzMock
+﻿using NfzMock.Middleware;
+using Ninject;
+
+namespace NfzMock
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var kernel = new StandardKernel();
+            kernel.Load<Bindings>();
+            MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
+            await middlewares.execute(async () =>
+            {
+                IMenu menu = kernel.Get<IMenu>();
+                await menu.Start();
+            });
         }
     }
 }
