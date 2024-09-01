@@ -12,7 +12,6 @@ namespace NfzMock
 {
     internal class Menu : IMenu
     {
-
         private bool enabled = false;
 
         private Dictionary<string, ICommand> commands = [];
@@ -21,10 +20,16 @@ namespace NfzMock
 
         private readonly IBusInstance busInstance;
 
-        public Menu(ICommandsFactory commandsFactory, ICommandsExecutioner commandsExecutioner, IBusOperator busOperator)
+        private readonly ConsumersWrapper consumers;
+
+        public Menu(ICommandsFactory commandsFactory,
+            ICommandsExecutioner commandsExecutioner,
+            IBusOperator busOperator,
+            ConsumersWrapper consumers)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.busInstance = busOperator.CreateBusInstance();
+            this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
@@ -34,6 +39,7 @@ namespace NfzMock
         {
             await busInstance.Start();
             enabled = true;
+            consumers.RegisterConsumers(busInstance);
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);

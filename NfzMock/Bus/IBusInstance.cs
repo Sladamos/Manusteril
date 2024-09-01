@@ -12,5 +12,6 @@ namespace NfzMock.Bus
         Task Publish(object message);
         Task Start();
         Task Stop();
+        void ConnectConsumer<TMessage>(IBusConsumer<TMessage> consumer) where TMessage : class;
     }
 }

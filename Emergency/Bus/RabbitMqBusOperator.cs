@@ -1,4 +1,5 @@
 ﻿using Emergency.Config;
+using log4net;
 using MassTransit;
 using MassTransit.Serialization;
 using System;
@@ -14,11 +15,14 @@ namespace Emergency.Bus
     {
         private readonly BusConfig busConfig;
 
+        private readonly ILog logger;
+
         private IBusInstance? busInstance;
 
-        public RabbitMqBusOperator(BusConfig busConfig)
+        public RabbitMqBusOperator(BusConfig busConfig, ILog logger)
         {
             this.busConfig = busConfig;
+            this.logger = logger;
         }
 
         public IBusClient<TRequest> CreateBusClient<TRequest>() where TRequest : class
@@ -30,7 +34,7 @@ namespace Emergency.Bus
         {
             if (busInstance == null)
             {
-                busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
+                busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance, logger);
             }
             return busInstance;
         }

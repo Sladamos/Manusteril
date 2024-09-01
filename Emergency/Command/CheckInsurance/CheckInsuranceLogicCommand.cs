@@ -53,7 +53,7 @@ namespace Emergency.Command.CheckInsurance
         {
             if (isPatientInsured.PatientPesel == pesel)
             {
-                Console.WriteLine($"Pacjent${(isPatientInsured.IsInsured ? "" : " nie")} jest ubezpieczony");
+                Console.WriteLine($"Pacjent{(isPatientInsured.IsInsured ? "" : " nie")} jest ubezpieczony");
             }
             else
             {

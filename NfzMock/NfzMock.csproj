@@ -22,4 +22,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\Messages\bin\Debug\net8.0\Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

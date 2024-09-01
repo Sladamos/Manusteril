@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 
 namespace NfzMock.Bus
 {
@@ -14,11 +15,14 @@ namespace NfzMock.Bus
     {
         private readonly BusConfig busConfig;
 
+        private readonly ILog logger;
+
         private IBusInstance? busInstance;
 
-        public RabbitMqBusOperator(BusConfig busConfig)
+        public RabbitMqBusOperator(BusConfig busConfig, ILog logger)
         {
             this.busConfig = busConfig;
+            this.logger = logger;
         }
 
         public IBusClient<TRequest> CreateBusClient<TRequest>() where TRequest : class
@@ -30,9 +34,14 @@ namespace NfzMock.Bus
         {
             if (busInstance == null)
             {
-                busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance);
+                busInstance = RabbitMqBusInstance.createWithConfig(ConfigBusInstance, logger);
             }
             return busInstance;
+        }
+
+        public void RegisterConsumer<TMessage>(IBusConsumer<TMessage> consumer) where TMessage : class
+        {
+            CreateBusInstance().ConnectConsumer(consumer);
         }
 
         private void ConfigBusInstance(IRabbitMqBusFactoryConfigurator sbc)
