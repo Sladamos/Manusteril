@@ -8,6 +8,6 @@ namespace Emergency
 {
     internal interface IMenu
     {
-        void Start();
+        Task Start();
     }
 }

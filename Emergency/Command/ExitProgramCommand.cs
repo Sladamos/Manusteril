@@ -14,7 +14,7 @@ namespace Emergency.Command
 
         public event Action? ProgramExited;
 
-        public void Execute()
+        public async Task Execute()
         {
             ProgramExited?.Invoke();
         }

@@ -10,6 +10,6 @@ namespace Emergency.Command
     {
         string Name { get; }
         string Description { get; }
-        void Execute();
+        Task Execute();
     }
 }

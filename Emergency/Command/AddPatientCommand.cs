@@ -12,7 +12,7 @@ namespace Emergency.Command
 
         public string Description => "Zarejestruj wizytę pacjenta";
 
-        public void Execute()
+        public async Task Execute()
         {
             Console.WriteLine("TODO AddPatientCommand");
         }

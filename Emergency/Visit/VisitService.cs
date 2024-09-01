@@ -1,7 +1,6 @@
 ﻿using Emergency.Patient;
 using Emergency.Validator;
 using log4net;
-using Lombok.NET;
 using Messages;
 using System;
 using System.Collections.Generic;

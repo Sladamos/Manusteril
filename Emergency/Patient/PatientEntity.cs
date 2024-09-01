@@ -1,5 +1,4 @@
-﻿using Lombok.NET;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Emergency.Patient

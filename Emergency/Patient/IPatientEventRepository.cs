@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace Emergency.Patient
     {
         void Create(PatientEntity patient);
         void Update(PatientEntity patient);
+        Task<IIsPatientInsuredResponse> IsPatientInsured(string patientPesel);
     }
 }

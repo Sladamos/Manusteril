@@ -63,4 +63,15 @@
         string DoctorPwzNumber { get; }
         WardType Destination { get; }
     }
+
+    public interface IIsPatientInsured
+    {
+        string PatientPesel { get; }
+    }
+
+    public interface IIsPatientInsuredResponse
+    {
+        string PatientPesel { get; }
+        bool IsInsured { get; }
+    }
 }

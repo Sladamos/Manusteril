@@ -1,5 +1,4 @@
 ﻿using Emergency.Config;
-using Lombok.NET;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

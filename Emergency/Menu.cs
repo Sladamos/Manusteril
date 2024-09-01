@@ -1,5 +1,6 @@
 ﻿using Emergency.Bus;
 using Emergency.Command;
+using Emergency.Command.CheckInsurance;
 using Emergency.Command.DeletePatient;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
@@ -37,15 +38,15 @@ namespace Emergency
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 
-        public void Start()
+        public async Task Start()
         {
-            busInstance.Start();
+            await busInstance.Start();
             enabled = true;
             while (enabled)
             {
-                commandsExecutioner.Execute(commands);
+                await commandsExecutioner.Execute(commands);
             }
-            busInstance.Stop();
+            await busInstance.Stop();
         }
     }
 }

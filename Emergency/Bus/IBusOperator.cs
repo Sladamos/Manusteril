@@ -8,6 +8,7 @@ namespace Emergency.Bus
 {
     internal interface IBusOperator
     {
+        IBusClient<TRequest> CreateBusClient<TRequest>() where TRequest : class;
         IBusInstance CreateBusInstance();
     }
 }

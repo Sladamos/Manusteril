@@ -19,15 +19,15 @@ namespace Emergency
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var kernel = new StandardKernel();
             kernel.Load<Bindings>();
             MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
-            middlewares.execute(() =>
+            await middlewares.execute(async () =>
             {   
                 IMenu menu = kernel.Get<IMenu>();
-                menu.Start();
+                await menu.Start();
             });
         }
     }
