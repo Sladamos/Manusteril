@@ -40,4 +40,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Command\AddPatient\" />
+    <Folder Include="Command\EditPatient\" />
+  </ItemGroup>
+
 </Project>

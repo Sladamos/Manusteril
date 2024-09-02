@@ -42,9 +42,20 @@ namespace Emergency.Visit
             logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
+        public void ChangePatientWard(IPatientWardChanged message)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie zmiany oddziału pacjenta {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            ValidatePwz(message.DoctorPwzNumber);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.Ward = message.Destination;
+            visitRepository.Save(visit);
+            logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
+        }
+
         public void MarkVisitAsFinished(IPatientAllowedToLeave message)
         {
-            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
+            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);
             ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
@@ -53,7 +64,7 @@ namespace Emergency.Visit
             visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
             visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
             visitRepository.Save(visit);
-            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
+            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
         }
 
         /// <exception cref = "UnregisteredPatientException">
