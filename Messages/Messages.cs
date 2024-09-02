@@ -5,7 +5,7 @@
     {
         Guid PatientId { get; }
         string PatientFirstName { get; }
-        string PatientSecondName { get; }
+        string PatientLastName { get; }
         string PatientPesel {  get; }
         DateTime PatientBirthDate { get; }
         string PatientCity { get; }
@@ -20,7 +20,7 @@
     {
         Guid PatientId { get; }
         string PatientFirstName { get; }
-        string PatientSecondName { get; }
+        string PatientLastName { get; }
         string PatientPesel {  get; }
         DateTime PatientBirthDate { get; }
         string PatientCity { get; }

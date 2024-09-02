@@ -27,7 +27,11 @@ namespace Emergency.Command
                 string communicate = $"Podaj {_parameter}";
                 if(_parameterSupplier != null)
                 {
-                    communicate += $" obecnie {_parameterSupplier()}";
+                    string parameter = _parameterSupplier();
+                    if(!string.IsNullOrEmpty(parameter))
+                    {
+                        communicate += $" obecnie {parameter}";
+                    }
                 }
                 return communicate;
             }

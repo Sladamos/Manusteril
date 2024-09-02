@@ -7,7 +7,7 @@ using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
 using Emergency.Validator;
 
-namespace Emergency.Command.DeletePatient
+namespace Emergency.Command.UnregisterPatient
 {
     internal class UnregisterPatientCommand : ICommand
     {
@@ -50,6 +50,7 @@ namespace Emergency.Command.DeletePatient
             {
                 await commandsExecutioner.Execute(commands);
             }
+            pesel = "";
         }
 
         private void OnPeselSelected(string pesel)
