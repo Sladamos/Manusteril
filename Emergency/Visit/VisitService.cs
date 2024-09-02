@@ -49,6 +49,9 @@ namespace Emergency.Visit
         /// <exception cref = "UnregisteredPatientException">
         /// Thrown when no visit with a null VisitEndDate is found for the given patient.
         /// </exception>
+        /// <exception cref = "PatientUnallowedToLeaveException">
+        /// Thrown when current patient visit doesn't have allowance to leave.
+        /// </exception>
         public void UnregisterPatientByPesel(string pesel)
         {
             logger.Info($"Rozpoczęto wypiskę pacjenta o peselu {pesel}");
@@ -59,22 +62,17 @@ namespace Emergency.Visit
             }
 
             var visit = visitRepository.GetPatientCurrentVisit(pesel);
-            //TODO: execute manual logic if is not autofilled
-
-            // dwie drogi:
-            //if nie ma info o wypisce then uzupelnij recznie (z możliwością przerwania) - jaki lekarz podał czy na włąsne życzenie
-            //if info o wypisce to wypisz i tyle
-            visit.VisitEndDate = DateTime.Now;
-            visitRepository.Save(visit);
-            eventRepository.Unregister(visit);
-            logger.Info($"Wypisano pacjenta o peselu {pesel}");
+            if (visit.AllowedToLeave)
+            {
+                visit.VisitEndDate = DateTime.Now;
+                visitRepository.Save(visit);
+                eventRepository.Unregister(visit);
+                logger.Info($"Wypisano pacjenta o peselu {pesel}");
+            }
+            else
+            {
+                throw new PatientUnallowedToLeaveException();
+            }
         }
-
-
-        /*visit = new() { Id = Guid.NewGuid(),
-            PatientId = Guid.NewGuid(),
-            PatientPesel = pesel,
-            VisitStartDate = DateTime.Now,
-            AllowedToLeave = false}; */
     }
 }

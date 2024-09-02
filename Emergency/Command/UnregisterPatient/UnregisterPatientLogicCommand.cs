@@ -41,6 +41,9 @@ namespace Emergency.Command.UnregisterPatient
             } catch (UnregisteredPatientException e)
             {
                 Console.WriteLine(e.Message);
+            } catch (PatientUnallowedToLeaveException)
+            {
+                Console.WriteLine("Brak pozwolenie na opuszczenie szpitalu przez pacjenta");
             }
         }
 
