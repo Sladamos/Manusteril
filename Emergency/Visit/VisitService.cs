@@ -36,14 +36,23 @@ namespace Emergency.Visit
         public void AddVisit(VisitEntity visit)
         {
             logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
-            var validationResult = validator.validatePesel(visit.PatientPesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
+            ValidatePesel(visit.PatientPesel);
             visitRepository.Save(visit);
             eventRepository.Register(visit);
             logger.Info($"Zarejestrowano wizytę {visit}");
+        }
+
+        public void MarkVisitAsFinished(IPatientAllowedToLeave message)
+        {
+            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.AllowedToLeave = true;
+            visit.LeavePermissionDoctorId = message.DoctorId;
+            visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
+            visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
+            visitRepository.Save(visit);
+            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
         }
 
         /// <exception cref = "UnregisteredPatientException">
@@ -55,11 +64,7 @@ namespace Emergency.Visit
         public void UnregisterPatientByPesel(string pesel)
         {
             logger.Info($"Rozpoczęto wypiskę pacjenta o peselu {pesel}");
-            var validationResult = validator.validatePesel(pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException();
-            }
+            ValidatePesel(pesel);
 
             var visit = visitRepository.GetPatientCurrentVisit(pesel);
             if (visit.AllowedToLeave)
@@ -72,6 +77,15 @@ namespace Emergency.Visit
             else
             {
                 throw new PatientUnallowedToLeaveException();
+            }
+        }
+
+        private void ValidatePesel(string pesel)
+        {
+            var validationResult = validator.validatePesel(pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException(validationResult.ValidatorMessage);
             }
         }
     }

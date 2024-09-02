@@ -8,5 +8,12 @@ namespace Emergency.Patient
 {
     internal class InvalidPeselException : Exception
     {
+        public InvalidPeselException() : base()
+        {
+        }
+
+        public InvalidPeselException(string? message) : base(message)
+        {
+        }
     }
 }
