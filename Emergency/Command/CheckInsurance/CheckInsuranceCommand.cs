@@ -56,7 +56,7 @@ namespace Emergency.Command.CheckInsurance
 
         private void OnPeselSelected(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (validationResult.IsValid)
             {
                 this.pesel = pesel;

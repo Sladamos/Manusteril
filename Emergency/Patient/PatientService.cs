@@ -61,7 +61,7 @@ namespace Emergency.Patient
 
         private void ValidatePesel(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException(validationResult.ValidatorMessage);

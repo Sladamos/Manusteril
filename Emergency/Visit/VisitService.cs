@@ -46,6 +46,7 @@ namespace Emergency.Visit
         {
             logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);
+            ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
             visit.AllowedToLeave = true;
             visit.LeavePermissionDoctorId = message.DoctorId;
@@ -82,10 +83,19 @@ namespace Emergency.Visit
 
         private void ValidatePesel(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException(validationResult.ValidatorMessage);
+            }
+        }
+
+        private void ValidatePwz(string pwz)
+        {
+            var validationResult = validator.ValidatePwz(pwz);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPwzException(validationResult.ValidatorMessage);
             }
         }
     }
