@@ -24,10 +24,16 @@ namespace Emergency
 
         private readonly IBusInstance busInstance;
 
-        public Menu(ICommandsFactory commandsFactory, ICommandsExecutioner commandsExecutioner, IBusOperator busOperator)
+        private readonly ConsumersWrapper consumers;
+        
+        public Menu(ICommandsFactory commandsFactory,
+            ICommandsExecutioner commandsExecutioner,
+            IBusOperator busOperator,
+            ConsumersWrapper consumers)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.busInstance = busOperator.CreateBusInstance();
+            this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
             UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
@@ -45,6 +51,7 @@ namespace Emergency
         {
             await busInstance.Start();
             enabled = true;
+            consumers.RegisterConsumers(busInstance);
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);

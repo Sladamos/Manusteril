@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Emergency.Visit
     internal interface IVisitService
     {
         void AddVisit(VisitEntity visit);
+        void MarkVisitAsFinished(IPatientAllowedToLeave message);
         void UnregisterPatientByPesel(string pesel);
     }
 }

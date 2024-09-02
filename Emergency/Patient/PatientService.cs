@@ -64,7 +64,7 @@ namespace Emergency.Patient
             var validationResult = validator.validatePesel(pesel);
             if (!validationResult.IsValid)
             {
-                throw new InvalidPeselException();
+                throw new InvalidPeselException(validationResult.ValidatorMessage);
             }
         }
     }

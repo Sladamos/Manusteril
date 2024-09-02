@@ -52,6 +52,17 @@ namespace NfzMock.Bus
             bus.ConnectReceiveEndpoint(consumer.QueueName, e =>
             {
                 e.Instance(consumer);
+                e.UseMessageRetry(r =>
+                {
+                    r.Interval(3, TimeSpan.FromSeconds(3));
+                });
+                e.UseCircuitBreaker(cb =>
+                {
+                    cb.TrackingPeriod = TimeSpan.FromMinutes(1);
+                    cb.TripThreshold = 15;
+                    cb.ActiveThreshold = 10;
+                    cb.ResetInterval = TimeSpan.FromMinutes(3);
+                });
             });
             logger.Info($"Dodano consumera: {consumer}");
         }
