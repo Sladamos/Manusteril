@@ -36,6 +36,7 @@ namespace Emergency.Patient
             catch (Exception ex)
             {
                 Console.WriteLine($"Błąd przy obsłusze pozwolenia: {ex.Message}");
+                throw;
             }
         }
     }

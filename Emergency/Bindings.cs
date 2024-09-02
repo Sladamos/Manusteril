@@ -8,6 +8,7 @@ using Emergency.Patient;
 using Emergency.Validator;
 using Emergency.Visit;
 using log4net;
+using Messages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Ninject;
@@ -33,6 +34,7 @@ namespace Emergency
             Bind<DbConfig>().ToConstant(dbConfig).InSingletonScope();
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program))).InSingletonScope();
             CreateMiddlewares();
+            CreateConsumers();
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
@@ -45,6 +47,12 @@ namespace Emergency
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();
             Bind<ICommandsFactory>().To<CommandsFactory>().InSingletonScope();
             Bind<IMenu>().To<Menu>().InSingletonScope();
+        }
+
+        private void CreateConsumers()
+        {
+            Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
+            Bind<ConsumersWrapper>().ToSelf();
         }
 
         private void CreateMiddlewares()
