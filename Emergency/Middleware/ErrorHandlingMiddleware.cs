@@ -1,5 +1,6 @@
 ﻿using Emergency.Config;
 using log4net;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,15 @@ namespace Emergency.Middleware
             {
                 logger.Info("Uruchomienie warstwy łapiącej błędy");
                 await task();
+            }
+            catch (NpgsqlException ex)
+            {
+                string errorCommunicate = $"Wystąpił problem z bazą danych! {ex.Message}";
+                if (!prodConfig.IsProductionMode)
+                {
+                    errorCommunicate += $" {ex.StackTrace}";
+                }
+                logger.Error(errorCommunicate);
             }
             catch (Exception ex)
             {

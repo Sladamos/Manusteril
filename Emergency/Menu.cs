@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.RegisterPatient;
+using Emergency.Command.AddPatient;
 
 namespace Emergency
 {

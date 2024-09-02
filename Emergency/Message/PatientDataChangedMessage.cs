@@ -17,18 +17,10 @@ namespace Emergency.Message
 
         public required string PatientPesel { get; set; }
 
-        public required DateTime PatientBirthDate { get; set; }
-
         public required string PatientCity { get; set; }
 
-        public required string PatientPostalCode { get; set; }
-
-        public required string PatientStreet { get; set; }
+        public required string PatientAddress { get; set; }
 
         public required string PatientPhoneNumber { get; set; }
-
-        public required int PatientHouseNumber { get; set; }
-
-        public required int PatientApartmentNumber { get; set; }
     }
 }
