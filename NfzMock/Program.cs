@@ -1,6 +1,8 @@
 ﻿using NfzMock.Middleware;
 using Ninject;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
+
 namespace NfzMock
 {
     internal class Program
