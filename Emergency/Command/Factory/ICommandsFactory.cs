@@ -19,13 +19,12 @@ namespace Emergency.Command.Factory
         UnregisterPatientCommand UnregisterPatientCommand();
         UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier);
         AddPatientCommand AddPatientCommand();
-        AddPatientLogicCommand AddPatientLogicCommand(Func<string> peselSupplier, Func<string> firstNameSupplier, Func<string> lastNameSupplier,
-            Func<string> phoneNumberSupplier, Func<string> addressSupplier, Func<string> citySupplier);
+        AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo);
         CheckInsuranceCommand CheckInsuranceCommand();
         CheckInsuranceLogicCommand CheckInsuranceLogicCommand(Func<string> getPesel);
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
-        SelectWardCommand SelectWardCommand(Func<WardType?> paremeterSupplier);
+        MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice);
         RegisterPatientCommand RegisterPatientCommand();
-        RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType?> getWard);
+        RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard);
     }
 }

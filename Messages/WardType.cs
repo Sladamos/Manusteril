@@ -8,6 +8,7 @@ namespace Messages
 {
     public enum WardType
     {
+        NONE,
         GENERAL,
         PAEDIATRICS,
         SURGERY,
@@ -24,6 +25,7 @@ namespace Messages
         {
             return wardType switch
             {
+                WardType.NONE => "Brak",
                 WardType.GENERAL => "Ogólny",
                 WardType.PAEDIATRICS => "Pediatria",
                 WardType.SURGERY => "Chirurgia",

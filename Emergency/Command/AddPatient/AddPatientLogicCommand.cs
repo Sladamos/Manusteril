@@ -12,17 +12,7 @@ namespace Emergency.Command.AddPatient
     {
         private IPatientService patientService;
 
-        private Func<string> peselSupplier;
-
-        private Func<string> firstNameSupplier;
-
-        private Func<string> lastNameSupplier;
-
-        private Func<string> phoneNumberSupplier;
-
-        private Func<string> addressSupplier;
-
-        private Func<string> citySupplier;
+        private PatientInfo patientInfo;
 
         public string Name => "Nowy";
 
@@ -30,21 +20,10 @@ namespace Emergency.Command.AddPatient
 
         public Action? OnPatientCreated;
 
-        public AddPatientLogicCommand(IPatientService patientService,
-            Func<string> peselSupplier,
-            Func<string> firstNameSupplier,
-            Func<string> lastNameSupplier,
-            Func<string> phoneNumberSupplier,
-            Func<string> addressSupplier,
-            Func<string> citySupplier)
+        public AddPatientLogicCommand(IPatientService patientService, PatientInfo patientInfo)
         {
             this.patientService = patientService;
-            this.peselSupplier = peselSupplier;
-            this.firstNameSupplier = firstNameSupplier;
-            this.lastNameSupplier = lastNameSupplier;
-            this.phoneNumberSupplier = phoneNumberSupplier;
-            this.addressSupplier = addressSupplier;
-            this.citySupplier = citySupplier;
+            this.patientInfo = patientInfo;
         }
 
         public async Task Execute()
@@ -54,12 +33,12 @@ namespace Emergency.Command.AddPatient
 
         private void CreatePatient()
         {
-            string firstName = firstNameSupplier();
-            string lastName = lastNameSupplier();
-            string city = citySupplier();
-            string phoneNumber = phoneNumberSupplier();
-            string address = addressSupplier();
-            string pesel = peselSupplier();
+            string firstName = patientInfo.FirstNameSupplier();
+            string lastName = patientInfo.LastNameSupplier();
+            string city = patientInfo.CitySupplier();
+            string phoneNumber = patientInfo.PhoneNumberSupplier();
+            string address = patientInfo.AddressSupplier();
+            string pesel = patientInfo.PeselSupplier();
             PatientEntity patient = new()
             {
                 Id = Guid.NewGuid(),

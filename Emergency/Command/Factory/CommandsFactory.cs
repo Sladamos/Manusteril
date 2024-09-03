@@ -87,20 +87,19 @@ namespace Emergency.Command.Factory
             return new SelectStringCommand(parameter, paremeterSupplier);
         }
 
-        public SelectWardCommand SelectWardCommand(Func<WardType?> paremeterSupplier)
+        public MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice)
         {
-            return new SelectWardCommand(paremeterSupplier);
+            return new MultichoiceCommand<WardType>(multichoice);
         }
 
-        public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType?> getWard)
+        public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard)
         {
             return new RegisterPatientLogicCommand(visitService, patientService, getPesel, getWard);
         }
 
-        public AddPatientLogicCommand AddPatientLogicCommand(Func<string> peselSupplier, Func<string> firstNameSupplier, Func<string> lastNameSupplier,
-            Func<string> phoneNumberSupplier, Func<string> addressSupplier, Func<string> citySupplier)
+        public AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo)
         {
-            return new AddPatientLogicCommand(patientService, peselSupplier, firstNameSupplier, lastNameSupplier, phoneNumberSupplier, addressSupplier, citySupplier);
+            return new AddPatientLogicCommand(patientService, patientInfo);
         }
     }
 }
