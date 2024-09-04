@@ -10,12 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.RegisterPatient;
+using Emergency.Command.AddPatient;
+using Emergency.Command.EditPatient;
 
 namespace Emergency
 {
     internal class Menu : IMenu
     {
-
         private bool enabled = false;
 
         private Dictionary<string, ICommand> commands = [];
@@ -39,10 +40,12 @@ namespace Emergency
             UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
             RegisterPatientCommand registerPatientCommand = commandsFactory.RegisterPatientCommand();
             AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
+            EditPatientCommand editPatientCommand = commandsFactory.EditPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
             commands[deletePatientCommand.Name] = deletePatientCommand;
             commands[addPatientCommand.Name] = addPatientCommand;
+            commands[editPatientCommand.Name] = editPatientCommand;
             commands[registerPatientCommand.Name] = registerPatientCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }

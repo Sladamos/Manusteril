@@ -34,7 +34,9 @@ namespace Emergency.Patient
 
         public void AddPatient(PatientEntity patient)
         {
+            ValiateStandardPatientFields(patient);
             ValidatePesel(patient.Pesel);
+            ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Dodanie pacjenta: {patient}");
             patientRepository.Save(patient);
             eventRepository.Create(patient);
@@ -42,9 +44,12 @@ namespace Emergency.Patient
 
         public void EditPatient(PatientEntity patient)
         {
+            ValiateStandardPatientFields(patient);
             ValidatePesel(patient.Pesel);
+            ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
             patientRepository.Save(patient);
+            eventRepository.Update(patient);
         }
 
         public PatientEntity GetPatientByPesel(string pesel)
@@ -61,10 +66,36 @@ namespace Emergency.Patient
 
         private void ValidatePesel(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException(validationResult.ValidatorMessage);
+            }
+        }
+
+        private void ValidatePhoneNumber(string phoneNumber)
+        {
+            var validationResult = validator.ValidatePhoneNumber(phoneNumber);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPhoneNumberException(validationResult.ValidatorMessage);
+            }
+        }
+
+        private void ValiateStandardPatientFields(PatientEntity patient)
+        {
+            var fieldNames = new Dictionary<string, string>
+            {
+                { "Imie", patient.FirstName },
+                { "Nazwisko", patient.LastName },
+                { "Miasto", patient.City },
+                { "Adres", patient.Address }
+            };
+            var missingField = fieldNames.FirstOrDefault(kv => string.IsNullOrEmpty(kv.Value));
+
+            if (missingField.Key != null)
+            {
+                throw new InvalidPatientDataException($"Nie podano pola {missingField.Key}");
             }
         }
     }

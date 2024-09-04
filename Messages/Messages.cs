@@ -7,13 +7,9 @@
         string PatientFirstName { get; }
         string PatientLastName { get; }
         string PatientPesel {  get; }
-        DateTime PatientBirthDate { get; }
         string PatientCity { get; }
-        string PatientPostalCode { get; }
-        string PatientStreet { get; }
+        string PatientAddress { get; }
         string PatientPhoneNumber { get; }
-        int PatientHouseNumber { get; }
-        int PatientApartmentNumber { get; }
     }
 
     public interface IPatientDataChanged
@@ -21,14 +17,10 @@
         Guid PatientId { get; }
         string PatientFirstName { get; }
         string PatientLastName { get; }
-        string PatientPesel {  get; }
-        DateTime PatientBirthDate { get; }
+        string PatientPesel { get; }
         string PatientCity { get; }
-        string PatientPostalCode { get; }
-        string PatientStreet { get; }
+        string PatientAddress { get; }
         string PatientPhoneNumber { get; }
-        int PatientHouseNumber { get; }
-        int PatientApartmentNumber { get; }
     }
 
     public interface IPatientVisitRegisteredMessage

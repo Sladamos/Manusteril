@@ -38,13 +38,9 @@ namespace Emergency.Patient
                 PatientPesel = patient.Pesel,
                 PatientFirstName = patient.FirstName,
                 PatientLastName = patient.LastName,
-                PatientBirthDate = patient.BirthDate,
                 PatientCity = patient.City,
-                PatientApartmentNumber = patient.ApartmentNumber,
-                PatientHouseNumber = patient.HouseNumber,
-                PatientPhoneNumber = patient.PhoneNumber,
-                PatientPostalCode = patient.PostalCode,
-                PatientStreet = patient.Street
+                PatientAddress = patient.Address,
+                PatientPhoneNumber = patient.PhoneNumber
             };
             logger.Info($"Wysłanie wiadomości o utworzeniu pacjenta: {patient}");
             busInstance.Publish(message);
@@ -65,13 +61,9 @@ namespace Emergency.Patient
                 PatientPesel = patient.Pesel,
                 PatientFirstName = patient.FirstName,
                 PatientLastName = patient.LastName,
-                PatientBirthDate = patient.BirthDate,
                 PatientCity = patient.City,
-                PatientApartmentNumber = patient.ApartmentNumber,
-                PatientHouseNumber = patient.HouseNumber,
-                PatientPhoneNumber = patient.PhoneNumber,
-                PatientPostalCode = patient.PostalCode,
-                PatientStreet = patient.Street
+                PatientAddress = patient.Address,
+                PatientPhoneNumber = patient.PhoneNumber
             };
             logger.Info($"Wysłanie wiadomości o zmianie danych pacjenta: {patient}");
             busInstance.Publish(message);

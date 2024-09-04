@@ -34,8 +34,8 @@ namespace Emergency.Command.UnregisterPatient
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             UnregisterPatientLogicCommand unregisterPatientLogicCommand = commandsFactory.UnregisterPatientLogicCommand(GetPesel);
-            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
+            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[unregisterPatientLogicCommand.Name] = unregisterPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
@@ -55,7 +55,7 @@ namespace Emergency.Command.UnregisterPatient
 
         private void OnPeselSelected(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (validationResult.IsValid)
             {
                 this.pesel = pesel;

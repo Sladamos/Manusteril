@@ -21,7 +21,7 @@ namespace Emergency.Command.RegisterPatient
 
         private Func<string> peselSupplier;
 
-        private Func<WardType?> wardSupplier;
+        private Func<WardType> wardSupplier;
 
         public string Name => "Zarejestruj";
 
@@ -32,7 +32,7 @@ namespace Emergency.Command.RegisterPatient
         public RegisterPatientLogicCommand(IVisitService visitService,
             IPatientService patientService,
             Func<string> peselSupplier,
-            Func<WardType?> wardSupplier) 
+            Func<WardType> wardSupplier) 
         {
             this.visitService = visitService;
             this.patientService = patientService;
@@ -43,8 +43,8 @@ namespace Emergency.Command.RegisterPatient
         public async Task Execute()
         {
             Console.WriteLine("Rejestrowanie pacjenta");
-            WardType? ward = wardSupplier();
-            if (!ward.HasValue)
+            WardType ward = wardSupplier();
+            if (ward == WardType.NONE)
             {
                 Console.WriteLine("Najpierw należy wybrać oddział");
             }
@@ -52,11 +52,11 @@ namespace Emergency.Command.RegisterPatient
             {
                 try
                 {
-                    RegisterVisit(ward.Value);
+                    RegisterVisit(ward);
                 }
-                catch (InvalidPeselException)
+                catch (InvalidPeselException e)
                 {
-                    Console.WriteLine("Brak pacjenta o podanym PESELu");
+                    Console.WriteLine(e.Message);
                 }
                 catch (UnknownPatientException e)
                 {

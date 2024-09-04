@@ -42,17 +42,29 @@ namespace Emergency.Visit
             logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
+        public void ChangePatientWard(IPatientWardChanged message)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie zmiany oddziału pacjenta {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            ValidatePwz(message.DoctorPwzNumber);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.Ward = message.Destination;
+            visitRepository.Save(visit);
+            logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
+        }
+
         public void MarkVisitAsFinished(IPatientAllowedToLeave message)
         {
-            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
+            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);
+            ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
             visit.AllowedToLeave = true;
             visit.LeavePermissionDoctorId = message.DoctorId;
             visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
             visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
             visitRepository.Save(visit);
-            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta o peselu {message.PatientPesel}");
+            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
         }
 
         /// <exception cref = "UnregisteredPatientException">
@@ -82,10 +94,19 @@ namespace Emergency.Visit
 
         private void ValidatePesel(string pesel)
         {
-            var validationResult = validator.validatePesel(pesel);
+            var validationResult = validator.ValidatePesel(pesel);
             if (!validationResult.IsValid)
             {
                 throw new InvalidPeselException(validationResult.ValidatorMessage);
+            }
+        }
+
+        private void ValidatePwz(string pwz)
+        {
+            var validationResult = validator.ValidatePwz(pwz);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPwzException(validationResult.ValidatorMessage);
             }
         }
     }
