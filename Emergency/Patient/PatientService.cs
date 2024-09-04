@@ -86,10 +86,10 @@ namespace Emergency.Patient
         {
             var fieldNames = new Dictionary<string, string>
             {
-                { nameof(patient.FirstName), patient.FirstName },
-                { nameof(patient.LastName), patient.LastName },
-                { nameof(patient.City), patient.City },
-                { nameof(patient.Address), patient.Address }
+                { "Imie", patient.FirstName },
+                { "Nazwisko", patient.LastName },
+                { "Miasto", patient.City },
+                { "Adres", patient.Address }
             };
             var missingField = fieldNames.FirstOrDefault(kv => string.IsNullOrEmpty(kv.Value));
 

@@ -21,6 +21,7 @@ namespace Emergency.Command.Factory
         UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier);
         AddPatientCommand AddPatientCommand();
         AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo);
+        EditPatientCommand EditPatientCommand();
         EditPatientLogicCommand EditPatientLogicCommand(PatientInfo patientInfo);
         CheckInsuranceCommand CheckInsuranceCommand();
         CheckInsuranceLogicCommand CheckInsuranceLogicCommand(Func<string> getPesel);

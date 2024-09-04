@@ -47,8 +47,8 @@ namespace Emergency.Command.RegisterPatient
             };
             MultichoiceCommand<WardType> selectWardCommand = commandsFactory.SelectWardCommand(selectWardMultichoice);
             RegisterPatientLogicCommand registerPatientLogicCommand = commandsFactory.RegisterPatientLogicCommand(GetPesel, GetWard);
-            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
+            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectWardCommand.Name] = selectWardCommand;
             commands[registerPatientLogicCommand.Name] = registerPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;

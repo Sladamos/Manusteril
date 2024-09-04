@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
+using Emergency.Patient;
 using Emergency.Validator;
 using Messages;
 
-namespace Emergency.Command.AddPatient
+namespace Emergency.Command.EditPatient
 {
-    internal class AddPatientCommand : ICommand
+    internal class EditPatientCommand : ICommand
     {
         private bool enabled = false;
 
@@ -19,6 +20,8 @@ namespace Emergency.Command.AddPatient
         private readonly ICommandsExecutioner commandsExecutioner;
 
         private readonly IValidatorService validator;
+
+        private readonly IPatientService patientService;
 
         private string pesel = "";
 
@@ -32,16 +35,19 @@ namespace Emergency.Command.AddPatient
 
         private string city = "";
 
-        public string Name => "Nowy";
+        public string Name => "Edytuj";
 
-        public string Description => "Dodaj nowego pacjenta";
+        public string Description => "Zmień dane pacjenta";
 
-        public AddPatientCommand(ICommandsFactory commandsFactory,
+        public EditPatientCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
-            IValidatorService validator)
+            IValidatorService validator,
+            IPatientService patientService)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.validator = validator;
+            this.patientService = patientService;
+            Condition condition = new () { Predicate = () => !string.IsNullOrEmpty(pesel), Reason = "Najpierw należy wybrać PESEL" };
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             SelectStringCommand selectPhoneNumberCommand = commandsFactory.SelectStringCommand("Numer telefonu", GetPhoneNumber);
             SelectStringCommand selectFirstNameCommand = commandsFactory.SelectStringCommand("Imie", GetFirstName);
@@ -58,15 +64,15 @@ namespace Emergency.Command.AddPatient
                 PeselSupplier = GetPesel,
                 PhoneNumberSupplier = GetPhoneNumber
             };
-            AddPatientLogicCommand addPatientLogicCommand = commandsFactory.AddPatientLogicCommand(patientInfo);
+            EditPatientLogicCommand editPatientLogicCommand = commandsFactory.EditPatientLogicCommand(patientInfo);
             commands[exitOptionCommand.Name] = exitOptionCommand;
-            commands[selectPeselCommand.Name] = selectPeselCommand;
-            commands[selectAddressCommand.Name] = selectAddressCommand;
-            commands[selectCityCommand.Name] = selectCityCommand;
-            commands[selectFirstNameCommand.Name] = selectFirstNameCommand;
-            commands[selectLastNameCommand.Name] = selectLastNameCommand;
-            commands[selectPhoneNumberCommand.Name] = selectPhoneNumberCommand;
-            commands[addPatientLogicCommand.Name] = addPatientLogicCommand;
+            commands[selectPeselCommand.Name] = new ConditionalCommand(selectPeselCommand, condition);
+            commands[selectAddressCommand.Name] = new ConditionalCommand(selectAddressCommand, condition);
+            commands[selectCityCommand.Name] = new ConditionalCommand(selectCityCommand, condition);
+            commands[selectFirstNameCommand.Name] = new ConditionalCommand(selectFirstNameCommand, condition);
+            commands[selectLastNameCommand.Name] = new ConditionalCommand(selectLastNameCommand, condition);
+            commands[selectPhoneNumberCommand.Name] = new ConditionalCommand(selectPhoneNumberCommand, condition);
+            commands[editPatientLogicCommand.Name] = editPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
             selectPhoneNumberCommand.OnStringSelected += OnPhoneNumberSelected;
@@ -75,7 +81,7 @@ namespace Emergency.Command.AddPatient
             selectFirstNameCommand.OnStringSelected += OnFirstNameSelected;
             selectLastNameCommand.OnStringSelected += OnLastNameSelected;
 
-            addPatientLogicCommand.OnPatientCreated += OnPatientCreated;
+            editPatientLogicCommand.OnPatientEdited += OnPatientEdited;
         }
 
         public async Task Execute()
@@ -99,7 +105,24 @@ namespace Emergency.Command.AddPatient
             var validationResult = validator.ValidatePesel(pesel);
             if (validationResult.IsValid)
             {
-                this.pesel = pesel;
+                try
+                {
+                    var patient = patientService.GetPatientByPesel(pesel);
+                    this.pesel = pesel;
+                    this.firstName = patient.FirstName;
+                    this.lastName = patient.LastName;
+                    this.phoneNumber = patient.PhoneNumber;
+                    this.city = patient.City;
+                    this.address = patient.Address;
+                }
+                catch (UnknownPatientException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (InvalidPeselException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             else
             {
@@ -140,7 +163,7 @@ namespace Emergency.Command.AddPatient
             this.address = address;
         }
 
-        private void OnPatientCreated()
+        private void OnPatientEdited()
         {
             Console.WriteLine("Pomyślnie dodano pacjenta");
             enabled = false;

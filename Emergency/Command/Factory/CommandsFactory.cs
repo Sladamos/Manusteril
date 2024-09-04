@@ -69,6 +69,11 @@ namespace Emergency.Command.Factory
             return new AddPatientCommand(this, commandsExecutioner, validator);
         }
 
+        public EditPatientCommand EditPatientCommand()
+        {
+            return new EditPatientCommand(this, commandsExecutioner, validator, patientService);
+        }
+
         public AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo)
         {
             return new AddPatientLogicCommand(patientService, patientInfo);

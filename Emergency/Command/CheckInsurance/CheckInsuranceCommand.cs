@@ -32,8 +32,8 @@ namespace Emergency.Command.CheckInsurance
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             CheckInsuranceLogicCommand checkInsuranceLogicCommand = commandsFactory.CheckInsuranceLogicCommand(GetPesel);
-            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[exitOptionCommand.Name] = exitOptionCommand;
+            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[checkInsuranceLogicCommand.Name] = checkInsuranceLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;

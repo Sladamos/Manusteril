@@ -16,7 +16,7 @@ namespace Emergency.Command
 
         private ICommand command;
 
-        public ConditionalCommand(Condition condition, ICommand command)
+        public ConditionalCommand(ICommand command, Condition condition)
         {
             this.condition = condition;
             this.command = command;
