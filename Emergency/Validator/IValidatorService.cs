@@ -9,6 +9,7 @@ namespace Emergency.Validator
     internal interface IValidatorService
     {
         ValidationResult ValidatePwz(string pwzNumber);
+        ValidationResult ValidatePhoneNumber(string phoneNumber);
         ValidationResult ValidatePesel(string pesel);
     }
 }

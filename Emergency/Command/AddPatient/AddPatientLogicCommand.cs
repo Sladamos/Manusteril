@@ -29,6 +29,18 @@ namespace Emergency.Command.AddPatient
         public async Task Execute()
         {
             Console.WriteLine("Dodawanie pacjenta");
+            try
+            {
+                CreatePatient();
+            }
+            catch (InvalidPeselException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (InvalidPhoneNumberException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void CreatePatient()

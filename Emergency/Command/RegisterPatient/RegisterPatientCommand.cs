@@ -59,7 +59,7 @@ namespace Emergency.Command.RegisterPatient
 
         public async Task Execute()
         {
-            Console.WriteLine("Wypisywanie pacjenta");
+            Console.WriteLine("Rejestrowanie pacjenta");
             enabled = true;
             while (enabled)
             {

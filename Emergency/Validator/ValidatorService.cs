@@ -26,6 +26,19 @@ namespace Emergency.Validator
             return new ValidationResult { IsValid = result, ValidatorMessage = communicate };
         }
 
+        public ValidationResult ValidatePhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                return new ValidationResult { IsValid = false, ValidatorMessage = "Numer telefonu nie może być pusty." };
+            }
+
+            var regex = new Regex(@"^(\+?\d{1,3})?\d{9}$");
+            bool result = regex.IsMatch(phoneNumber);
+            string? communicate = result ? null : "Numer telefonu musi mieć dziewięć cyfr i może posiadać numer kierunkowy np. +48704212238";
+            return new ValidationResult { IsValid = result, ValidatorMessage = communicate };
+        }
+
         public ValidationResult ValidatePesel(string pesel)
         {
             if (!AreAllDigits(pesel))

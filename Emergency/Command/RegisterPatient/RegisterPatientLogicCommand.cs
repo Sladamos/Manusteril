@@ -54,9 +54,9 @@ namespace Emergency.Command.RegisterPatient
                 {
                     RegisterVisit(ward);
                 }
-                catch (InvalidPeselException)
+                catch (InvalidPeselException e)
                 {
-                    Console.WriteLine("Brak pacjenta o podanym PESELu");
+                    Console.WriteLine(e.Message);
                 }
                 catch (UnknownPatientException e)
                 {
