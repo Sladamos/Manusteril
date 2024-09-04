@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Emergency.Command.RegisterPatient;
 using Messages;
 using Emergency.Command.AddPatient;
+using Emergency.Command.EditPatient;
 
 namespace Emergency.Command.Factory
 {
@@ -65,7 +66,17 @@ namespace Emergency.Command.Factory
 
         public AddPatientCommand AddPatientCommand() 
         { 
-            return new AddPatientCommand(); 
+            return new AddPatientCommand(this, commandsExecutioner, validator);
+        }
+
+        public AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo)
+        {
+            return new AddPatientLogicCommand(patientService, patientInfo);
+        }
+
+        public EditPatientLogicCommand EditPatientLogicCommand(PatientInfo patientInfo)
+        {
+            return new EditPatientLogicCommand(patientService, patientInfo);
         }
 
         public CheckInsuranceCommand CheckInsuranceCommand() 
@@ -95,11 +106,6 @@ namespace Emergency.Command.Factory
         public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard)
         {
             return new RegisterPatientLogicCommand(visitService, patientService, getPesel, getWard);
-        }
-
-        public AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo)
-        {
-            return new AddPatientLogicCommand(patientService, patientInfo);
         }
     }
 }

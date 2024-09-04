@@ -41,6 +41,10 @@ namespace Emergency.Command.AddPatient
             {
                 Console.WriteLine(e.Message);
             }
+            catch (InvalidPatientDataException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void CreatePatient()

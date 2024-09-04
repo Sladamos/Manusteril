@@ -42,6 +42,10 @@ namespace Emergency.Command.EditPatient
             {
                 Console.WriteLine(e.Message);
             }
+            catch (InvalidPatientDataException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void EditPatient()

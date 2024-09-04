@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.AddPatient;
 using Emergency.Command.CheckInsurance;
+using Emergency.Command.EditPatient;
 using Emergency.Command.RegisterPatient;
 using Emergency.Command.UnregisterPatient;
 using Emergency.Patient;
@@ -20,6 +21,7 @@ namespace Emergency.Command.Factory
         UnregisterPatientLogicCommand UnregisterPatientLogicCommand(Func<string> peselSupplier);
         AddPatientCommand AddPatientCommand();
         AddPatientLogicCommand AddPatientLogicCommand(PatientInfo patientInfo);
+        EditPatientLogicCommand EditPatientLogicCommand(PatientInfo patientInfo);
         CheckInsuranceCommand CheckInsuranceCommand();
         CheckInsuranceLogicCommand CheckInsuranceLogicCommand(Func<string> getPesel);
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
