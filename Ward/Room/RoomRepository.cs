@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using log4net.Core;
+using Microsoft.EntityFrameworkCore;
 using Ninject.Infrastructure.Language;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,13 @@ namespace Ward.Room
                                         .Select(patient => patient.Pesel)
                                         .Contains(pesel))
                 ?? throw new UnregisteredPatientException("Pacjent nie jest na wizycie w placówce");
+        }
+
+        public RoomEntity GetRoomByRoomNumber(string roomNumber)
+        {
+            return GetAll()
+                .FirstOrDefault(room => room.Number == roomNumber)
+                ?? throw new IncorrectRoomException("Niepoprawny numer sali");
         }
 
         public void Save(RoomEntity room)

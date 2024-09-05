@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Patient;
 using Messages;
+using Ward.Command.DisplayRoomOccupation;
 
 namespace Ward.Command.Factory
 {
@@ -12,6 +13,7 @@ namespace Ward.Command.Factory
     {
         ExitProgramCommand ExitProgramCommand();
         ExitOptionCommand ExitOptionCommand();
+        DisplayRoomOccupationCommand DisplayRoomOccupation();
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
         MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice);
     }

@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Messages;
+using Ward.Command.DisplayRoomOccupation;
+using Ward.Room;
 
 namespace Ward.Command.Factory
 {
@@ -17,21 +19,17 @@ namespace Ward.Command.Factory
     {
         private readonly ICommandsExecutioner commandsExecutioner;
 
-        private readonly IVisitService visitService;
-
         private readonly IValidatorService validator;
 
-        private readonly IPatientService patientService;
+        private readonly IRoomService roomService;
 
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
-            IVisitService visitService,
             IValidatorService validator,
-            IPatientService patientService)
+            IRoomService roomService)
         {
             this.commandsExecutioner = commandsExecutioner;
-            this.visitService = visitService;
             this.validator = validator;
-            this.patientService = patientService;
+            this.roomService = roomService;
         }
 
         public ExitProgramCommand ExitProgramCommand() 
@@ -56,6 +54,11 @@ namespace Ward.Command.Factory
         public MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice)
         {
             return new MultichoiceCommand<WardType>(multichoice);
+        }
+
+        public DisplayRoomOccupationCommand DisplayRoomOccupation()
+        {
+            return new DisplayRoomOccupationCommand(roomService);
         }
     }
 }

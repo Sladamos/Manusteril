@@ -20,7 +20,11 @@ namespace Emergency.Config
         public ApplicationDbContext(DbConfig config, DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             this.config = config;
-            Database.EnsureDeleted(); //TODO: remove
+        }
+
+        public void Ensure()
+        {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

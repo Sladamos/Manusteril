@@ -46,6 +46,7 @@ namespace Emergency
             Bind<IVisitService>().To<VisitService>().InSingletonScope();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();
             Bind<ICommandsFactory>().To<CommandsFactory>().InSingletonScope();
+            Bind<Initializer>().ToSelf();
             Bind<IMenu>().To<Menu>().InSingletonScope();
         }
 

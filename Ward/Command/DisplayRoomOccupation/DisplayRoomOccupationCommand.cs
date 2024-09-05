@@ -7,7 +7,7 @@ using Ward.Room;
 
 namespace Ward.Command.DisplayRoomOccupation
 {
-    internal class DisplayRoomOccupation : ICommand
+    internal class DisplayRoomOccupationCommand : ICommand
     {
         private IRoomService roomService;
 
@@ -15,7 +15,7 @@ namespace Ward.Command.DisplayRoomOccupation
 
         public string Description => "Wypisz obłożenie sal";
 
-        public DisplayRoomOccupation(IRoomService roomService)
+        public DisplayRoomOccupationCommand(IRoomService roomService)
         {
             this.roomService = roomService;
         }

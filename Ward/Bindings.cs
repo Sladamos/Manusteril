@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Room;
 
 namespace Ward
 {
@@ -37,21 +38,17 @@ namespace Ward
             CreateConsumers();
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
-            Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
-            Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
-            Bind<IPatientEventRepository>().To<PatientEventRepository>().InSingletonScope();
-            Bind<IVisitEventRepository>().To<VisitEventRepository>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
-            Bind<IPatientService>().To<PatientService>().InSingletonScope();
-            Bind<IVisitService>().To<VisitService>().InSingletonScope();
+            Bind<IRoomRepository>().To<RoomRepository>().InSingletonScope();
+            Bind<IRoomService>().To<RoomService>().InSingletonScope();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();
             Bind<ICommandsFactory>().To<CommandsFactory>().InSingletonScope();
+            Bind<Initializer>().ToSelf().InSingletonScope();
             Bind<IMenu>().To<Menu>().InSingletonScope();
         }
 
         private void CreateConsumers()
         {
-            Bind<IBusConsumer<IPatientWardChanged>>().To<PatientWardChangedHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

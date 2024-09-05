@@ -10,6 +10,7 @@ namespace Ward.Room
     {
         IEnumerable<RoomEntity> GetAll();
         RoomEntity GetRoomByPatientPesel(string pesel);
+        RoomEntity GetRoomByRoomNumber(string roomNumber);
         void Save(RoomEntity room);
     }
 }

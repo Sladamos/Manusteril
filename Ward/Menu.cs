@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Command.DisplayRoomOccupation;
 
 namespace Ward
 {
@@ -31,7 +32,9 @@ namespace Ward
             this.busInstance = busOperator.CreateBusInstance();
             this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
+            DisplayRoomOccupationCommand displayRoomOccupationCommand = commandsFactory.DisplayRoomOccupation();
             commands[exitProgramCommand.Name] = exitProgramCommand;
+            commands[displayRoomOccupationCommand.Name] = displayRoomOccupationCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 
