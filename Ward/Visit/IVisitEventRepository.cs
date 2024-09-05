@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ward.Visit
+{
+    internal interface IVisitEventRepository
+    {
+        void Unregister(VisitEntity visit);
+        void Register(VisitEntity visit);
+    }
+}
