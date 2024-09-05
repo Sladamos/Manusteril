@@ -25,6 +25,8 @@ namespace Ward
             MiddlewaresWrapper middlewares = kernel.Get<MiddlewaresWrapper>();
             await middlewares.execute(async () =>
             {   
+                Initializer initializer = kernel.Get<Initializer>();
+                initializer.Initialize();
                 IMenu menu = kernel.Get<IMenu>();
                 await menu.Start();
             });

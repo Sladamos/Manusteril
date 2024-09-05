@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Patient;
 using Messages;
+using Ward.Command.DisplayRoomOccupation;
+using Ward.Command.Patients;
+using Ward.Command.Patients.FindPatientRoom;
+using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.ChangePatientRoom;
 
 namespace Ward.Command.Factory
 {
@@ -12,7 +17,14 @@ namespace Ward.Command.Factory
     {
         ExitProgramCommand ExitProgramCommand();
         ExitOptionCommand ExitOptionCommand();
+        DisplayRoomOccupationCommand DisplayRoomOccupationCommand();
+        DisplayFreeRoomsCommand DisplayFreeRoomsCommand();
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
-        MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice);
+        MultichoiceCommand<string> SelectRoomCommand(Multichoice<string> multichoice);
+        PatientCommands CreatePatientsCommands();
+        FindPatientRoomLogicCommand FindPatientRoomLogicCommand(Func<string> getPesel);
+        FindPatientRoomCommand FindPatientRoomCommand();
+        ChangePatientRoomCommand ChangePatientRoomCommand();
+        ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber);
     }
 }

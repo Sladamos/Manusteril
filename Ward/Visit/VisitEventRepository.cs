@@ -23,21 +23,10 @@ namespace Ward.Visit
 
         public void Register(VisitEntity visit)
         {
-            PatientVisitRegisteredMessage message = new () { PatientId = visit.PatientId,
-                PatientPesel = visit.PatientPesel,
-                VisitId = visit.Id,
-                WardType = visit.Ward};
-            logger.Info($"Wysłanie wiadomości o zarejestrowaniu: {visit}");
-            busInstance.Publish(message);
         }
 
         public void Unregister(VisitEntity visit)
         {
-            PatientVisitUnregisteredMessage message = new() { PatientId = visit.PatientId,
-                PatientPesel = visit.PatientPesel,
-                VisitId = visit.Id};
-            logger.Info($"Wysłanie wiadomości o wyrejestrowaniu: {visit}");
-            busInstance.Publish(message);
         }
     }
 }

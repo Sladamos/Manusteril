@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Command\ChangePatientRoomCommand\**" />
+    <Compile Remove="Command\ChangePatientWardCommand\**" />
+    <Compile Remove="Command\DisplayOccupationCommand\**" />
+    <Compile Remove="Command\FindPatientCommand\**" />
+    <EmbeddedResource Remove="Command\ChangePatientRoomCommand\**" />
+    <EmbeddedResource Remove="Command\ChangePatientWardCommand\**" />
+    <EmbeddedResource Remove="Command\DisplayOccupationCommand\**" />
+    <EmbeddedResource Remove="Command\FindPatientCommand\**" />
+    <None Remove="Command\ChangePatientRoomCommand\**" />
+    <None Remove="Command\ChangePatientWardCommand\**" />
+    <None Remove="Command\DisplayOccupationCommand\**" />
+    <None Remove="Command\FindPatientCommand\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="log4net.Ext.Json" Version="2.0.10.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
@@ -31,14 +46,6 @@
     <None Update="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Command\FindPatientCommand\" />
-    <Folder Include="Command\DisplayOccupationCommand\" />
-    <Folder Include="Command\ChangePatientRoomCommand\" />
-    <Folder Include="Command\ChangePatientWardCommand\" />
-    <Folder Include="Room\" />
   </ItemGroup>
 
 </Project>

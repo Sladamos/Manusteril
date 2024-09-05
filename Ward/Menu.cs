@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Command.DisplayRoomOccupation;
+using Ward.Command.Patients;
 
 namespace Ward
 {
@@ -31,7 +33,13 @@ namespace Ward
             this.busInstance = busOperator.CreateBusInstance();
             this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
+            DisplayRoomOccupationCommand displayRoomOccupationCommand = commandsFactory.DisplayRoomOccupationCommand();
+            DisplayFreeRoomsCommand displayFreeRoomsCommand = commandsFactory.DisplayFreeRoomsCommand();
+            PatientCommands patientCommands = commandsFactory.CreatePatientsCommands();
             commands[exitProgramCommand.Name] = exitProgramCommand;
+            commands[displayRoomOccupationCommand.Name] = displayRoomOccupationCommand;
+            commands[displayFreeRoomsCommand.Name] = displayFreeRoomsCommand;
+            commands[patientCommands.Name] = patientCommands;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 

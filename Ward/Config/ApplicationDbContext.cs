@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Room;
 
 namespace Ward.Config
 {
@@ -17,10 +18,16 @@ namespace Ward.Config
 
         public DbSet<PatientEntity> Patients { get; set; }
 
+        public DbSet<RoomEntity> Rooms { get; set; }
+
         public ApplicationDbContext(DbConfig config, DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             this.config = config;
-            Database.EnsureDeleted(); //TODO: remove
+        }
+
+        public void Ensure()
+        {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -28,7 +35,8 @@ namespace Ward.Config
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(config.ConnectionString);
+                optionsBuilder
+                    .UseNpgsql(config.ConnectionString);
             }
         }
     }

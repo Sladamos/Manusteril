@@ -66,7 +66,7 @@ namespace Emergency.Command.EditPatient
             };
             EditPatientLogicCommand editPatientLogicCommand = commandsFactory.EditPatientLogicCommand(patientInfo);
             commands[exitOptionCommand.Name] = exitOptionCommand;
-            commands[selectPeselCommand.Name] = new ConditionalCommand(selectPeselCommand, condition);
+            commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectAddressCommand.Name] = new ConditionalCommand(selectAddressCommand, condition);
             commands[selectCityCommand.Name] = new ConditionalCommand(selectCityCommand, condition);
             commands[selectFirstNameCommand.Name] = new ConditionalCommand(selectFirstNameCommand, condition);
@@ -86,7 +86,7 @@ namespace Emergency.Command.EditPatient
 
         public async Task Execute()
         {
-            Console.WriteLine("Rejestrowanie pacjenta");
+            Console.WriteLine("Edytowanie danych pacjenta");
             enabled = true;
             while (enabled)
             {
@@ -165,7 +165,7 @@ namespace Emergency.Command.EditPatient
 
         private void OnPatientEdited()
         {
-            Console.WriteLine("Pomyślnie dodano pacjenta");
+            Console.WriteLine("Pomyślnie edytowano dane pacjenta");
             enabled = false;
         }
 
