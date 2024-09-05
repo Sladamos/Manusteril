@@ -30,15 +30,15 @@ namespace Ward
 
         private void InitializeRooms()
         {
-            List<RoomEntity> rooms = [];
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "118", Capacity = 2, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "119A", Capacity = 1, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "119B", Capacity = 1, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "115", Capacity = 4, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "121", Capacity = 3, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "143", Capacity = 6, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "152A", Capacity = 2, OccupiedBeds = 0, Patients = [] });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "153B", Capacity = 2, OccupiedBeds = 0, Patients = [] });
+            List<RoomEntity> rooms = new List<RoomEntity>();
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "118", Capacity = 2, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "119A", Capacity = 1, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "119B", Capacity = 1, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "115", Capacity = 4, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "121", Capacity = 3, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "143", Capacity = 6, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "152A", Capacity = 2, OccupiedBeds = 0 });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "153B", Capacity = 2, OccupiedBeds = 0 });
             rooms.ForEach(room => roomRepository.Save(room));
         }
     }

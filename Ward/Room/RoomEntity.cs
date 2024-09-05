@@ -19,7 +19,7 @@ namespace Ward.Room
 
         public required int OccupiedBeds { get; set; }
 
-        public required ICollection<PatientEntity> Patients { get; set; }
+        public ICollection<PatientEntity> Patients { get; set; } = [];
 
         public override string ToString()
         {

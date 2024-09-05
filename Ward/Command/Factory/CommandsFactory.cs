@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Messages;
 using Ward.Command.DisplayRoomOccupation;
 using Ward.Room;
+using Ward.Command.Patients;
+using Ward.Command.Patients.FindPatientRoom;
 
 namespace Ward.Command.Factory
 {
@@ -64,6 +66,21 @@ namespace Ward.Command.Factory
         public DisplayFreeRoomsCommand DisplayFreeRoomsCommand()
         {
             return new DisplayFreeRoomsCommand(roomService);
+        }
+
+        public PatientCommands CreatePatientsCommands()
+        {
+            return new PatientCommands(this, commandsExecutioner);
+        }
+
+        public FindPatientRoomLogicCommand FindPatientRoomLogicCommand(Func<string> getPesel)
+        {
+            return new FindPatientRoomLogicCommand(roomService, getPesel);
+        }
+
+        public FindPatientRoomCommand FindPatientRoomCommand()
+        {
+            return new FindPatientRoomCommand(this, commandsExecutioner, validator);
         }
     }
 }
