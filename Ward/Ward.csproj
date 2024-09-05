@@ -33,4 +33,12 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Command\FindPatientCommand\" />
+    <Folder Include="Command\DisplayOccupationCommand\" />
+    <Folder Include="Command\ChangePatientRoomCommand\" />
+    <Folder Include="Command\ChangePatientWardCommand\" />
+    <Folder Include="Room\" />
+  </ItemGroup>
+
 </Project>
