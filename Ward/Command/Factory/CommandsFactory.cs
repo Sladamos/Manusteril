@@ -56,9 +56,14 @@ namespace Ward.Command.Factory
             return new MultichoiceCommand<WardType>(multichoice);
         }
 
-        public DisplayRoomOccupationCommand DisplayRoomOccupation()
+        public DisplayRoomOccupationCommand DisplayRoomOccupationCommand()
         {
             return new DisplayRoomOccupationCommand(roomService);
+        }
+
+        public DisplayFreeRoomsCommand DisplayFreeRoomsCommand()
+        {
+            return new DisplayFreeRoomsCommand(roomService);
         }
     }
 }

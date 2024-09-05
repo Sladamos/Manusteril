@@ -13,7 +13,8 @@ namespace Ward.Command.Factory
     {
         ExitProgramCommand ExitProgramCommand();
         ExitOptionCommand ExitOptionCommand();
-        DisplayRoomOccupationCommand DisplayRoomOccupation();
+        DisplayRoomOccupationCommand DisplayRoomOccupationCommand();
+        DisplayFreeRoomsCommand DisplayFreeRoomsCommand();
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
         MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice);
     }

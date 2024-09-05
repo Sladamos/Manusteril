@@ -32,9 +32,11 @@ namespace Ward
             this.busInstance = busOperator.CreateBusInstance();
             this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
-            DisplayRoomOccupationCommand displayRoomOccupationCommand = commandsFactory.DisplayRoomOccupation();
+            DisplayRoomOccupationCommand displayRoomOccupationCommand = commandsFactory.DisplayRoomOccupationCommand();
+            DisplayFreeRoomsCommand displayFreeRoomsCommand = commandsFactory.DisplayFreeRoomsCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[displayRoomOccupationCommand.Name] = displayRoomOccupationCommand;
+            commands[displayFreeRoomsCommand.Name] = displayFreeRoomsCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 
