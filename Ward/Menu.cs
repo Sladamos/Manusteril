@@ -1,7 +1,5 @@
 ﻿using Ward.Bus;
 using Ward.Command;
-using Ward.Command.CheckInsurance;
-using Ward.Command.UnregisterPatient;
 using Ward.Command.Executioner;
 using Ward.Command.Factory;
 using System;
@@ -9,9 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ward.Command.RegisterPatient;
-using Ward.Command.AddPatient;
-using Ward.Command.EditPatient;
 
 namespace Ward
 {
@@ -36,17 +31,7 @@ namespace Ward
             this.busInstance = busOperator.CreateBusInstance();
             this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
-            CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
-            UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
-            RegisterPatientCommand registerPatientCommand = commandsFactory.RegisterPatientCommand();
-            AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
-            EditPatientCommand editPatientCommand = commandsFactory.EditPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
-            commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
-            commands[deletePatientCommand.Name] = deletePatientCommand;
-            commands[addPatientCommand.Name] = addPatientCommand;
-            commands[editPatientCommand.Name] = editPatientCommand;
-            commands[registerPatientCommand.Name] = registerPatientCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 

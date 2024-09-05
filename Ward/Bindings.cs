@@ -51,7 +51,6 @@ namespace Ward
 
         private void CreateConsumers()
         {
-            Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
             Bind<IBusConsumer<IPatientWardChanged>>().To<PatientWardChangedHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }

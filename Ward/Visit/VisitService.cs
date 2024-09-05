@@ -67,31 +67,6 @@ namespace Ward.Visit
             logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
         }
 
-        /// <exception cref = "UnregisteredPatientException">
-        /// Thrown when no visit with a null VisitEndDate is found for the given patient.
-        /// </exception>
-        /// <exception cref = "PatientUnallowedToLeaveException">
-        /// Thrown when current patient visit doesn't have allowance to leave.
-        /// </exception>
-        public void UnregisterPatientByPesel(string pesel)
-        {
-            logger.Info($"Rozpoczęto wypiskę pacjenta o peselu {pesel}");
-            ValidatePesel(pesel);
-
-            var visit = visitRepository.GetPatientCurrentVisit(pesel);
-            if (visit.AllowedToLeave)
-            {
-                visit.VisitEndDate = DateTime.Now;
-                visitRepository.Save(visit);
-                eventRepository.Unregister(visit);
-                logger.Info($"Wypisano pacjenta o peselu {pesel}");
-            }
-            else
-            {
-                throw new PatientUnallowedToLeaveException();
-            }
-        }
-
         private void ValidatePesel(string pesel)
         {
             var validationResult = validator.ValidatePesel(pesel);

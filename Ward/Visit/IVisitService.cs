@@ -12,6 +12,5 @@ namespace Ward.Visit
         void AddVisit(VisitEntity visit);
         void ChangePatientWard(IPatientWardChanged message);
         void MarkVisitAsFinished(IPatientAllowedToLeave message);
-        void UnregisterPatientByPesel(string pesel);
     }
 }
