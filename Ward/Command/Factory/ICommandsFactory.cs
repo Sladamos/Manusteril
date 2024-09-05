@@ -10,6 +10,7 @@ using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientWard;
 using Ward.Command.Patients.ChangePatientRoom;
+using Ward.Command.Patients.AllowPatientToLeave;
 
 namespace Ward.Command.Factory
 {
@@ -26,5 +27,6 @@ namespace Ward.Command.Factory
         FindPatientRoomCommand FindPatientRoomCommand();
         ChangePatientRoomCommand ChangePatientRoomCommand();
         ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber);
+        AllowPatientToLeaveLogicCommand AllowPatientToLeaveLogicCommand(Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier);
     }
 }
