@@ -80,25 +80,6 @@
         Guid VisitId { get; }
         DateTime VisitEndDate { get; }
     }
-    /*
-     * Zrobić na wzór wizyty jak starczy czasu, jak nie to skip
-     * 
-    public interface IPatientWardChangeRequestMessage //Prośba o zmianę oddziału
-    {
-        Guid PatientId { get; }
-        string PatientPesel { get; }
-        WardType DestinationType { get; }
-        int Room { get; }
-    }
-
-    public interface IPatientWardChangedMessage //Potwierdzenie zmiany oddziału
-    {
-        Guid PatientId { get; }
-        string PatientPesel { get; }
-        string DestinationIdentifier { get; }
-        WardType DestinationType { get; }
-        int Room { get; }
-    }*/
 
     public interface IPatientWardRoomChangedMessage //Informacja o zmianie sali
     {
