@@ -118,5 +118,10 @@ namespace Ward.Command.Factory
         {
             return new AllowPatientToLeaveCommand(this, commandsExecutioner, validator);
         }
+
+        public MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Multichoice<bool> multichoice)
+        {
+            return new MultichoiceCommand<bool>(multichoice);
+        }
     }
 }

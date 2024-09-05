@@ -39,15 +39,26 @@ namespace Ward.Command.Patients.AllowPatientToLeave
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             SelectStringCommand selectPwzCommand = commandsFactory.SelectStringCommand("PWZ", GetPwzNumber);
+            Multichoice<bool> multichoice = new()
+            {
+                Values = [true, false],
+                DefaultDescription = "Czy na własne żądanie",
+                Name = "Żądanie",
+                ParameterSupplier = () => leavedAtOwnRisk,
+                ParameterTransformator = (value) => value ? "tak" : "nie"
+            };
+            MultichoiceCommand<bool> leavedAtOwnRiskCommand = commandsFactory.LeavedAtOwnRiskCommand(multichoice);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             AllowPatientToLeaveLogicCommand allowPatientToLeaveLogicCommand = commandsFactory.AllowPatientToLeaveLogicCommand(GetPesel, GetPwzNumber, () => leavedAtOwnRisk);
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectPwzCommand.Name] = selectPwzCommand;
+            commands[leavedAtOwnRiskCommand.Name] = leavedAtOwnRiskCommand;
             commands[allowPatientToLeaveLogicCommand.Name] = allowPatientToLeaveLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
             selectPwzCommand.OnStringSelected += OnPwzNumberSelected;
+            leavedAtOwnRiskCommand.OnValueSelected += OnOwnRiskSelected;
             allowPatientToLeaveLogicCommand.OnAllowedToLeave += OnAllowedToLeave;
         }
 
@@ -87,7 +98,13 @@ namespace Ward.Command.Patients.AllowPatientToLeave
                 Console.WriteLine(validationResult?.ValidatorMessage ?? "Niepoprawny numer PWZ");
             }
         }
-        
+
+        private void OnOwnRiskSelected(bool leavedAtOwnRisk)
+        {
+            this.leavedAtOwnRisk = leavedAtOwnRisk;
+        }
+
+
 
         private void OnAllowedToLeave()
         {
