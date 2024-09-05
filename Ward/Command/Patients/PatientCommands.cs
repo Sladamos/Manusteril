@@ -9,6 +9,7 @@ using Ward.Command.Executioner;
 using Ward.Command.Factory;
 using Ward.Command;
 using Ward.Command.Patients.FindPatientRoom;
+using Ward.Command.Patients.ChangePatientRoom;
 
 namespace Ward.Command.Patients
 {
@@ -30,8 +31,10 @@ namespace Ward.Command.Patients
             this.commandsExecutioner = commandsExecutioner;
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             FindPatientRoomCommand findPatientRoomCommand = commandsFactory.FindPatientRoomCommand();
+            ChangePatientRoomCommand changePatientRoomCommand = commandsFactory.ChangePatientRoomCommand();
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[findPatientRoomCommand.Name] = findPatientRoomCommand;
+            commands[changePatientRoomCommand.Name] = changePatientRoomCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
         }
 

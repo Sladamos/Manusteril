@@ -35,7 +35,8 @@ namespace Ward.Config
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(config.ConnectionString);
+                optionsBuilder
+                    .UseNpgsql(config.ConnectionString);
             }
         }
     }

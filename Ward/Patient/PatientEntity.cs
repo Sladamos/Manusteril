@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ward.Patient
 {
-    internal class PatientEntity
+    public class PatientEntity
     {
         [Key]
         public required Guid Id { get; set; }

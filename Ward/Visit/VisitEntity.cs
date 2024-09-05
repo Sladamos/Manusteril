@@ -31,6 +31,8 @@ namespace Ward.Visit
 
         public string? LeavePermissionDoctorPwz { get; set; }
 
+        public required string PatientRoomNumber {  get; set; }
+
         public override string ToString()
         {
             var sb = new StringBuilder("VisitEntity [");

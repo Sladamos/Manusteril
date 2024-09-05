@@ -33,55 +33,14 @@ namespace Ward.Visit
             this.logger = logger;
         }
 
-        public void AddVisit(VisitEntity visit)
+        public void SetRoomForPatient(PatientEntity patient, string number)
         {
-            logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
-            ValidatePesel(visit.PatientPesel);
+            logger.Info($"Rozpoczęto przypisywanie salidla pacjenta {patient.Pesel}");
+            var visit = visitRepository.GetPatientCurrentVisit(patient.Pesel);
+            visit.PatientRoomNumber = number;
             visitRepository.Save(visit);
-            eventRepository.Register(visit);
-            logger.Info($"Zarejestrowano wizytę {visit}");
-        }
-
-        public void ChangePatientWard(IPatientWardChanged message)
-        {
-            logger.Info($"Rozpoczęto rejestrowanie zmiany oddziału pacjenta {message.PatientPesel}");
-            ValidatePesel(message.PatientPesel);
-            ValidatePwz(message.DoctorPwzNumber);
-            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
-            visitRepository.Save(visit);
-            logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
-        }
-
-        public void MarkVisitAsFinished(IPatientAllowedToLeave message)
-        {
-            logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
-            ValidatePesel(message.PatientPesel);
-            ValidatePwz(message.DoctorPwzNumber);
-            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
-            visit.AllowedToLeave = true;
-            visit.LeavePermissionDoctorId = message.DoctorId;
-            visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
-            visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
-            visitRepository.Save(visit);
-            logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
-        }
-
-        private void ValidatePesel(string pesel)
-        {
-            var validationResult = validator.ValidatePesel(pesel);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPeselException(validationResult.ValidatorMessage);
-            }
-        }
-
-        private void ValidatePwz(string pwz)
-        {
-            var validationResult = validator.ValidatePwz(pwz);
-            if (!validationResult.IsValid)
-            {
-                throw new InvalidPwzException(validationResult.ValidatorMessage);
-            }
+            Console.WriteLine("TODO send message");
+            logger.Info($"Przypisano do pacjenta {patient.Pesel} salę {number}");
         }
     }
 }

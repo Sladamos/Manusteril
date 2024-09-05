@@ -14,6 +14,8 @@ using Ward.Command.DisplayRoomOccupation;
 using Ward.Room;
 using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
+using Ward.Command.Patients.ChangePatientRoom;
+using Ward.Command.Patients.ChangePatientWard;
 
 namespace Ward.Command.Factory
 {
@@ -25,13 +27,17 @@ namespace Ward.Command.Factory
 
         private readonly IRoomService roomService;
 
+        private readonly IPatientService patientService;
+
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
             IValidatorService validator,
-            IRoomService roomService)
+            IRoomService roomService,
+            IPatientService patientService)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.validator = validator;
             this.roomService = roomService;
+            this.patientService = patientService;
         }
 
         public ExitProgramCommand ExitProgramCommand() 
@@ -81,6 +87,21 @@ namespace Ward.Command.Factory
         public FindPatientRoomCommand FindPatientRoomCommand()
         {
             return new FindPatientRoomCommand(this, commandsExecutioner, validator);
+        }
+
+        public MultichoiceCommand<string> SelectRoomCommand(Multichoice<string> multichoice)
+        {
+            return new MultichoiceCommand<string>(multichoice);
+        }
+
+        public ChangePatientRoomCommand ChangePatientRoomCommand()
+        {
+            return new ChangePatientRoomCommand(this, commandsExecutioner, roomService, validator);
+        }
+
+        public ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber)
+        {
+            return new ChangePatientRoomLogicCommand(roomService, patientService, getPesel, getRoomNumber);
         }
     }
 }

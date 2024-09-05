@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Patient;
 using Ward.Validator;
+using Ward.Visit;
 
 namespace Ward.Room
 {
@@ -15,13 +16,19 @@ namespace Ward.Room
     {
         private IRoomRepository roomRepository;
 
+        private IVisitService visitService;
+
         private IValidatorService validatorService;
 
         private ILog logger;
 
-        public RoomService(IRoomRepository roomRepository, IValidatorService validatorService, ILog logger)
+        public RoomService(IRoomRepository roomRepository,
+            IVisitService visitService,
+            IValidatorService validatorService,
+            ILog logger)
         {
             this.roomRepository = roomRepository;
+            this.visitService = visitService;
             this.validatorService = validatorService;
             this.logger = logger;
         }
@@ -58,12 +65,12 @@ namespace Ward.Room
 
         public void TransferPatientToRoom(PatientEntity patient, string roomNumber)
         {
-            logger.Info($"Rozpoczęto transfer pacjenta {patient.Pesel} do sali ${roomNumber}");
+            logger.Info($"Rozpoczęto transfer pacjenta {patient.Pesel} do sali {roomNumber}");
             var newRoom = roomRepository.GetRoomByRoomNumber(roomNumber);
             CheckIfRoomCanReceivePatient(newRoom);
             RemovePatientFromRoom(patient);
             AddPatientToRoom(newRoom, patient);
-            logger.Info($"Pomyślny transfer do sali ${roomNumber}");
+            logger.Info($"Pomyślny transfer do sali {roomNumber}");
         }
 
         private void CheckIfRoomCanReceivePatient(RoomEntity room)
@@ -85,16 +92,23 @@ namespace Ward.Room
 
         private void RemovePatientFromRoom(RoomEntity room, PatientEntity patient)
         {
-            room.Patients.Remove(patient);
+            room.Patients = string.Join(";", room.Patients.Split(';').Where(pesel => pesel != patient.Pesel).ToArray());
             room.OccupiedBeds--;
             roomRepository.Save(room);
         }
 
         private void AddPatientToRoom(RoomEntity room, PatientEntity patient)
         {
-            room.Patients.Add(patient);
+            if(string.IsNullOrEmpty(room.Patients))
+            {
+                room.Patients = patient.Pesel;
+            } else
+            {
+                room.Patients += $";{patient.Pesel}";
+            }
             room.OccupiedBeds++;
             roomRepository.Save(room);
+            visitService.SetRoomForPatient(patient, room.Number);
         }
     }
 }

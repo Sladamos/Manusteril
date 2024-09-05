@@ -39,6 +39,12 @@ namespace Ward
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
+            Bind<IPatientEventRepository>().To<PatientEventRepository>().InSingletonScope();
+            Bind<IVisitEventRepository>().To<VisitEventRepository>().InSingletonScope();
+            Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
+            Bind<IVisitService>().To<VisitService>().InSingletonScope();
+            Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
+            Bind<IPatientService>().To<PatientService>().InSingletonScope();
             Bind<IRoomRepository>().To<RoomRepository>().InSingletonScope();
             Bind<IRoomService>().To<RoomService>().InSingletonScope();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();

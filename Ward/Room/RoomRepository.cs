@@ -32,7 +32,7 @@ namespace Ward.Room
         {
             return GetAll()
                 .FirstOrDefault(room => room.Patients
-                                        .Select(patient => patient.Pesel)
+                                        .Split(";")
                                         .Contains(pesel))
                 ?? throw new UnregisteredPatientException("Pacjent nie jest na wizycie w placówce");
         }

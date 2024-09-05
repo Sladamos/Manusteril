@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Patient;
 
 namespace Ward.Visit
 {
     internal interface IVisitService
     {
-        void AddVisit(VisitEntity visit);
-        void ChangePatientWard(IPatientWardChanged message);
-        void MarkVisitAsFinished(IPatientAllowedToLeave message);
+        void SetRoomForPatient(PatientEntity patient, string number);
     }
 }

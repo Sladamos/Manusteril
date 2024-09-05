@@ -9,7 +9,7 @@ using static MassTransit.MessageHeaders;
 
 namespace Ward.Room
 {
-    internal class RoomEntity
+    public class RoomEntity
     {
         public required Guid Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace Ward.Room
 
         public required int OccupiedBeds { get; set; }
 
-        public ICollection<PatientEntity> Patients { get; set; } = [];
+        public virtual string Patients { get; set; } = "";
 
         public override string ToString()
         {
