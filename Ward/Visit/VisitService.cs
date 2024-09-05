@@ -48,7 +48,6 @@ namespace Ward.Visit
             ValidatePesel(message.PatientPesel);
             ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
-            visit.Ward = message.Destination;
             visitRepository.Save(visit);
             logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
         }

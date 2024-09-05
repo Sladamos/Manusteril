@@ -31,8 +31,6 @@ namespace Ward.Visit
 
         public string? LeavePermissionDoctorPwz { get; set; }
 
-        public WardType Ward { get; set; }
-
         public override string ToString()
         {
             var sb = new StringBuilder("VisitEntity [");
@@ -49,7 +47,10 @@ namespace Ward.Visit
                 sb.Append($"LeavePermissionDoctorId={LeavePermissionDoctorId.Value}, ");
             if (!string.IsNullOrEmpty(LeavePermissionDoctorPwz))
                 sb.Append($"LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}, ");
-            sb.Append($"Ward={Ward}");
+
+            if (sb[sb.Length - 2] == ',')
+                sb.Length -= 2;
+
             sb.Append("]");
             return sb.ToString();
         }

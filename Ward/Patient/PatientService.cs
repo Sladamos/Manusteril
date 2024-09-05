@@ -34,7 +34,6 @@ namespace Ward.Patient
 
         public void AddPatient(PatientEntity patient)
         {
-            ValiateStandardPatientFields(patient);
             ValidatePesel(patient.Pesel);
             ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Dodanie pacjenta: {patient}");
@@ -44,7 +43,6 @@ namespace Ward.Patient
 
         public void EditPatient(PatientEntity patient)
         {
-            ValiateStandardPatientFields(patient);
             ValidatePesel(patient.Pesel);
             ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
@@ -79,23 +77,6 @@ namespace Ward.Patient
             if (!validationResult.IsValid)
             {
                 throw new InvalidPhoneNumberException(validationResult.ValidatorMessage);
-            }
-        }
-
-        private void ValiateStandardPatientFields(PatientEntity patient)
-        {
-            var fieldNames = new Dictionary<string, string>
-            {
-                { "Imie", patient.FirstName },
-                { "Nazwisko", patient.LastName },
-                { "Miasto", patient.City },
-                { "Adres", patient.Address }
-            };
-            var missingField = fieldNames.FirstOrDefault(kv => string.IsNullOrEmpty(kv.Value));
-
-            if (missingField.Key != null)
-            {
-                throw new InvalidPatientDataException($"Nie podano pola {missingField.Key}");
             }
         }
     }

@@ -50,6 +50,10 @@ namespace Emergency.Visit
             if (!string.IsNullOrEmpty(LeavePermissionDoctorPwz))
                 sb.Append($"LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}, ");
             sb.Append($"Ward={Ward}");
+
+            if (sb[sb.Length - 2] == ',')
+                sb.Length -= 2;
+
             sb.Append("]");
             return sb.ToString();
         }
