@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Ward.Visit
 {
@@ -33,14 +34,55 @@ namespace Ward.Visit
             this.logger = logger;
         }
 
+        public VisitEntity GetPatientCurrentVisit(string pesel)
+        {
+            logger.Info($"Poszukiwanie obecnej wizyty dla pacjenta {pesel}");
+            ValidatePesel(pesel);
+            return visitRepository.GetPatientCurrentVisit(pesel);
+        }
+
+        public void MarkVisitAsAllowedToLeave(VisitEntity visit)
+        {
+            logger.Info($"Rozpoczynamy pozwolenie na wypiskę {visit.PatientPesel}");
+            ValidatePesel(visit.PatientPesel);
+            ValidatePwz(visit.LeavePermissionDoctorPwz);
+            visit.AllowedToLeave = true;
+            visitRepository.Save(visit);
+            Console.WriteLine("TODO send message");
+            logger.Info($"Zezwolono na opuszczenie oddziału pacjentowi {visit.PatientPesel}");
+        }
+
         public void SetRoomForPatient(PatientEntity patient, string number)
         {
-            logger.Info($"Rozpoczęto przypisywanie salidla pacjenta {patient.Pesel}");
+            logger.Info($"Rozpoczęto przypisywanie sali dla pacjenta {patient.Pesel}");
             var visit = visitRepository.GetPatientCurrentVisit(patient.Pesel);
             visit.PatientRoomNumber = number;
             visitRepository.Save(visit);
             Console.WriteLine("TODO send message");
             logger.Info($"Przypisano do pacjenta {patient.Pesel} salę {number}");
+        }
+
+        private void ValidatePesel(string pesel)
+        {
+            var validationResult = validator.ValidatePesel(pesel);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPeselException(validationResult.ValidatorMessage);
+            }
+        }
+
+        private void ValidatePwz(string? pwz)
+        {
+            if(pwz == null)
+            {
+                throw new InvalidPwzException("Nie podano pwz");
+            }
+
+            var validationResult = validator.ValidatePwz(pwz);
+            if (!validationResult.IsValid)
+            {
+                throw new InvalidPwzException(validationResult.ValidatorMessage);
+            }
         }
     }
 }
