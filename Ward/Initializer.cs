@@ -79,7 +79,6 @@ namespace Ward
                 VisitEndDate = new DateTime(2023, 9, 1, 12, 0, 0),
                 AllowedToLeave = true,
                 LeavedAtOwnRisk = false,
-                LeavePermissionDoctorId = Guid.NewGuid(),
                 LeavePermissionDoctorPwz = "123456",
                 PatientRoomNumber = "121"
             };

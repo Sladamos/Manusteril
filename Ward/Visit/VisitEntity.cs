@@ -27,8 +27,6 @@ namespace Ward.Visit
 
         public bool? LeavedAtOwnRisk { get; set; }
 
-        public Guid? LeavePermissionDoctorId { get; set; }
-
         public string? LeavePermissionDoctorPwz { get; set; }
 
         public required string PatientRoomNumber {  get; set; }
@@ -45,8 +43,6 @@ namespace Ward.Visit
             sb.Append($"AllowedToLeave={AllowedToLeave}, ");
             if (LeavedAtOwnRisk.HasValue)
                 sb.Append($"LeavedAtOwnRisk={LeavedAtOwnRisk.Value}, ");
-            if (LeavePermissionDoctorId.HasValue)
-                sb.Append($"LeavePermissionDoctorId={LeavePermissionDoctorId.Value}, ");
             if (!string.IsNullOrEmpty(LeavePermissionDoctorPwz))
                 sb.Append($"LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}, ");
 

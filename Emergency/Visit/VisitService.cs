@@ -60,7 +60,6 @@ namespace Emergency.Visit
             ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
             visit.AllowedToLeave = true;
-            visit.LeavePermissionDoctorId = message.DoctorId;
             visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
             visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
             visitRepository.Save(visit);

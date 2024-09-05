@@ -113,5 +113,10 @@ namespace Ward.Command.Factory
         {
             return new AllowPatientToLeaveLogicCommand(visitService, peselSupplier, pwzSupplier, ownRiskSupplier);
         }
+
+        public AllowPatientToLeaveCommand AllowPatientToLeaveCommand()
+        {
+            return new AllowPatientToLeaveCommand(this, commandsExecutioner, validator);
+        }
     }
 }
