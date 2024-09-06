@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Emergency.Visit
 {
-    internal class PatientWardChangedHandler : IBusConsumer<IPatientWardChanged>
+    internal class PatientRoomChangedHandler : IBusConsumer<IPatientWardRoomChangedMessage>
     {
         private ILog logger;
 
         private IVisitService visitService;
 
-        public PatientWardChangedHandler(ILog logger, IVisitService visitService)
+        public PatientRoomChangedHandler(ILog logger, IVisitService visitService)
         {
             this.logger = logger;
             this.visitService = visitService;
@@ -24,13 +24,13 @@ namespace Emergency.Visit
 
         public string QueueName => "emergency_changeWard";
 
-        public async Task Consume(ConsumeContext<IPatientWardChanged> context)
+        public async Task Consume(ConsumeContext<IPatientWardRoomChangedMessage> context)
         {
             try
             {
                 var message = context.Message;
-                logger.Info($"Otrzymano zmianę oddziału: {message}");
-                visitService.ChangePatientWard(message);
+                logger.Info($"Otrzymano zmianę sali: {message}");
+                visitService.ChangePatientRoom(message);
             }
             catch (Exception ex)
             {

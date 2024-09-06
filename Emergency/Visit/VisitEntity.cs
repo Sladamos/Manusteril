@@ -29,6 +29,10 @@ namespace Emergency.Visit
 
         public string? LeavePermissionDoctorPwz { get; set; }
 
+        public required string Room {  get; set; }
+
+        public required string WardIdentifier { get; set; }
+
         public WardType Ward { get; set; }
 
         public override string ToString()

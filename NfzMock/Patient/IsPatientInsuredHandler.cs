@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NfzMock.Patient
 {
-    internal class IsPatientInsuredHandler : IBusConsumer<IIsPatientInsured>
+    internal class IsPatientInsuredHandler : IBusConsumer<IIsPatientInsuredMessage>
     {
         private ILog logger;
 
@@ -25,7 +25,7 @@ namespace NfzMock.Patient
 
         public string QueueName => "nfzMock_isInsured";
 
-        public async Task Consume(ConsumeContext<IIsPatientInsured> context)
+        public async Task Consume(ConsumeContext<IIsPatientInsuredMessage> context)
         {
             logger.Info($"Otrzymano zapytanie o ubezpieczenie: {context.Message}");
             bool isInsured = new Random().Next(100) < config.IsInsuredProbability;

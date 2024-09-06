@@ -53,6 +53,7 @@
         Guid PatientId { get; }
         string PatientPesel { get; }
         Guid VisitId { get; }
+        DateTime VisitStartDate { get; set; }
         string WardIdentifier { get; }
     }
 
@@ -62,7 +63,7 @@
         string PatientPesel { get; }
         Guid VisitId { get; }
         string WardIdentifier { get; }
-        int Room {  get; }
+        string Room {  get; }
     }
 
     public interface IPatientAllowedToLeaveMessage //Pozwolenie na opuszczenie z oddziału
@@ -86,7 +87,7 @@
         Guid PatientId { get; }
         string PatientPesel { get; }
         string WardIdentifier { get; }
-        int Room { get; }
+        string Room { get; }
     }
 
     public interface IIsPatientInsuredMessage

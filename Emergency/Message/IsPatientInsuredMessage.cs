@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Emergency.Message
 {
-    internal class IsPatientInsuredMessage : IIsPatientInsured
+    internal class IsPatientInsuredMessage : IIsPatientInsuredMessage
     {
 
         public required string PatientPesel { get; set; }

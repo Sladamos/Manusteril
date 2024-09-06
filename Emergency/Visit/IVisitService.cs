@@ -10,8 +10,8 @@ namespace Emergency.Visit
     internal interface IVisitService
     {
         void AddVisit(VisitEntity visit);
-        void ChangePatientWard(IPatientWardChanged message);
-        void MarkVisitAsFinished(IPatientAllowedToLeave message);
+        void ChangePatientRoom(IPatientWardRoomChangedMessage message);
+        void MarkVisitAsFinished(IPatientAllowedToLeaveMessage message);
         void UnregisterPatientByPesel(string pesel);
     }
 }

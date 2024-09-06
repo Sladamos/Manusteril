@@ -42,18 +42,17 @@ namespace Emergency.Visit
             logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
-        public void ChangePatientWard(IPatientWardChanged message)
+        public void ChangePatientRoom(IPatientWardRoomChangedMessage message)
         {
-            logger.Info($"Rozpoczęto rejestrowanie zmiany oddziału pacjenta {message.PatientPesel}");
+            logger.Info($"Rozpoczęto rejestrowanie zmiany sali pacjenta {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);
-            ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
-            visit.Ward = message.Destination;
+            visit.Room = message.Room;
             visitRepository.Save(visit);
-            logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
+            logger.Info($"Zmieniono salę pacjenta {message.PatientPesel} na {message.Room}");
         }
 
-        public void MarkVisitAsFinished(IPatientAllowedToLeave message)
+        public void MarkVisitAsFinished(IPatientAllowedToLeaveMessage message)
         {
             logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);

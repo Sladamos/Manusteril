@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Emergency.Visit
 {
-    internal class PatientAllowedToLeaveHandler : IBusConsumer<IPatientAllowedToLeave>
+    internal class PatientAllowedToLeaveHandler : IBusConsumer<IPatientAllowedToLeaveMessage>
     {
         private ILog logger;
 
@@ -24,7 +24,7 @@ namespace Emergency.Visit
 
         public string QueueName => "emergency_allowedToLeave";
 
-        public async Task Consume(ConsumeContext<IPatientAllowedToLeave> context)
+        public async Task Consume(ConsumeContext<IPatientAllowedToLeaveMessage> context)
         {
             try
             {

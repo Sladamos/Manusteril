@@ -10,5 +10,6 @@ namespace Emergency.Visit
     {
         void Unregister(VisitEntity visit);
         void Register(VisitEntity visit);
+        void AskForRegistration(VisitEntity visit);
     }
 }
