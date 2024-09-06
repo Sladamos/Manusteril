@@ -77,8 +77,9 @@ namespace Emergency.Command.RegisterPatient
                 VisitStartDate = DateTime.Now,
                 Ward = ward,
                 AllowedToLeave = false,
-                WardIdentifier = "TODO",
-                Room = ""
+                WardIdentifier = "",
+                Room = "",
+                visitState = VisitEntityState.NEW
             };
             visitService.AddVisit(visit);
             OnPatientRegistered?.Invoke();

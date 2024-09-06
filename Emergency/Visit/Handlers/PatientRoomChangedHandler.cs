@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Visit
+namespace Emergency.Visit.Handlers
 {
     internal class PatientRoomChangedHandler : IBusConsumer<IPatientWardRoomChangedMessage>
     {

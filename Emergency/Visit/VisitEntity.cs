@@ -35,6 +35,8 @@ namespace Emergency.Visit
 
         public WardType Ward { get; set; }
 
+        public required VisitEntityState visitState { get; set; }
+
         public override string ToString()
         {
             var sb = new StringBuilder("VisitEntity [");

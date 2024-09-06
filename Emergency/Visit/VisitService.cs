@@ -65,6 +65,19 @@ namespace Emergency.Visit
             logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
         }
 
+        public void MarkVisitAsInProgress(IPatientVisitArrivedMessage message)
+        {
+            logger.Info($"Rozpoczęto oznaczanie wizyty jako w trakcie dla pacjenta {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.Room = message.Room;
+            visit.visitState = VisitEntityState.IN_PROGRESS;
+            visitRepository.Save(visit);
+            logger.Info($"Oznaczono wizytę jako w trakcie dla pacjenta {message.PatientPesel}");
+        }
+
+        //TODO: [MethodImpl(MethodImplOptions.Synchronized)]
+
         /// <exception cref = "UnregisteredPatientException">
         /// Thrown when no visit with a null VisitEndDate is found for the given patient.
         /// </exception>

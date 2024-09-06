@@ -9,7 +9,7 @@ namespace Emergency.Bus
 {
     internal class ConsumersWrapper
     {
-        private IBusConsumer<IPatientVisitRegistrationAcceptedResponse> patientVisitRegistrationAcceptedConsumer;
+        /*private IBusConsumer<IPatientVisitRegistrationAcceptedResponse> patientVisitRegistrationAcceptedConsumer;
 
         private IBusConsumer<IPatientVisitRegistrationDeclinedResponse> patientVisitRegistrationDeclinedConsumer;
 
@@ -17,28 +17,28 @@ namespace Emergency.Bus
 
         private IBusConsumer<IPatientAllowedToLeaveMessage> patientAllowedToLeaveConsumer;
 
-        private IBusConsumer<IPatientWardRoomChangedMessage> patientWardRoomChangedConsumer;
+        private IBusConsumer<IPatientWardRoomChangedMessage> patientWardRoomChangedConsumer;*/
 
-        public ConsumersWrapper(IBusConsumer<IPatientVisitRegistrationAcceptedResponse> patientVisitRegistrationAcceptedConsumer,
+        public ConsumersWrapper(/*IBusConsumer<IPatientVisitRegistrationAcceptedResponse> patientVisitRegistrationAcceptedConsumer,
                                 IBusConsumer<IPatientVisitRegistrationDeclinedResponse> patientVisitRegistrationDeclinedConsumer,
                                 IBusConsumer<IPatientVisitArrivedMessage> patientVisitArrivedConsumer,
                                 IBusConsumer<IPatientAllowedToLeaveMessage> patientAllowedToLeaveConsumer,
-                                IBusConsumer<IPatientWardRoomChangedMessage> patientWardRoomChangedConsumer)
+                                IBusConsumer<IPatientWardRoomChangedMessage> patientWardRoomChangedConsumer*/)
         {
-            this.patientVisitRegistrationAcceptedConsumer = patientVisitRegistrationAcceptedConsumer;
+            /*this.patientVisitRegistrationAcceptedConsumer = patientVisitRegistrationAcceptedConsumer;
             this.patientVisitRegistrationDeclinedConsumer = patientVisitRegistrationDeclinedConsumer;
             this.patientVisitArrivedConsumer = patientVisitArrivedConsumer;
             this.patientAllowedToLeaveConsumer = patientAllowedToLeaveConsumer;
-            this.patientWardRoomChangedConsumer = patientWardRoomChangedConsumer;
+            this.patientWardRoomChangedConsumer = patientWardRoomChangedConsumer;*/
         }
 
         public void RegisterConsumers(IBusInstance busInstance)
         {
-            busInstance.ConnectConsumer(patientVisitRegistrationAcceptedConsumer);
+            /*busInstance.ConnectConsumer(patientVisitRegistrationAcceptedConsumer);
             busInstance.ConnectConsumer(patientVisitRegistrationDeclinedConsumer);
             busInstance.ConnectConsumer(patientVisitArrivedConsumer);
             busInstance.ConnectConsumer(patientAllowedToLeaveConsumer);
-            busInstance.ConnectConsumer(patientWardRoomChangedConsumer);
+            busInstance.ConnectConsumer(patientWardRoomChangedConsumer);*/
         }
     }
 }

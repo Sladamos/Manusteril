@@ -12,6 +12,7 @@ namespace Emergency.Visit
         void AddVisit(VisitEntity visit);
         void ChangePatientRoom(IPatientWardRoomChangedMessage message);
         void MarkVisitAsFinished(IPatientAllowedToLeaveMessage message);
+        void MarkVisitAsInProgress(IPatientVisitArrivedMessage message);
         void UnregisterPatientByPesel(string pesel);
     }
 }
