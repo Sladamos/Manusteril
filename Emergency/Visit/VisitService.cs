@@ -42,6 +42,14 @@ namespace Emergency.Visit
             logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
+        public void AskForRegistration(WardType ward, string pesel)
+        {
+            logger.Info($"Rozpoczęto zapytanie oddziałów o przyjęcie pacjenta na oddział {ward.ToPolish()}");
+            ValidatePesel(pesel);
+            eventRepository.AskForRegistration(ward, pesel);
+            logger.Info($"Wyslano zapytanie o wizytę na oddziale {ward.ToPolish()}");
+        }
+
         public void ChangePatientRoom(IPatientWardRoomChangedMessage message)
         {
             logger.Info($"Rozpoczęto rejestrowanie zmiany sali pacjenta {message.PatientPesel}");
@@ -71,7 +79,7 @@ namespace Emergency.Visit
             ValidatePesel(message.PatientPesel);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
             visit.Room = message.Room;
-            visit.visitState = VisitEntityState.IN_PROGRESS;
+            visit.VisitState = VisitEntityState.IN_PROGRESS;
             visitRepository.Save(visit);
             logger.Info($"Oznaczono wizytę jako w trakcie dla pacjenta {message.PatientPesel}");
         }
@@ -93,9 +101,10 @@ namespace Emergency.Visit
             if (visit.AllowedToLeave)
             {
                 visit.VisitEndDate = DateTime.Now;
+                visit.VisitState = VisitEntityState.FINISHED;
                 visitRepository.Save(visit);
                 eventRepository.Unregister(visit);
-                logger.Info($"Wypisano pacjenta o peselu {pesel}");
+                logger.Info($"Wypisano pacjenta o peselu {pesel}, zezwolił na to doktor {visit.LeavePermissionDoctorPwz}");
             }
             else
             {

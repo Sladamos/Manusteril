@@ -34,7 +34,6 @@ namespace Ward
         public void Initialize()
         {
             applicationDbContext.Ensure();
-            List<PatientEntity> patients = new List<PatientEntity>();
             List<RoomEntity> rooms = new List<RoomEntity>();
 
             var patientFirst = new PatientEntity
@@ -99,7 +98,10 @@ namespace Ward
                 PatientId = patientSecond.Id,
                 PatientPesel = patientSecond.Pesel,
                 VisitStartDate = new DateTime(2023, 9, 2, 10, 0, 0),
+                VisitEndDate = new DateTime(2023, 9, 1, 12, 0, 0),
                 AllowedToLeave = true,
+                LeavedAtOwnRisk = true,
+                LeavePermissionDoctorPwz = "123456",
                 PatientRoomNumber = "118"
             };
 

@@ -25,9 +25,7 @@
 
     public interface IPatientVisitRegisteredMessage //Zapytanie o przyjęcie pacjenta z recepcji
     {
-        Guid PatientId { get; }
         string PatientPesel { get; }
-        Guid VisitId { get; }
         WardType WardType { get; }
     }
 

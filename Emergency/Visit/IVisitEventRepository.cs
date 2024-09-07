@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Emergency.Visit
     {
         void Unregister(VisitEntity visit);
         void Register(VisitEntity visit);
-        void AskForRegistration(VisitEntity visit);
+        void AskForRegistration(WardType ward, string pesel);
     }
 }

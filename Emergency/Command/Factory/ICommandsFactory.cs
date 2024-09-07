@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Emergency.Command.AddPatient;
+using Emergency.Command.AskForRegistration;
 using Emergency.Command.CheckInsurance;
 using Emergency.Command.EditPatient;
 using Emergency.Command.RegisterPatient;
@@ -26,8 +27,10 @@ namespace Emergency.Command.Factory
         CheckInsuranceCommand CheckInsuranceCommand();
         CheckInsuranceLogicCommand CheckInsuranceLogicCommand(Func<string> getPesel);
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
-        MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice);
+        MultichoiceCommand<WardType> SelectWardCommand(Func<WardType> wardSupplier);
         RegisterPatientCommand RegisterPatientCommand();
         RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard);
+        AskForRegistrationCommand AskForRegistrationCommand();
+        AskForRegistrationLogicCommand AskForRegistrationLogicCommand(Func<string> getPesel, Func<WardType> getWard);
     }
 }

@@ -79,7 +79,7 @@ namespace Emergency.Command.RegisterPatient
                 AllowedToLeave = false,
                 WardIdentifier = "",
                 Room = "",
-                visitState = VisitEntityState.NEW
+                VisitState = VisitEntityState.NEW
             };
             visitService.AddVisit(visit);
             OnPatientRegistered?.Invoke();

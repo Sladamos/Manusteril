@@ -13,6 +13,7 @@ using Emergency.Command.RegisterPatient;
 using Emergency.Command.AddPatient;
 using Emergency.Command.EditPatient;
 using Emergency.Handler;
+using Emergency.Command.AskForRegistration;
 
 namespace Emergency
 {
@@ -38,16 +39,18 @@ namespace Emergency
             this.consumers = consumers;
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             CheckInsuranceCommand checkInsuranceCommand = commandsFactory.CheckInsuranceCommand();
-            UnregisterPatientCommand deletePatientCommand = commandsFactory.UnregisterPatientCommand();
+            AskForRegistrationCommand askForRegistrationCommand = commandsFactory.AskForRegistrationCommand();
             RegisterPatientCommand registerPatientCommand = commandsFactory.RegisterPatientCommand();
+            UnregisterPatientCommand unregisterPatientCommand = commandsFactory.UnregisterPatientCommand();
             AddPatientCommand addPatientCommand = commandsFactory.AddPatientCommand();
             EditPatientCommand editPatientCommand = commandsFactory.EditPatientCommand();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[checkInsuranceCommand.Name] = checkInsuranceCommand;
-            commands[deletePatientCommand.Name] = deletePatientCommand;
+            commands[askForRegistrationCommand.Name] = askForRegistrationCommand;
+            commands[registerPatientCommand.Name] = registerPatientCommand;
+            commands[unregisterPatientCommand.Name] = unregisterPatientCommand;
             commands[addPatientCommand.Name] = addPatientCommand;
             commands[editPatientCommand.Name] = editPatientCommand;
-            commands[registerPatientCommand.Name] = registerPatientCommand;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
 

@@ -33,9 +33,9 @@ namespace Emergency.Visit
 
         public required string WardIdentifier { get; set; }
 
-        public WardType Ward { get; set; }
+        public required WardType Ward { get; set; }
 
-        public required VisitEntityState visitState { get; set; }
+        public required VisitEntityState VisitState { get; set; }
 
         public override string ToString()
         {
