@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Emergency.Command.RegisterPatient;
 using Emergency.Command.AddPatient;
 using Emergency.Command.EditPatient;
+using Emergency.Handler;
 
 namespace Emergency
 {

@@ -1,11 +1,12 @@
-﻿using Messages;
+﻿using Emergency.Bus;
+using Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Bus
+namespace Emergency.Handler
 {
     internal class ConsumersWrapper
     {

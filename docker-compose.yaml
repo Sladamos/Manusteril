@@ -16,3 +16,11 @@ services:
       - POSTGRES_PASSWORD=guest
       - POSTGRES_USER=guest
       - POSTGRES_DB=manusteril
+  ward-db:
+    image: postgres:16-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=guest
+      - POSTGRES_USER=guest
+      - POSTGRES_DB=manusteril

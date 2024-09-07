@@ -16,6 +16,7 @@ namespace Emergency.Message
         public required Guid VisitId { get; set; }
 
         public required string WardIdentifier { get; set; }
+
         public required DateTime VisitStartDate { get; set; }
     }
 }

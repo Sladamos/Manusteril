@@ -3,6 +3,7 @@ using Emergency.Command;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
 using Emergency.Config;
+using Emergency.Handler;
 using Emergency.Middleware;
 using Emergency.Patient;
 using Emergency.Validator;

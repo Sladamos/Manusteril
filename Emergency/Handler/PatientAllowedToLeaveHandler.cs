@@ -1,4 +1,5 @@
 ﻿using Emergency.Bus;
+using Emergency.Visit;
 using log4net;
 using MassTransit;
 using Messages;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Visit
+namespace Emergency.Handler
 {
     internal class PatientAllowedToLeaveHandler : IBusConsumer<IPatientAllowedToLeaveMessage>
     {

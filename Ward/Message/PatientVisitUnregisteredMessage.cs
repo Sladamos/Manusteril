@@ -14,5 +14,7 @@ namespace Ward.Messages
         public required string PatientPesel { get; set; }
 
         public required Guid VisitId { get; set; }
+
+        public DateTime VisitEndDate {  get; set; }
     }
 }

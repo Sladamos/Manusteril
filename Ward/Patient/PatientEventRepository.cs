@@ -15,10 +15,10 @@ using System.Threading.Tasks;
 namespace Ward.Patient
 {
     internal class PatientEventRepository : IPatientEventRepository
-    {
+    { 
         private IBusInstance busInstance;
 
-        private IBusClient<IIsPatientInsured> busClient;
+        private IBusClient<IIsPatientInsuredMessage> busClient;
 
         private ILog logger;
 
@@ -26,7 +26,7 @@ namespace Ward.Patient
             ILog logger)
         {
             busInstance = busOperator.CreateBusInstance();
-            busClient = busOperator.CreateBusClient<IIsPatientInsured>();
+            busClient = busOperator.CreateBusClient<IIsPatientInsuredMessage>();
             this.logger = logger;
         }
 
