@@ -9,11 +9,8 @@ namespace Emergency.Messages
 {
     internal class PatientVisitRegisteredMessage : IPatientVisitRegisteredMessage
     {
-        public required Guid PatientId { get; set; }
 
         public required string PatientPesel { get; set; }
-
-        public required Guid VisitId { get; set; }
 
         public required WardType WardType { get; set; }
     }

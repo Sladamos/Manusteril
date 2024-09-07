@@ -8,9 +8,9 @@ using Emergency.Command.Factory;
 using Emergency.Validator;
 using Messages;
 
-namespace Emergency.Command.RegisterPatient
+namespace Emergency.Command.AskForRegistration
 {
-    internal class RegisterPatientCommand : ICommand
+    internal class AskForRegistrationCommand : ICommand
     {
         private bool enabled = false;
 
@@ -24,11 +24,11 @@ namespace Emergency.Command.RegisterPatient
 
         private WardType ward = WardType.NONE;
 
-        public string Name => "Zarejestruj";
+        public string Name => "Zapytaj";
 
-        public string Description => "Zarejestruj pacjenta na wizytę";
+        public string Description => "Zapytaj czy ktoś przyjmie pacjenta";
 
-        public RegisterPatientCommand(ICommandsFactory commandsFactory,
+        public AskForRegistrationCommand(ICommandsFactory commandsFactory,
             ICommandsExecutioner commandsExecutioner,
             IValidatorService validator)
         {
@@ -37,20 +37,20 @@ namespace Emergency.Command.RegisterPatient
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             MultichoiceCommand<WardType> selectWardCommand = commandsFactory.SelectWardCommand(GetWard);
-            RegisterPatientLogicCommand registerPatientLogicCommand = commandsFactory.RegisterPatientLogicCommand(GetPesel, GetWard);
+            AskForRegistrationLogicCommand askForRegistrationLogicCommand= commandsFactory.AskForRegistrationLogicCommand(GetPesel, GetWard);
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectWardCommand.Name] = selectWardCommand;
-            commands[registerPatientLogicCommand.Name] = registerPatientLogicCommand;
+            commands[askForRegistrationLogicCommand.Name] = askForRegistrationLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
             selectWardCommand.OnValueSelected += OnWardSelected;
-            registerPatientLogicCommand.OnPatientRegistered += OnPatientRegistered;
+            askForRegistrationLogicCommand.OnQuestionSent += OnQuestionSent;
         }
 
         public async Task Execute()
         {
-            Console.WriteLine("Rejestrowanie pacjenta");
+            Console.WriteLine("Zapytanie o rejestrację pacjenta");
             enabled = true;
             while (enabled)
             {
@@ -77,9 +77,9 @@ namespace Emergency.Command.RegisterPatient
             this.ward = ward;
         }
 
-        private void OnPatientRegistered()
+        private void OnQuestionSent()
         {
-            Console.WriteLine("Pomyślnie zarejestrowano pacjenta");
+            Console.WriteLine("Pomyślnie wysłano zapytanie");
             enabled = false;
         }
 

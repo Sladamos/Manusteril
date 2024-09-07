@@ -9,9 +9,9 @@ namespace NfzMock.Bus
 {
     internal class ConsumersWrapper
     {
-        private IBusConsumer<IIsPatientInsured> isPatientInsuredConsumer;
+        private IBusConsumer<IIsPatientInsuredMessage> isPatientInsuredConsumer;
 
-        public ConsumersWrapper(IBusConsumer<IIsPatientInsured> isPatientInsuredConsumer)
+        public ConsumersWrapper(IBusConsumer<IIsPatientInsuredMessage> isPatientInsuredConsumer)
         {
             this.isPatientInsuredConsumer = isPatientInsuredConsumer;
         }

@@ -16,6 +16,7 @@ using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.AllowPatientToLeave;
 
 namespace Ward.Command.Factory
 {
@@ -27,16 +28,20 @@ namespace Ward.Command.Factory
 
         private readonly IRoomService roomService;
 
+        private readonly IVisitService visitService;
+
         private readonly IPatientService patientService;
 
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
             IValidatorService validator,
             IRoomService roomService,
+            IVisitService visitService,
             IPatientService patientService)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.validator = validator;
             this.roomService = roomService;
+            this.visitService = visitService;
             this.patientService = patientService;
         }
 
@@ -102,6 +107,21 @@ namespace Ward.Command.Factory
         public ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber)
         {
             return new ChangePatientRoomLogicCommand(roomService, patientService, getPesel, getRoomNumber);
+        }
+
+        public AllowPatientToLeaveLogicCommand AllowPatientToLeaveLogicCommand(Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier)
+        {
+            return new AllowPatientToLeaveLogicCommand(visitService, peselSupplier, pwzSupplier, ownRiskSupplier);
+        }
+
+        public AllowPatientToLeaveCommand AllowPatientToLeaveCommand()
+        {
+            return new AllowPatientToLeaveCommand(this, commandsExecutioner, validator);
+        }
+
+        public MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Multichoice<bool> multichoice)
+        {
+            return new MultichoiceCommand<bool>(multichoice);
         }
     }
 }

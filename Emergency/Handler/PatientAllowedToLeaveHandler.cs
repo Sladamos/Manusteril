@@ -1,4 +1,5 @@
 ﻿using Emergency.Bus;
+using Emergency.Visit;
 using log4net;
 using MassTransit;
 using Messages;
@@ -8,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Emergency.Visit
+namespace Emergency.Handler
 {
-    internal class PatientAllowedToLeaveHandler : IBusConsumer<IPatientAllowedToLeave>
+    internal class PatientAllowedToLeaveHandler : IBusConsumer<IPatientAllowedToLeaveMessage>
     {
         private ILog logger;
 
@@ -24,7 +25,7 @@ namespace Emergency.Visit
 
         public string QueueName => "emergency_allowedToLeave";
 
-        public async Task Consume(ConsumeContext<IPatientAllowedToLeave> context)
+        public async Task Consume(ConsumeContext<IPatientAllowedToLeaveMessage> context)
         {
             try
             {

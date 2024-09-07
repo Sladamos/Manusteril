@@ -27,11 +27,15 @@ namespace Emergency.Visit
 
         public bool? LeavedAtOwnRisk { get; set; }
 
-        public Guid? LeavePermissionDoctorId { get; set; }
-
         public string? LeavePermissionDoctorPwz { get; set; }
 
-        public WardType Ward { get; set; }
+        public required string Room {  get; set; }
+
+        public required string WardIdentifier { get; set; }
+
+        public required WardType Ward { get; set; }
+
+        public required VisitEntityState VisitState { get; set; }
 
         public override string ToString()
         {
@@ -45,8 +49,6 @@ namespace Emergency.Visit
             sb.Append($"AllowedToLeave={AllowedToLeave}, ");
             if (LeavedAtOwnRisk.HasValue)
                 sb.Append($"LeavedAtOwnRisk={LeavedAtOwnRisk.Value}, ");
-            if (LeavePermissionDoctorId.HasValue)
-                sb.Append($"LeavePermissionDoctorId={LeavePermissionDoctorId.Value}, ");
             if (!string.IsNullOrEmpty(LeavePermissionDoctorPwz))
                 sb.Append($"LeavePermissionDoctorPwz={LeavePermissionDoctorPwz}, ");
             sb.Append($"Ward={Ward}");

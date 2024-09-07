@@ -18,7 +18,7 @@ namespace Emergency.Patient
     {
         private IBusInstance busInstance;
 
-        private IBusClient<IIsPatientInsured> busClient;
+        private IBusClient<IIsPatientInsuredMessage> busClient;
 
         private ILog logger;
 
@@ -26,7 +26,7 @@ namespace Emergency.Patient
             ILog logger)
         {
             busInstance = busOperator.CreateBusInstance();
-            busClient = busOperator.CreateBusClient<IIsPatientInsured>();
+            busClient = busOperator.CreateBusClient<IIsPatientInsuredMessage>();
             this.logger = logger;
         }
 

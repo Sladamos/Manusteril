@@ -36,14 +36,10 @@ namespace Emergency.Command.UnregisterPatient
             {
                 visitService.UnregisterPatientByPesel(pesel);
                 OnPatientDeleted?.Invoke();
-            } catch (InvalidPeselException) {
-                Console.WriteLine(e.Message);
-            } catch (UnregisteredPatientException e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            } catch (PatientUnallowedToLeaveException)
-            {
-                Console.WriteLine("Brak pozwolenie na opuszczenie szpitalu przez pacjenta");
             }
         }
 

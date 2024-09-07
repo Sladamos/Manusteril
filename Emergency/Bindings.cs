@@ -3,6 +3,7 @@ using Emergency.Command;
 using Emergency.Command.Executioner;
 using Emergency.Command.Factory;
 using Emergency.Config;
+using Emergency.Handler;
 using Emergency.Middleware;
 using Emergency.Patient;
 using Emergency.Validator;
@@ -52,8 +53,8 @@ namespace Emergency
 
         private void CreateConsumers()
         {
-            Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
-            Bind<IBusConsumer<IPatientWardChanged>>().To<PatientWardChangedHandler>().InSingletonScope();
+            //Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
+            //Bind<IBusConsumer<IPatientWardChanged>>().To<PatientRoomChangedHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

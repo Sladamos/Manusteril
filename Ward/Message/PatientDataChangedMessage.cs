@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ward.Message
 {
-    internal class PatientDataChangedMessage : IPatientDataChanged
+    internal class PatientDataChangedMessage : IPatientDataChangedMessage
     {
         public required Guid PatientId { get; set; }
 

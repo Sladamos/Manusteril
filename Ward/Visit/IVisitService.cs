@@ -10,6 +10,8 @@ namespace Ward.Visit
 {
     internal interface IVisitService
     {
+        VisitEntity GetPatientCurrentVisit(string pesel);
+        void MarkVisitAsAllowedToLeave(VisitEntity visit);
         void SetRoomForPatient(PatientEntity patient, string number);
     }
 }

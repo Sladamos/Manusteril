@@ -40,7 +40,7 @@ namespace NfzMock
 
         private void CreateConsumers()
         {
-            Bind<IBusConsumer<IIsPatientInsured>>().To<IsPatientInsuredHandler>().InSingletonScope();
+            Bind<IBusConsumer<IIsPatientInsuredMessage>>().To<IsPatientInsuredHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

@@ -1,6 +1,8 @@
 ﻿using Emergency.Bus;
+using Emergency.Message;
 using Emergency.Messages;
 using log4net;
+using Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +23,25 @@ namespace Emergency.Visit
             this.logger = logger;
         }
 
+        public void AskForRegistration(WardType ward, string pesel)
+        {
+            PatientVisitRegisteredMessage message = new()
+            {
+                PatientPesel = pesel,
+                WardType = ward
+            };
+            logger.Info($"Wysłanie zapytania o wizytę pacjenta na oddziale: {pesel}");
+            busInstance.Publish(message);
+        }
+
         public void Register(VisitEntity visit)
         {
-            PatientVisitRegisteredMessage message = new () { PatientId = visit.PatientId,
+            PatientVisitAcceptedMessage message = new () { PatientId = visit.PatientId,
                 PatientPesel = visit.PatientPesel,
                 VisitId = visit.Id,
-                WardType = visit.Ward};
+                VisitStartDate = visit.VisitStartDate,
+                WardIdentifier = visit.WardIdentifier
+            };
             logger.Info($"Wysłanie wiadomości o zarejestrowaniu: {visit}");
             busInstance.Publish(message);
         }
@@ -35,7 +50,9 @@ namespace Emergency.Visit
         {
             PatientVisitUnregisteredMessage message = new() { PatientId = visit.PatientId,
                 PatientPesel = visit.PatientPesel,
-                VisitId = visit.Id};
+                VisitId = visit.Id,
+                VisitEndDate = visit.VisitEndDate ?? DateTime.Now
+            };
             logger.Info($"Wysłanie wiadomości o wyrejestrowaniu: {visit}");
             busInstance.Publish(message);
         }

@@ -42,30 +42,49 @@ namespace Emergency.Visit
             logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
-        public void ChangePatientWard(IPatientWardChanged message)
+        public void AskForRegistration(WardType ward, string pesel)
         {
-            logger.Info($"Rozpoczęto rejestrowanie zmiany oddziału pacjenta {message.PatientPesel}");
-            ValidatePesel(message.PatientPesel);
-            ValidatePwz(message.DoctorPwzNumber);
-            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
-            visit.Ward = message.Destination;
-            visitRepository.Save(visit);
-            logger.Info($"Zmieniono oddział pacjenta {message.PatientPesel} na {message.Destination.ToPolish()}");
+            logger.Info($"Rozpoczęto zapytanie oddziałów o przyjęcie pacjenta na oddział {ward.ToPolish()}");
+            ValidatePesel(pesel);
+            eventRepository.AskForRegistration(ward, pesel);
+            logger.Info($"Wyslano zapytanie o wizytę na oddziale {ward.ToPolish()}");
         }
 
-        public void MarkVisitAsFinished(IPatientAllowedToLeave message)
+        public void ChangePatientRoom(IPatientWardRoomChangedMessage message)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie zmiany sali pacjenta {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.Room = message.Room;
+            visitRepository.Save(visit);
+            logger.Info($"Zmieniono salę pacjenta {message.PatientPesel} na {message.Room}");
+        }
+
+        public void MarkVisitAsFinished(IPatientAllowedToLeaveMessage message)
         {
             logger.Info($"Rozpoczęto oznaczanie wizyty jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
             ValidatePesel(message.PatientPesel);
             ValidatePwz(message.DoctorPwzNumber);
             var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
             visit.AllowedToLeave = true;
-            visit.LeavePermissionDoctorId = message.DoctorId;
             visit.LeavePermissionDoctorPwz = message.DoctorPwzNumber;
             visit.LeavedAtOwnRisk = message.LeavedAtOwnRisk;
             visitRepository.Save(visit);
             logger.Info($"Oznaczono wizytę jako możliwą do zakończenia dla pacjenta {message.PatientPesel}");
         }
+
+        public void MarkVisitAsInProgress(IPatientVisitArrivedMessage message)
+        {
+            logger.Info($"Rozpoczęto oznaczanie wizyty jako w trakcie dla pacjenta {message.PatientPesel}");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.Room = message.Room;
+            visit.VisitState = VisitEntityState.IN_PROGRESS;
+            visitRepository.Save(visit);
+            logger.Info($"Oznaczono wizytę jako w trakcie dla pacjenta {message.PatientPesel}");
+        }
+
+        //TODO: [MethodImpl(MethodImplOptions.Synchronized)]
 
         /// <exception cref = "UnregisteredPatientException">
         /// Thrown when no visit with a null VisitEndDate is found for the given patient.
@@ -82,9 +101,10 @@ namespace Emergency.Visit
             if (visit.AllowedToLeave)
             {
                 visit.VisitEndDate = DateTime.Now;
+                visit.VisitState = VisitEntityState.FINISHED;
                 visitRepository.Save(visit);
                 eventRepository.Unregister(visit);
-                logger.Info($"Wypisano pacjenta o peselu {pesel}");
+                logger.Info($"Wypisano pacjenta o peselu {pesel}, zezwolił na to doktor {visit.LeavePermissionDoctorPwz}");
             }
             else
             {
