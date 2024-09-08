@@ -29,7 +29,7 @@ namespace Emergency.Command.Factory
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
         MultichoiceCommand<WardType> SelectWardCommand(Func<WardType> wardSupplier);
         RegisterPatientCommand RegisterPatientCommand();
-        RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard);
+        RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard, Func<string> wardIdentifierSupplier);
         AskForRegistrationCommand AskForRegistrationCommand();
         AskForRegistrationLogicCommand AskForRegistrationLogicCommand(Func<string> getPesel, Func<WardType> getWard);
     }

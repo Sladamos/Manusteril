@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Room;
 using Ward.Handler;
+using Ward.Visit.Question;
 
 namespace Ward
 {
@@ -42,6 +43,8 @@ namespace Ward
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
+            Bind<IVisitQuestionRepository>().To<VisitQuestionRepository>().InSingletonScope();
+            Bind<IVisitQuestionService>().To<VisitQuestionService>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
             Bind<IVisitService>().To<VisitService>().InSingletonScope();
             Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
@@ -56,8 +59,11 @@ namespace Ward
 
         private void CreateConsumers()
         {
-            //Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
-            //Bind<IBusConsumer<IPatientWardChanged>>().To<PatientRoomChangedHandler>().InSingletonScope();
+            Bind<IBusConsumer<INewPatientRegisteredMessage>>().To<NewPatientRegisteredHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientDataChangedMessage>>().To<PatientDataChangedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitAcceptedMessage>>().To<PatientVisitAcceptedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitRegisteredMessage>>().To<PatientVisitRegisteredHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitUnregisteredMessage>>().To<PatientVisitUnregisteredHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

@@ -21,6 +21,7 @@ namespace Emergency.Command.RegisterPatient
         private readonly IValidatorService validator;
 
         private string pesel = "";
+        private string wardIdentifier = "";
 
         private WardType ward = WardType.NONE;
 
@@ -35,16 +36,19 @@ namespace Emergency.Command.RegisterPatient
             this.commandsExecutioner = commandsExecutioner;
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
+            SelectStringCommand selectWardIdentifier = commandsFactory.SelectStringCommand("Identyfikator oddziału", GetWardIdentifier);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             MultichoiceCommand<WardType> selectWardCommand = commandsFactory.SelectWardCommand(GetWard);
-            RegisterPatientLogicCommand registerPatientLogicCommand = commandsFactory.RegisterPatientLogicCommand(GetPesel, GetWard);
+            RegisterPatientLogicCommand registerPatientLogicCommand = commandsFactory.RegisterPatientLogicCommand(GetPesel, GetWard, GetWardIdentifier);
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectWardCommand.Name] = selectWardCommand;
+            commands[selectWardIdentifier.Name] = selectWardIdentifier;
             commands[registerPatientLogicCommand.Name] = registerPatientLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
             selectWardCommand.OnValueSelected += OnWardSelected;
+            selectWardIdentifier.OnStringSelected += OnWardIdentifierSelected;
             registerPatientLogicCommand.OnPatientRegistered += OnPatientRegistered;
         }
 
@@ -72,6 +76,11 @@ namespace Emergency.Command.RegisterPatient
             }
         }
 
+        private void OnWardIdentifierSelected(string wardIdentifier)
+        {
+            this.wardIdentifier = wardIdentifier;
+        }
+
         private void OnWardSelected(WardType ward)
         {
             this.ward = ward;
@@ -84,6 +93,8 @@ namespace Emergency.Command.RegisterPatient
         }
 
         private string GetPesel() { return pesel; }
+
+        private string GetWardIdentifier() { return wardIdentifier; }
 
         private WardType GetWard() { return ward; }
     }
