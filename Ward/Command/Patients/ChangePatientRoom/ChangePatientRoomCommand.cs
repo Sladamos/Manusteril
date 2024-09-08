@@ -41,7 +41,7 @@ namespace Ward.Command.Patients.ChangePatientRoom
             this.validator = validator;
             Multichoice<string> selectRoomMultichoice = new()
             {
-                Values = this.roomService.GetAll().Where(room => room.OccupiedBeds < room.Capacity).Select(room => room.Number).ToList(),
+                Values = () => this.roomService.GetAll().Where(room => room.OccupiedBeds < room.Capacity).Select(room => room.Number).ToList(),
                 DefaultDescription = "Wybierz salę",
                 Name = "Sala",
                 ParameterSupplier = GetRoomNumber,

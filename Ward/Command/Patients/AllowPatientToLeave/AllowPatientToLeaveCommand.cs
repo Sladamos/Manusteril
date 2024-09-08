@@ -39,15 +39,7 @@ namespace Ward.Command.Patients.AllowPatientToLeave
             this.validator = validator;
             SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             SelectStringCommand selectPwzCommand = commandsFactory.SelectStringCommand("PWZ", GetPwzNumber);
-            Multichoice<bool> multichoice = new()
-            {
-                Values = [true, false],
-                DefaultDescription = "Czy na własne żądanie",
-                Name = "Żądanie",
-                ParameterSupplier = () => leavedAtOwnRisk,
-                ParameterTransformator = (value) => value ? "tak" : "nie"
-            };
-            MultichoiceCommand<bool> leavedAtOwnRiskCommand = commandsFactory.LeavedAtOwnRiskCommand(multichoice);
+            MultichoiceCommand<bool> leavedAtOwnRiskCommand = commandsFactory.LeavedAtOwnRiskCommand(() => leavedAtOwnRisk);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
             AllowPatientToLeaveLogicCommand allowPatientToLeaveLogicCommand = commandsFactory.AllowPatientToLeaveLogicCommand(GetPesel, GetPwzNumber, () => leavedAtOwnRisk);
             commands[exitOptionCommand.Name] = exitOptionCommand;

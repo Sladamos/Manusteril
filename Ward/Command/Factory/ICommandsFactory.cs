@@ -31,6 +31,6 @@ namespace Ward.Command.Factory
         ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber);
         AllowPatientToLeaveCommand AllowPatientToLeaveCommand();
         AllowPatientToLeaveLogicCommand AllowPatientToLeaveLogicCommand(Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier);
-        MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Multichoice<bool> multichoice);
+        MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Func<bool> parameterSupplier);
     }
 }

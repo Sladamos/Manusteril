@@ -119,8 +119,16 @@ namespace Ward.Command.Factory
             return new AllowPatientToLeaveCommand(this, commandsExecutioner, validator);
         }
 
-        public MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Multichoice<bool> multichoice)
+        public MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Func<bool> parameterSupplier)
         {
+            Multichoice<bool> multichoice = new()
+            {
+                Values = () => [true, false],
+                DefaultDescription = "Czy na własne żądanie",
+                Name = "Żądanie",
+                ParameterSupplier = parameterSupplier,
+                ParameterTransformator = (value) => value ? "tak" : "nie"
+            };
             return new MultichoiceCommand<bool>(multichoice);
         }
     }

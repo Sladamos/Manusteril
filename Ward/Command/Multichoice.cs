@@ -18,6 +18,6 @@ namespace Ward.Command
 
         public Func<T, bool>? ParameterValidator { get; set; }
 
-        public required List<T> Values { get; set; }
+        public required Func<List<T>> Values { get; set; }
     }
 }

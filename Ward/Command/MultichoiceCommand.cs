@@ -39,7 +39,7 @@ namespace Ward.Command
         public async Task Execute()
         {
             Console.WriteLine($"Wybierz {Name}: ");
-            var values = multichoice.Values;
+            var values = multichoice.Values.Invoke();
             DisplayValues(values);
             Console.Write("Podaj odpowiedni numer: ");
             if (int.TryParse(Console.ReadLine(), out int selectedOption) && selectedOption > 0 && selectedOption <= values.Count)
