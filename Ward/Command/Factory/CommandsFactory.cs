@@ -15,8 +15,8 @@ using Ward.Room;
 using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
-using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
+using Ward.Command.Patients.ConfirmPatientArrival;
 
 namespace Ward.Command.Factory
 {
@@ -64,11 +64,6 @@ namespace Ward.Command.Factory
             return new SelectStringCommand(parameter, paremeterSupplier);
         }
 
-        public MultichoiceCommand<WardType> SelectWardCommand(Multichoice<WardType> multichoice)
-        {
-            return new MultichoiceCommand<WardType>(multichoice);
-        }
-
         public DisplayRoomOccupationCommand DisplayRoomOccupationCommand()
         {
             return new DisplayRoomOccupationCommand(roomService);
@@ -94,9 +89,18 @@ namespace Ward.Command.Factory
             return new FindPatientRoomCommand(this, commandsExecutioner, validator);
         }
 
-        public MultichoiceCommand<string> SelectRoomCommand(Multichoice<string> multichoice)
+        public MultichoiceCommand<string> SelectRoomCommand(Func<string> GetRoomNumber)
         {
-            return new MultichoiceCommand<string>(multichoice);
+            Multichoice<string> selectRoomMultichoice = new()
+            {
+                Values = () => roomService.GetAll().Where(room => room.OccupiedBeds < room.Capacity).Select(room => room.Number).ToList(),
+                DefaultDescription = "Wybierz salę",
+                Name = "Sala",
+                ParameterSupplier = GetRoomNumber,
+                ParameterValidator = (room) => !string.IsNullOrEmpty(room)
+            };
+
+            return new MultichoiceCommand<string>(selectRoomMultichoice);
         }
 
         public ChangePatientRoomCommand ChangePatientRoomCommand()
@@ -130,6 +134,16 @@ namespace Ward.Command.Factory
                 ParameterTransformator = (value) => value ? "tak" : "nie"
             };
             return new MultichoiceCommand<bool>(multichoice);
+        }
+
+        public ConfirmPatientArrivalLogicCommand ConfirmPatientArrivalLogicCommand(Func<string> getPesel, Func<string> getRoomNumber)
+        {
+            return new ConfirmPatientArrivalLogicCommand(visitService, getPesel, getRoomNumber);
+        }
+
+        public ConfirmPatientArrivalCommand ConfirmPatientArrivalCommand()
+        {
+            return new ConfirmPatientArrivalCommand(this, commandsExecutioner, validator);
         }
     }
 }

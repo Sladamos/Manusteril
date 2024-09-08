@@ -12,7 +12,7 @@ namespace Ward.Command.Patients.ConfirmPatientArrival
     internal class ConfirmPatientArrivalLogicCommand : ICommand
     {
         private IVisitService visitService;
-
+        
         private Func<string> peselSupplier;
 
         private Func<string> roomSupplier;

@@ -11,6 +11,7 @@ using Ward.Command;
 using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
+using Ward.Command.Patients.ConfirmPatientArrival;
 
 namespace Ward.Command.Patients
 {
@@ -34,10 +35,12 @@ namespace Ward.Command.Patients
             FindPatientRoomCommand findPatientRoomCommand = commandsFactory.FindPatientRoomCommand();
             ChangePatientRoomCommand changePatientRoomCommand = commandsFactory.ChangePatientRoomCommand();
             AllowPatientToLeaveCommand allowPatientToLeaveCommand = commandsFactory.AllowPatientToLeaveCommand();
+            ConfirmPatientArrivalCommand confirmPatientArrivalCommand = commandsFactory.ConfirmPatientArrivalCommand();
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[findPatientRoomCommand.Name] = findPatientRoomCommand;
             commands[changePatientRoomCommand.Name] = changePatientRoomCommand;
             commands[allowPatientToLeaveCommand.Name] = allowPatientToLeaveCommand;
+            commands[confirmPatientArrivalCommand.Name] = confirmPatientArrivalCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
         }
 

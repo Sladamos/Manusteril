@@ -22,7 +22,7 @@ namespace Ward.Command.DisplayRoomOccupation
 
         public async Task Execute()
         {
-            var rooms = roomService.GetAll();
+            var rooms = roomService.GetAll().OrderBy(room => room.Number);
             foreach (var room in rooms)
             {
                 Console.WriteLine($"Sala: {room.Number}, zajęte łóżka: {room.OccupiedBeds}/{room.Capacity}");

@@ -49,6 +49,7 @@ namespace Ward
             Bind<IVisitService>().To<VisitService>().InSingletonScope();
             Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
             Bind<IPatientService>().To<PatientService>().InSingletonScope();
+            Bind<IRoomEventRepository>().To<RoomEventRepository>().InSingletonScope();
             Bind<IRoomRepository>().To<RoomRepository>().InSingletonScope();
             Bind<IRoomService>().To<RoomService>().InSingletonScope();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();

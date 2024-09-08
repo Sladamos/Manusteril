@@ -13,6 +13,7 @@ using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
 using Ward.Command.Executioner;
 using Ward.Validator;
+using Ward.Command.Patients.ConfirmPatientArrival;
 
 namespace Ward.Command.Factory
 {
@@ -23,7 +24,7 @@ namespace Ward.Command.Factory
         DisplayRoomOccupationCommand DisplayRoomOccupationCommand();
         DisplayFreeRoomsCommand DisplayFreeRoomsCommand();
         SelectStringCommand SelectStringCommand(string parameter, Func<string> paremeterSupplier);
-        MultichoiceCommand<string> SelectRoomCommand(Multichoice<string> multichoice);
+        MultichoiceCommand<string> SelectRoomCommand(Func<string> GetRoomNumber);
         PatientCommands CreatePatientsCommands();
         FindPatientRoomLogicCommand FindPatientRoomLogicCommand(Func<string> getPesel);
         FindPatientRoomCommand FindPatientRoomCommand();
@@ -32,5 +33,7 @@ namespace Ward.Command.Factory
         AllowPatientToLeaveCommand AllowPatientToLeaveCommand();
         AllowPatientToLeaveLogicCommand AllowPatientToLeaveLogicCommand(Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier);
         MultichoiceCommand<bool> LeavedAtOwnRiskCommand(Func<bool> parameterSupplier);
+        ConfirmPatientArrivalLogicCommand ConfirmPatientArrivalLogicCommand(Func<string> getPesel, Func<string> getRoomNumber);
+        ConfirmPatientArrivalCommand ConfirmPatientArrivalCommand();
     }
 }
