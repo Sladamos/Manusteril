@@ -15,6 +15,7 @@ namespace Ward.Handler
 
         public Task Consume(ConsumeContext<IPatientVisitRegisteredMessage> context)
         {
+            //VisitQuestion entity, question service, question repository, question command z multichoicem Tak/Nie i powód conditionaly 
             throw new NotImplementedException();
         }
     }

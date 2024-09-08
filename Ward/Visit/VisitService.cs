@@ -19,19 +19,23 @@ namespace Ward.Visit
 
         private readonly IVisitRepository visitRepository;
 
-        private readonly IVisitEventRepository eventRepository;
-
         private readonly ILog logger;
 
         public VisitService(IValidatorService validator,
             IVisitRepository visitRepository,
-            IVisitEventRepository eventRepository,
             ILog logger)
         {
             this.validator = validator;
             this.visitRepository = visitRepository;
-            this.eventRepository = eventRepository;
             this.logger = logger;
+        }
+
+        public void AddVisit(VisitEntity visit)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
+            ValidatePesel(visit.PatientPesel);
+            visitRepository.Save(visit);
+            logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
         public VisitEntity GetPatientCurrentVisit(string pesel)

@@ -31,16 +31,17 @@ namespace Ward
             BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
             ProdConfig prodConfig = config.GetSection("Production").Get<ProdConfig>()!;
             DbConfig dbConfig = config.GetSection("Db").Get<DbConfig>()!;
+            WardConfig wardConfig = config.GetSection("Ward").Get<WardConfig>()!;
             Bind<BusConfig>().ToConstant(busConfig).InSingletonScope();
             Bind<ProdConfig>().ToConstant(prodConfig).InSingletonScope();
             Bind<DbConfig>().ToConstant(dbConfig).InSingletonScope();
+            Bind<WardConfig>().ToConstant(wardConfig).InSingletonScope();
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program))).InSingletonScope();
             CreateMiddlewares();
             CreateConsumers();
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
-            Bind<IVisitEventRepository>().To<VisitEventRepository>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
             Bind<IVisitService>().To<VisitService>().InSingletonScope();
             Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
@@ -55,6 +56,8 @@ namespace Ward
 
         private void CreateConsumers()
         {
+            //Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
+            //Bind<IBusConsumer<IPatientWardChanged>>().To<PatientRoomChangedHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

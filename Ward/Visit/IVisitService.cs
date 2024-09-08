@@ -10,6 +10,7 @@ namespace Ward.Visit
 {
     internal interface IVisitService
     {
+        void AddVisit(VisitEntity visit);
         VisitEntity GetPatientCurrentVisit(string pesel);
         bool IsPatientRegisteredInWard(string patientPesel);
         void MarkVisitAsAllowedToLeave(VisitEntity visit);
