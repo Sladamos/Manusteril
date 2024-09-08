@@ -8,5 +8,7 @@ namespace Ward.Visit.Question
 {
     internal interface IVisitQuestionService
     {
+        void AddQuestion(VisitQuestionEntity question);
+        List<VisitQuestionEntity> GetQuestions();
     }
 }

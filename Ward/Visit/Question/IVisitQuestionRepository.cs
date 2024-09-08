@@ -8,5 +8,7 @@ namespace Ward.Visit.Question
 {
     internal interface IVisitQuestionRepository
     {
+        void Save(VisitQuestionEntity question);
+        IEnumerable<VisitQuestionEntity> GetAll();
     }
 }

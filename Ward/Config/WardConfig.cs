@@ -9,5 +9,6 @@ namespace Ward.Config
     internal class WardConfig
     {
         public required string WardIdentifier { get; set; }
+        public required string WardType { get; set; }
     }
 }

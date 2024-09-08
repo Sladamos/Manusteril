@@ -36,6 +36,7 @@ namespace Ward.Handler
                 var message = context.Message;
                 if(wardIdentifier == message.WardIdentifier)
                 {
+                    logger.Info($"Otrzymano informację o wysłaniu pacjenta na oddział: {message}");
                     var visit = new VisitEntity
                     {
                         Id = message.VisitId,
