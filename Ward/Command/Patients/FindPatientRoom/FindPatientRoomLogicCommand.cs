@@ -35,11 +35,7 @@ namespace Ward.Command.Patients.FindPatientRoom
                 var room = roomService.GetRoomByPatientPesel(pesel);
                 OnRoomFound?.Invoke(room);
             }
-            catch (InvalidPeselException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (UnregisteredPatientException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }

@@ -16,19 +16,15 @@ namespace Ward.Room
     {
         private IRoomRepository roomRepository;
 
-        private IVisitService visitService;
-
         private IValidatorService validatorService;
 
         private ILog logger;
 
         public RoomService(IRoomRepository roomRepository,
-            IVisitService visitService,
             IValidatorService validatorService,
             ILog logger)
         {
             this.roomRepository = roomRepository;
-            this.visitService = visitService;
             this.validatorService = validatorService;
             this.logger = logger;
         }
@@ -70,6 +66,7 @@ namespace Ward.Room
             CheckIfRoomCanReceivePatient(newRoom);
             RemovePatientFromRoom(patient);
             AddPatientToRoom(newRoom, patient);
+            //TODO send message
             logger.Info($"Pomyślny transfer do sali {roomNumber}");
         }
 
@@ -108,7 +105,6 @@ namespace Ward.Room
             }
             room.OccupiedBeds++;
             roomRepository.Save(room);
-            visitService.SetRoomForPatient(patient, room.Number);
         }
     }
 }

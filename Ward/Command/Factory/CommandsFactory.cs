@@ -106,7 +106,7 @@ namespace Ward.Command.Factory
 
         public ChangePatientRoomLogicCommand ChangePatientRoomLogicCommand(Func<string> getPesel, Func<string> getRoomNumber)
         {
-            return new ChangePatientRoomLogicCommand(roomService, patientService, getPesel, getRoomNumber);
+            return new ChangePatientRoomLogicCommand(roomService, patientService, visitService, getPesel, getRoomNumber);
         }
 
         public AllowPatientToLeaveLogicCommand AllowPatientToLeaveLogicCommand(Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier)

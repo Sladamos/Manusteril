@@ -15,6 +15,7 @@ namespace Ward.Visit
         bool IsPatientRegisteredInWard(string patientPesel);
         void MarkVisitAsAllowedToLeave(VisitEntity visit);
         void MarkVisitAsFinished(IPatientVisitUnregisteredMessage message);
-        void SetRoomForPatient(PatientEntity patient, string number);
+        void MarkVisitAsInProgress(string pesel, string roomNumber);
+        void UpdateVisitRoom(PatientEntity patient, string number);
     }
 }

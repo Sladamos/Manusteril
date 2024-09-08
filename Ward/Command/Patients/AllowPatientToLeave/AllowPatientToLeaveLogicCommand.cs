@@ -25,7 +25,10 @@ namespace Ward.Command.Patients.AllowPatientToLeave
 
         public Action? OnAllowedToLeave;
 
-        public AllowPatientToLeaveLogicCommand(IVisitService visitService, Func<string> peselSupplier, Func<string> pwzSupplier, Func<bool> ownRiskSupplier)
+        public AllowPatientToLeaveLogicCommand(IVisitService visitService,
+            Func<string> peselSupplier,
+            Func<string> pwzSupplier,
+            Func<bool> ownRiskSupplier)
         {
             this.visitService = visitService;
             this.peselSupplier = peselSupplier;
