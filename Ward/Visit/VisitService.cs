@@ -23,6 +23,8 @@ namespace Ward.Visit
 
         private IPatientService patientService;
 
+        private IVisitEventRepository visitEventRepository;
+
         private readonly IVisitRepository visitRepository;
 
         private readonly ILog logger;
@@ -31,12 +33,14 @@ namespace Ward.Visit
             IRoomService roomService,
             IPatientService patientService,
             IVisitRepository visitRepository,
+            IVisitEventRepository eventRepository,
             ILog logger)
         {
             this.validator = validator;
             this.roomService = roomService;
             this.patientService = patientService;
             this.visitRepository = visitRepository;
+            visitEventRepository = eventRepository;
             this.logger = logger;
         }
 
@@ -82,7 +86,7 @@ namespace Ward.Visit
             ValidatePwz(visit.LeavePermissionDoctorPwz);
             visit.AllowedToLeave = true;
             visitRepository.Save(visit);
-            Console.WriteLine("TODO send message");
+            visitEventRepository.AllowToLeave(visit);
             logger.Info($"Zezwolono na opuszczenie oddziału pacjentowi {visit.PatientPesel}");
         }
 
@@ -112,7 +116,7 @@ namespace Ward.Visit
             var patient = patientService.GetPatientByPesel(pesel);
             roomService.AddPatientToRoom(patient, roomNumber);
             visitRepository.Save(visit);
-            Console.WriteLine("TODO send message");
+            visitEventRepository.ConfirmArrival(visit);
             logger.Info($"Oznaczono wizytję pacjenta {pesel} jako rozpoczętą");
         }
 
