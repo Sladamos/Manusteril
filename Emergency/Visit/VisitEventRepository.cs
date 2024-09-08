@@ -48,7 +48,9 @@ namespace Emergency.Visit
 
         public void Unregister(VisitEntity visit)
         {
-            PatientVisitUnregisteredMessage message = new() { PatientId = visit.PatientId,
+            PatientVisitUnregisteredMessage message = new()
+            {
+                PatientId = visit.PatientId,
                 PatientPesel = visit.PatientPesel,
                 VisitId = visit.Id,
                 VisitEndDate = visit.VisitEndDate ?? DateTime.Now

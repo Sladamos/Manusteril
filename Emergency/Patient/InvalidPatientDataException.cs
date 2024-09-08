@@ -16,9 +16,5 @@ namespace Emergency.Patient
         public InvalidPatientDataException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected InvalidPatientDataException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

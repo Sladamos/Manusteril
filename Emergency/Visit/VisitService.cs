@@ -84,8 +84,6 @@ namespace Emergency.Visit
             logger.Info($"Oznaczono wizytę jako w trakcie dla pacjenta {message.PatientPesel}");
         }
 
-        //TODO: [MethodImpl(MethodImplOptions.Synchronized)]
-
         /// <exception cref = "UnregisteredPatientException">
         /// Thrown when no visit with a null VisitEndDate is found for the given patient.
         /// </exception>

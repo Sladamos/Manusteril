@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Command.DisplayRoomOccupation;
 using Ward.Command.Patients;
+using Ward.Handler;
 
 namespace Ward
 {

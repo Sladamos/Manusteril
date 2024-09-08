@@ -36,7 +36,6 @@ namespace Emergency.Handler
             catch (Exception ex)
             {
                 Console.WriteLine($"Błąd przy obsłusze zmiany oddziału: {ex.Message}");
-                throw;
             }
         }
     }

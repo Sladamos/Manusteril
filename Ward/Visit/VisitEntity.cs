@@ -31,6 +31,8 @@ namespace Ward.Visit
 
         public required string PatientRoomNumber {  get; set; }
 
+        public required VisitEntityState VisitState { get; set; }
+
         public override string ToString()
         {
             var sb = new StringBuilder("VisitEntity [");

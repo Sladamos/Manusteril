@@ -43,13 +43,24 @@ namespace Ward.Visit
 
         public void MarkVisitAsAllowedToLeave(VisitEntity visit)
         {
-            logger.Info($"Rozpoczynamy pozwolenie na wypiskę {visit.PatientPesel}");
+            logger.Info($"Rozpoczęto pozwolenie na wypiskę {visit.PatientPesel}");
             ValidatePesel(visit.PatientPesel);
             ValidatePwz(visit.LeavePermissionDoctorPwz);
             visit.AllowedToLeave = true;
             visitRepository.Save(visit);
             Console.WriteLine("TODO send message");
             logger.Info($"Zezwolono na opuszczenie oddziału pacjentowi {visit.PatientPesel}");
+        }
+
+        public void MarkVisitAsFinished(IPatientVisitUnregisteredMessage message)
+        {
+            logger.Info($"Rozpocząto oznaczanie wizyty pacjenta {message.PatientPesel} jako zakończoną");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.VisitEndDate = message.VisitEndDate;
+            visit.VisitState = VisitEntityState.FINISHED;
+            visitRepository.Save(visit);
+            logger.Info($"Oznaczono wizytję pacjenta {message.PatientPesel} jako zakończoną");
         }
 
         public void SetRoomForPatient(PatientEntity patient, string number)

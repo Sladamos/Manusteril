@@ -33,7 +33,6 @@ namespace Emergency.Handler
             catch (Exception ex)
             {
                 Console.WriteLine($"Błąd przy obsłusze akceptacji przyjęcia: {ex.Message}");
-                throw;
             }
         }
 
@@ -43,12 +42,11 @@ namespace Emergency.Handler
             {
                 var message = context.Message;
                 logger.Info($"Otrzymano odmowę przyjęcia: {message}");
-                Console.WriteLine($"Oddział {message.WardIdentifier} informuje, że NIE może przyjąć pacjenta {message.PatientPesel}");
+                Console.WriteLine($"Oddział {message.WardIdentifier} informuje, że NIE może przyjąć pacjenta {message.PatientPesel}, z powodu: {message.Reason}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Błąd przy obsłusze akceptacji przyjęcia: {ex.Message}");
-                throw;
             }
         }
     }

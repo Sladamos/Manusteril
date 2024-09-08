@@ -16,9 +16,5 @@ namespace Emergency.Patient
         public InvalidPhoneNumberException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected InvalidPhoneNumberException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

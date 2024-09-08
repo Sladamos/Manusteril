@@ -11,7 +11,9 @@ namespace Ward.Visit
     internal interface IVisitService
     {
         VisitEntity GetPatientCurrentVisit(string pesel);
+        bool IsPatientRegisteredInWard(string patientPesel);
         void MarkVisitAsAllowedToLeave(VisitEntity visit);
+        void MarkVisitAsFinished(IPatientVisitUnregisteredMessage message);
         void SetRoomForPatient(PatientEntity patient, string number);
     }
 }
