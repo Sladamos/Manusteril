@@ -33,15 +33,7 @@ namespace Emergency.Command.AddPatient
             {
                 CreatePatient();
             }
-            catch (InvalidPeselException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (InvalidPhoneNumberException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (InvalidPatientDataException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }

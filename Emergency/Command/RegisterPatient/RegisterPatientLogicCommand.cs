@@ -59,11 +59,7 @@ namespace Emergency.Command.RegisterPatient
                 {
                     RegisterVisit(ward, wardIdentifier);
                 }
-                catch (InvalidPeselException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                catch (UnknownPatientException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
