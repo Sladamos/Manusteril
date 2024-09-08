@@ -31,17 +31,13 @@
 
     public interface IPatientVisitRegistrationAcceptedResponse //Odpowiedź o możliwości przyjęcia z oddziału
     {
-        Guid PatientId { get; }
         string PatientPesel { get; }
-        Guid VisitId { get; }
         string WardIdentifier { get; }
     }
 
     public interface IPatientVisitRegistrationDeclinedResponse //Odpowiedź o niemożności przyjęcia z oddziału
     {
-        Guid PatientId { get; }
         string PatientPesel { get; }
-        Guid VisitId { get; }
         string Reason { get; }
         string WardIdentifier { get; }
     }

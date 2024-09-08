@@ -23,6 +23,8 @@ namespace Emergency.Command.RegisterPatient
 
         private Func<WardType> wardSupplier;
 
+        private Func<string> wardIdentifierSupplier;
+
         public string Name => "Zarejestruj";
 
         public string Description => "Zarejestruj wybranego pacjenta";
@@ -32,40 +34,39 @@ namespace Emergency.Command.RegisterPatient
         public RegisterPatientLogicCommand(IVisitService visitService,
             IPatientService patientService,
             Func<string> peselSupplier,
-            Func<WardType> wardSupplier) 
+            Func<WardType> wardSupplier,
+            Func<string> wardIdentifierSupplier) 
         {
             this.visitService = visitService;
             this.patientService = patientService;
             this.peselSupplier = peselSupplier;
             this.wardSupplier = wardSupplier;
+            this.wardIdentifierSupplier = wardIdentifierSupplier;
         }
 
         public async Task Execute()
         {
             Console.WriteLine("Rejestrowanie pacjenta");
             WardType ward = wardSupplier();
-            if (ward == WardType.NONE)
+            string wardIdentifier = wardIdentifierSupplier();
+            if (ward == WardType.NONE || string.IsNullOrEmpty(wardIdentifier))
             {
-                Console.WriteLine("Najpierw należy wybrać oddział");
+                Console.WriteLine("Najpierw należy wybrać oddział i jego identyfikator");
             }
             else
             {
                 try
                 {
-                    RegisterVisit(ward);
+                    RegisterVisit(ward, wardIdentifier);
                 }
-                catch (InvalidPeselException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                catch (UnknownPatientException e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
         }
 
-        private void RegisterVisit(WardType ward)
+        private void RegisterVisit(WardType ward, string wardIdentifier)
         {
             string pesel = peselSupplier();
             PatientEntity patient = patientService.GetPatientByPesel(pesel);
@@ -77,7 +78,7 @@ namespace Emergency.Command.RegisterPatient
                 VisitStartDate = DateTime.Now,
                 Ward = ward,
                 AllowedToLeave = false,
-                WardIdentifier = "",
+                WardIdentifier = wardIdentifier,
                 Room = "",
                 VisitState = VisitEntityState.NEW
             };

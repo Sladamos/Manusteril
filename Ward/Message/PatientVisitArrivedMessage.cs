@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ward.Messages
+namespace Ward.Message
 {
-    internal class PatientVisitUnregisteredMessage : IPatientVisitUnregisteredMessage
+    internal class PatientVisitArrivedMessage : IPatientVisitArrivedMessage
     {
         public required Guid PatientId { get; set; }
 
@@ -15,6 +15,8 @@ namespace Ward.Messages
 
         public required Guid VisitId { get; set; }
 
-        public DateTime VisitEndDate {  get; set; }
+        public required string WardIdentifier { get; set; }
+
+        public required string Room { get; set; }
     }
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ward.Command.DisplayRoomOccupation;
 using Ward.Command.Executioner;
 using Ward.Command.Factory;
-using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Room;
 using Ward.Validator;
 
@@ -39,21 +40,15 @@ namespace Ward.Command.Patients.ChangePatientRoom
             this.commandsExecutioner = commandsExecutioner;
             this.roomService = roomService;
             this.validator = validator;
-            Multichoice<string> selectRoomMultichoice = new()
-            {
-                Values = this.roomService.GetAll().Where(room => room.OccupiedBeds < room.Capacity).Select(room => room.Number).ToList(),
-                DefaultDescription = "Wybierz salę",
-                Name = "Sala",
-                ParameterSupplier = GetRoomNumber,
-                ParameterValidator = (room) => !string.IsNullOrEmpty(room)
-            };
-            MultichoiceCommand<string> selectRoomCommand = commandsFactory.SelectRoomCommand(selectRoomMultichoice);
-            SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
             ExitOptionCommand exitOptionCommand = commandsFactory.ExitOptionCommand();
+            MultichoiceCommand<string> selectRoomCommand = commandsFactory.SelectRoomCommand(GetRoomNumber);
+            SelectStringCommand selectPeselCommand = commandsFactory.SelectStringCommand("PESEL", GetPesel);
+            DisplayFreeRoomsCommand displayFreeRoomsCommand = commandsFactory.DisplayFreeRoomsCommand();
             ChangePatientRoomLogicCommand changePatientRoomLogicCommand = commandsFactory.ChangePatientRoomLogicCommand(GetPesel, GetRoomNumber);
             commands[exitOptionCommand.Name] = exitOptionCommand;
             commands[selectPeselCommand.Name] = selectPeselCommand;
             commands[selectRoomCommand.Name] = selectRoomCommand;
+            commands[displayFreeRoomsCommand.Name] = displayFreeRoomsCommand;
             commands[changePatientRoomLogicCommand.Name] = changePatientRoomLogicCommand;
             exitOptionCommand.OptionExited += () => enabled = false;
             selectPeselCommand.OnStringSelected += OnPeselSelected;
@@ -63,13 +58,14 @@ namespace Ward.Command.Patients.ChangePatientRoom
 
         public async Task Execute()
         {
-            Console.WriteLine("Wypisywanie pacjenta");
+            Console.WriteLine("Zmiana sali pacjenta");
             enabled = true;
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);
             }
             pesel = "";
+            roomNumber = "";
         }
 
         private void OnPeselSelected(string pesel)

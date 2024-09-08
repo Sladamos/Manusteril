@@ -19,6 +19,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ward.Room;
+using Ward.Handler;
+using Ward.Visit.Question;
 
 namespace Ward
 {
@@ -30,21 +32,26 @@ namespace Ward
             BusConfig busConfig = config.GetSection("Bus").Get<BusConfig>()!;
             ProdConfig prodConfig = config.GetSection("Production").Get<ProdConfig>()!;
             DbConfig dbConfig = config.GetSection("Db").Get<DbConfig>()!;
+            WardConfig wardConfig = config.GetSection("Ward").Get<WardConfig>()!;
             Bind<BusConfig>().ToConstant(busConfig).InSingletonScope();
             Bind<ProdConfig>().ToConstant(prodConfig).InSingletonScope();
             Bind<DbConfig>().ToConstant(dbConfig).InSingletonScope();
+            Bind<WardConfig>().ToConstant(wardConfig).InSingletonScope();
             Bind<ILog>().ToMethod(ctx => LogManager.GetLogger(typeof(Program))).InSingletonScope();
             CreateMiddlewares();
             CreateConsumers();
             Bind<ApplicationDbContext>().ToSelf();
             Bind<IBusOperator>().To<RabbitMqBusOperator>().InSingletonScope();
             Bind<IValidatorService>().To<ValidatorService>().InSingletonScope();
-            Bind<IPatientEventRepository>().To<PatientEventRepository>().InSingletonScope();
+            Bind<IVisitQuestionEventRepository>().To<VisitQuestionEventRepository>().InSingletonScope();
+            Bind<IVisitQuestionRepository>().To<VisitQuestionRepository>().InSingletonScope();
+            Bind<IVisitQuestionService>().To<VisitQuestionService>().InSingletonScope();
             Bind<IVisitEventRepository>().To<VisitEventRepository>().InSingletonScope();
             Bind<IVisitRepository>().To<VisitRepository>().InSingletonScope();
             Bind<IVisitService>().To<VisitService>().InSingletonScope();
             Bind<IPatientRepository>().To<PatientRepository>().InSingletonScope();
             Bind<IPatientService>().To<PatientService>().InSingletonScope();
+            Bind<IRoomEventRepository>().To<RoomEventRepository>().InSingletonScope();
             Bind<IRoomRepository>().To<RoomRepository>().InSingletonScope();
             Bind<IRoomService>().To<RoomService>().InSingletonScope();
             Bind<ICommandsExecutioner>().To<CommandsExecutioner>().InSingletonScope();
@@ -55,6 +62,11 @@ namespace Ward
 
         private void CreateConsumers()
         {
+            Bind<IBusConsumer<INewPatientRegisteredMessage>>().To<NewPatientRegisteredHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientDataChangedMessage>>().To<PatientDataChangedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitAcceptedMessage>>().To<PatientVisitAcceptedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitRegisteredMessage>>().To<PatientVisitRegisteredHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitUnregisteredMessage>>().To<PatientVisitUnregisteredHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

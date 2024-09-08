@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ward.Messages
+namespace Ward.Message
 {
-    internal class PatientVisitRegisteredMessage : IPatientVisitRegisteredMessage
+    internal class PatientRoomChangedMessage : IPatientWardRoomChangedMessage
     {
         public required Guid PatientId { get; set; }
 
         public required string PatientPesel { get; set; }
 
-        public required Guid VisitId { get; set; }
+        public required string WardIdentifier {  get; set; }
 
-        public required WardType WardType { get; set; }
+        public required string Room {  get; set; }
     }
 }

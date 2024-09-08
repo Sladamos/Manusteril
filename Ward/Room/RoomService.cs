@@ -16,20 +16,20 @@ namespace Ward.Room
     {
         private IRoomRepository roomRepository;
 
-        private IVisitService visitService;
-
         private IValidatorService validatorService;
+
+        private IRoomEventRepository roomEventRepository;
 
         private ILog logger;
 
         public RoomService(IRoomRepository roomRepository,
-            IVisitService visitService,
             IValidatorService validatorService,
+            IRoomEventRepository eventRepository,
             ILog logger)
         {
             this.roomRepository = roomRepository;
-            this.visitService = visitService;
             this.validatorService = validatorService;
+            this.roomEventRepository = eventRepository;
             this.logger = logger;
         }
 
@@ -37,7 +37,7 @@ namespace Ward.Room
         {
             logger.Info($"Rozpoczęto dodawanie pacjenta {patient.Pesel} do sali {roomNumber}");
             var newRoom = roomRepository.GetRoomByRoomNumber(roomNumber);
-            CheckIfRoomCanReceivePatient(newRoom);
+            CheckIfRoomHasEnoughSpace(newRoom);
             AddPatientToRoom(newRoom, patient);
             logger.Info($"Pomyślnie dodano pacjenta {patient.Pesel} do sali {roomNumber}");
         }
@@ -67,17 +67,29 @@ namespace Ward.Room
         {
             logger.Info($"Rozpoczęto transfer pacjenta {patient.Pesel} do sali {roomNumber}");
             var newRoom = roomRepository.GetRoomByRoomNumber(roomNumber);
-            CheckIfRoomCanReceivePatient(newRoom);
+            var currentRoom = roomRepository.GetRoomByPatientPesel(patient.Pesel);
+            CheckIfRoomCanReceivePatient(newRoom, currentRoom);
             RemovePatientFromRoom(patient);
             AddPatientToRoom(newRoom, patient);
+            roomEventRepository.NotifyAboutTransfer(patient, newRoom);
             logger.Info($"Pomyślny transfer do sali {roomNumber}");
         }
 
-        private void CheckIfRoomCanReceivePatient(RoomEntity room)
+        private void CheckIfRoomCanReceivePatient(RoomEntity newRoom, RoomEntity currentRoom)
         {
-            if (room.Capacity - room.OccupiedBeds <= 0)
+            CheckIfRoomHasEnoughSpace(newRoom);
+
+            if(newRoom.Number == currentRoom.Number)
             {
-                throw new IncorrectRoomException($"Nie można przenieść pacjenta do sali: {room.Number}");
+                throw new IncorrectRoomException($"Nie można przenieść pacjenta do sali: {newRoom.Number}, ponieważ pacjent już się w niej znajduje");
+            }
+        }
+
+        private void CheckIfRoomHasEnoughSpace(RoomEntity newRoom)
+        {
+            if (newRoom.Capacity - newRoom.OccupiedBeds <= 0)
+            {
+                throw new IncorrectRoomException($"Nie można przenieść pacjenta do sali: {newRoom.Number} z uwagi na brak miejsca");
             }
         }
 
@@ -108,7 +120,6 @@ namespace Ward.Room
             }
             room.OccupiedBeds++;
             roomRepository.Save(room);
-            visitService.SetRoomForPatient(patient, room.Number);
         }
     }
 }

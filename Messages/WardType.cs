@@ -37,5 +37,22 @@ namespace Messages
                 _ => throw new ArgumentOutOfRangeException(nameof(wardType), wardType, null)
             };
         }
+        
+        public static WardType FromPolish(string polishName)
+        {
+            return polishName switch
+            {
+                "Brak" => WardType.NONE,
+                "Ogólny" => WardType.GENERAL,
+                "Pediatria" => WardType.PAEDIATRICS,
+                "Chirurgia" => WardType.SURGERY,
+                "Psychiatryczny" => WardType.PSYCHIATRIC,
+                "Kardiologia" => WardType.CARDIOLOGY,
+                "Pulmonologia" => WardType.PULMONOLOGY,
+                "OIOM" => WardType.ICU,
+                "Urologia" => WardType.UROLOGY,
+                _ => throw new ArgumentException($"Nieznana nazwa oddziału: {polishName}", nameof(polishName))
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@ using log4net.Core;
 using Messages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,10 @@ namespace Emergency.Visit
         {
             logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
             ValidatePesel(visit.PatientPesel);
+            if(IsPatientAlreadyOnVisit(visit.PatientPesel))
+            {
+                throw new PatientAlreadyOnVisitException("Pacjent jest obecnie na wizycie w placówce");
+            }
             visitRepository.Save(visit);
             eventRepository.Register(visit);
             logger.Info($"Zarejestrowano wizytę {visit}");
@@ -84,8 +89,6 @@ namespace Emergency.Visit
             logger.Info($"Oznaczono wizytę jako w trakcie dla pacjenta {message.PatientPesel}");
         }
 
-        //TODO: [MethodImpl(MethodImplOptions.Synchronized)]
-
         /// <exception cref = "UnregisteredPatientException">
         /// Thrown when no visit with a null VisitEndDate is found for the given patient.
         /// </exception>
@@ -109,6 +112,18 @@ namespace Emergency.Visit
             else
             {
                 throw new PatientUnallowedToLeaveException();
+            }
+        }
+
+        private bool IsPatientAlreadyOnVisit(string pesel)
+        {
+            try
+            {
+                var currentVisit = visitRepository.GetPatientCurrentVisit(pesel);
+                return true;
+            } catch (UnregisteredPatientException)
+            {
+                return false;
             }
         }
 

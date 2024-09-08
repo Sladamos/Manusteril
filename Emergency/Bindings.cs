@@ -53,8 +53,11 @@ namespace Emergency
 
         private void CreateConsumers()
         {
-            //Bind<IBusConsumer<IPatientAllowedToLeave>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
-            //Bind<IBusConsumer<IPatientWardChanged>>().To<PatientRoomChangedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientAllowedToLeaveMessage>>().To<PatientAllowedToLeaveHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientWardRoomChangedMessage>>().To<PatientRoomChangedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitArrivedMessage>>().To<PatientVisitArrivedConsumer>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitRegistrationDeclinedResponse>>().To<PatientVisitRegistrationDeclinedHandler>().InSingletonScope();
+            Bind<IBusConsumer<IPatientVisitRegistrationAcceptedResponse>>().To<PatientVisitRegistrationAcceptedHandler>().InSingletonScope();
             Bind<ConsumersWrapper>().ToSelf();
         }
 

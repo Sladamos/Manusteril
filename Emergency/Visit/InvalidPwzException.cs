@@ -16,9 +16,5 @@ namespace Emergency.Visit
         public InvalidPwzException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected InvalidPwzException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

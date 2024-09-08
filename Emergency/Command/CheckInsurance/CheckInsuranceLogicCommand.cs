@@ -39,13 +39,13 @@ namespace Emergency.Command.CheckInsurance
                 var response = await patientService.IsPatientInsured(pesel);
                 ReactToResponse(response, pesel);
             }
-            catch (InvalidPeselException)
-            {
-                Console.WriteLine("Brak pacjenta o podanym PESELu");
-            }
             catch (RequestTimeoutException)
             {
                 Console.WriteLine("Nie można uzyskać informacji o ubezpieczeniu pacjenta");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 

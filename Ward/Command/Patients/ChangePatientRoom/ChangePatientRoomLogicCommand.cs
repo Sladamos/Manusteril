@@ -7,13 +7,15 @@ using Ward.Patient;
 using Ward.Room;
 using Ward.Visit;
 
-namespace Ward.Command.Patients.ChangePatientWard
+namespace Ward.Command.Patients.ChangePatientRoom
 {
     internal class ChangePatientRoomLogicCommand : ICommand
     {
         private IRoomService roomService;
 
         private IPatientService patientService;
+
+        private IVisitService visitService;
 
         private Func<string> peselSupplier;
 
@@ -27,11 +29,13 @@ namespace Ward.Command.Patients.ChangePatientWard
 
         public ChangePatientRoomLogicCommand(IRoomService roomService,
             IPatientService patientService,
+            IVisitService visitService,
             Func<string> peselSupplier,
             Func<string> roomSupplier)
         {
             this.roomService = roomService;
             this.patientService = patientService;
+            this.visitService = visitService;
             this.peselSupplier = peselSupplier;
             this.roomSupplier = roomSupplier;
         }
@@ -43,7 +47,11 @@ namespace Ward.Command.Patients.ChangePatientWard
             try
             {
                 var patient = patientService.GetPatientByPesel(pesel);
-                roomService.TransferPatientToRoom(patient, room);
+                if (visitService.IsPatientRegisteredInWard(pesel))
+                {
+                    roomService.TransferPatientToRoom(patient, room);
+                    visitService.UpdateVisitRoom(patient, room);
+                }
                 OnPatientTransfered?.Invoke();
             }
             catch (Exception e)

@@ -36,7 +36,7 @@ namespace Emergency
                 Id = Guid.NewGuid(),
                 FirstName = "Jan",
                 LastName = "Kowalski",
-                Pesel = "12345678901",
+                Pesel = "12312312311",
                 City = "Warszawa",
                 Address = "ul. Miodowa 12",
                 PhoneNumber = "123456789"
@@ -47,7 +47,7 @@ namespace Emergency
                 Id = Guid.NewGuid(),
                 FirstName = "Anna",
                 LastName = "Nowak",
-                Pesel = "10987654321",
+                Pesel = "54061563592",
                 City = "Kraków",
                 Address = "ul. Floriańska 10",
                 PhoneNumber = "+48123456789"
@@ -58,7 +58,7 @@ namespace Emergency
                 Id = Guid.NewGuid(),
                 FirstName = "Piotr",
                 LastName = "Wiśniewski",
-                Pesel = "12312312311",
+                Pesel = "60040588296",
                 City = "Gdańsk",
                 Address = "ul. Długa 5",
                 PhoneNumber = "987654321"
@@ -119,7 +119,7 @@ namespace Emergency
                 Room = "115",
                 Ward = WardType.GENERAL,
                 WardIdentifier = "Ogólny I",
-                VisitState = VisitEntityState.IN_PROGRESS
+                VisitState = VisitEntityState.NEW
             };
 
             patientRepository.Save(patientFirst);

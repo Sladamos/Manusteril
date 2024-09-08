@@ -22,7 +22,7 @@ namespace Ward.Command.DisplayRoomOccupation
 
         public async Task Execute()
         {
-            var rooms = roomService.GetAll().Where(room => room.Capacity > room.OccupiedBeds).ToList();
+            var rooms = roomService.GetAll().Where(room => room.Capacity > room.OccupiedBeds).OrderBy(room => room.Number).ToList();
             if(rooms.Count == 0)
             {
                 Console.WriteLine("Brak wolnych sal");

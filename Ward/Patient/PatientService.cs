@@ -1,5 +1,4 @@
 ﻿using Ward.Bus;
-using Ward.Messages;
 using Ward.Validator;
 using log4net;
 using log4net.Core;
@@ -18,17 +17,13 @@ namespace Ward.Patient
 
         private readonly IPatientRepository patientRepository;
 
-        private readonly IPatientEventRepository eventRepository;
-
         private readonly ILog logger;
 
         public PatientService(IValidatorService validator,
             IPatientRepository patientRepository,
-            IPatientEventRepository eventRepository,
             ILog logger) {
             this.validator = validator;
             this.patientRepository = patientRepository;
-            this.eventRepository = eventRepository;
             this.logger = logger;
         }
 
@@ -38,7 +33,6 @@ namespace Ward.Patient
             ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Dodanie pacjenta: {patient}");
             patientRepository.Save(patient);
-            eventRepository.Create(patient);
         }
 
         public void EditPatient(PatientEntity patient)
@@ -47,19 +41,12 @@ namespace Ward.Patient
             ValidatePhoneNumber(patient.PhoneNumber);
             logger.Info($"Zmiana danych pacjenta, nowe: {patient}");
             patientRepository.Save(patient);
-            eventRepository.Update(patient);
         }
 
         public PatientEntity GetPatientByPesel(string pesel)
         {
             ValidatePesel(pesel);
             return patientRepository.GetPatientByPesel(pesel);
-        }
-
-        public async Task<IIsPatientInsuredResponse> IsPatientInsured(string pesel)
-        {
-            ValidatePesel(pesel);
-            return await eventRepository.IsPatientInsured(pesel);
         }
 
         private void ValidatePesel(string pesel)

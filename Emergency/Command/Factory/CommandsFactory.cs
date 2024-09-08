@@ -118,9 +118,9 @@ namespace Emergency.Command.Factory
             return new MultichoiceCommand<WardType>(selectWardMultichoice);
         }
 
-        public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard)
+        public RegisterPatientLogicCommand RegisterPatientLogicCommand(Func<string> getPesel, Func<WardType> getWard, Func<string> wardIdentifierSupplier)
         {
-            return new RegisterPatientLogicCommand(visitService, patientService, getPesel, getWard);
+            return new RegisterPatientLogicCommand(visitService, patientService, getPesel, getWard, wardIdentifierSupplier);
         }
 
         public AskForRegistrationCommand AskForRegistrationCommand()

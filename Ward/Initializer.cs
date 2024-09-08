@@ -41,7 +41,7 @@ namespace Ward
                 Id = Guid.NewGuid(),
                 FirstName = "Jan",
                 LastName = "Kowalski",
-                Pesel = "12345678901",
+                Pesel = "12312312311",
                 City = "Warszawa",
                 Address = "ul. Miodowa 12",
                 PhoneNumber = "123456789"
@@ -52,7 +52,7 @@ namespace Ward
                 Id = Guid.NewGuid(),
                 FirstName = "Anna",
                 LastName = "Nowak",
-                Pesel = "10987654321",
+                Pesel = "54061563592",
                 City = "Kraków",
                 Address = "ul. Floriańska 10",
                 PhoneNumber = "+48123456789"
@@ -63,7 +63,7 @@ namespace Ward
                 Id = Guid.NewGuid(),
                 FirstName = "Piotr",
                 LastName = "Wiśniewski",
-                Pesel = "12312312311",
+                Pesel = "60040588296",
                 City = "Gdańsk",
                 Address = "ul. Długa 5",
                 PhoneNumber = "987654321"
@@ -79,7 +79,8 @@ namespace Ward
                 AllowedToLeave = true,
                 LeavedAtOwnRisk = false,
                 LeavePermissionDoctorPwz = "123456",
-                PatientRoomNumber = "121"
+                PatientRoomNumber = "121",
+                VisitState = Messages.VisitEntityState.FINISHED
             };
 
             var visit2ForPatient1 = new VisitEntity
@@ -89,7 +90,8 @@ namespace Ward
                 PatientPesel = patientFirst.Pesel,
                 VisitStartDate = new DateTime(2023, 9, 5, 14, 0, 0),
                 AllowedToLeave = false,
-                PatientRoomNumber = "118"
+                PatientRoomNumber = "118",
+                VisitState = Messages.VisitEntityState.IN_PROGRESS
             };
 
             var visitForPatient2 = new VisitEntity
@@ -102,7 +104,8 @@ namespace Ward
                 AllowedToLeave = true,
                 LeavedAtOwnRisk = true,
                 LeavePermissionDoctorPwz = "123456",
-                PatientRoomNumber = "118"
+                PatientRoomNumber = "118",
+                VisitState = Messages.VisitEntityState.FINISHED
             };
 
             var visitForPatient3 = new VisitEntity
@@ -112,13 +115,14 @@ namespace Ward
                 PatientPesel = patientThird.Pesel,
                 VisitStartDate = new DateTime(2023, 9, 3, 11, 0, 0),
                 AllowedToLeave = false,
-                PatientRoomNumber = "115"
+                PatientRoomNumber = "",
+                VisitState = Messages.VisitEntityState.NEW
             };
 
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "118", Capacity = 2, OccupiedBeds = 2, Patients = $"{patientFirst.Pesel};{patientSecond.Pesel}" });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "118", Capacity = 2, OccupiedBeds = 1, Patients = $"{patientFirst.Pesel}" });
             rooms.Add(new() { Id = Guid.NewGuid(), Number = "119A", Capacity = 1, OccupiedBeds = 0 });
             rooms.Add(new() { Id = Guid.NewGuid(), Number = "119B", Capacity = 1, OccupiedBeds = 0 });
-            rooms.Add(new() { Id = Guid.NewGuid(), Number = "115", Capacity = 4, OccupiedBeds = 1 , Patients = patientThird.Pesel });
+            rooms.Add(new() { Id = Guid.NewGuid(), Number = "115", Capacity = 4, OccupiedBeds = 0 });
             rooms.Add(new() { Id = Guid.NewGuid(), Number = "121", Capacity = 3, OccupiedBeds = 0 });
             rooms.Add(new() { Id = Guid.NewGuid(), Number = "143", Capacity = 6, OccupiedBeds = 0 });
             rooms.Add(new() { Id = Guid.NewGuid(), Number = "152A", Capacity = 2, OccupiedBeds = 0 });

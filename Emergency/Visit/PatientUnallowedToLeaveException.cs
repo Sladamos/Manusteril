@@ -16,9 +16,5 @@ namespace Emergency.Visit
         public PatientUnallowedToLeaveException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected PatientUnallowedToLeaveException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

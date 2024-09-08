@@ -16,9 +16,5 @@ namespace Emergency.Visit
         public UnregisteredPatientException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected UnregisteredPatientException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

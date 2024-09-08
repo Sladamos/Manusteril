@@ -80,7 +80,7 @@ namespace Emergency.Command.AddPatient
 
         public async Task Execute()
         {
-            Console.WriteLine("Rejestrowanie pacjenta");
+            Console.WriteLine("Dodawanie pacjenta");
             enabled = true;
             while (enabled)
             {

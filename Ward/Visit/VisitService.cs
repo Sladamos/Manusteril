@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using static MassTransit.Monitoring.Performance.BuiltInCounters;
+using Ward.Room;
 
 namespace Ward.Visit
 {
@@ -17,21 +19,41 @@ namespace Ward.Visit
     {
         private readonly IValidatorService validator;
 
-        private readonly IVisitRepository visitRepository;
+        private IRoomService roomService;
 
-        private readonly IVisitEventRepository eventRepository;
+        private IPatientService patientService;
+
+        private IVisitEventRepository visitEventRepository;
+
+        private readonly IVisitRepository visitRepository;
 
         private readonly ILog logger;
 
         public VisitService(IValidatorService validator,
+            IRoomService roomService,
+            IPatientService patientService,
             IVisitRepository visitRepository,
             IVisitEventRepository eventRepository,
             ILog logger)
         {
             this.validator = validator;
+            this.roomService = roomService;
+            this.patientService = patientService;
             this.visitRepository = visitRepository;
-            this.eventRepository = eventRepository;
+            visitEventRepository = eventRepository;
             this.logger = logger;
+        }
+
+        public void AddVisit(VisitEntity visit)
+        {
+            logger.Info($"Rozpoczęto rejestrowanie wizyty {visit}");
+            ValidatePesel(visit.PatientPesel);
+            if (IsPatientRegisteredInWard(visit.PatientPesel))
+            {
+                throw new PatientAlreadyOnVisitException("Pacjent jest już na wizycie na oddziale");
+            }
+            visitRepository.Save(visit);
+            logger.Info($"Zarejestrowano wizytę {visit}");
         }
 
         public VisitEntity GetPatientCurrentVisit(string pesel)
@@ -41,24 +63,69 @@ namespace Ward.Visit
             return visitRepository.GetPatientCurrentVisit(pesel);
         }
 
+        public bool IsPatientRegisteredInWard(string patientPesel)
+        {
+            logger.Info($"Sprawdzanie czy pacjent jest zarejestrowany na oddziale {patientPesel}");
+            ValidatePesel(patientPesel);
+            try
+            {
+                visitRepository.GetPatientCurrentVisit(patientPesel);
+                logger.Info($"Pacjent {patientPesel} jest zarejestrowany na oddziale");
+                return true;
+            } catch (UnregisteredPatientException) 
+            {
+                logger.Info($"Pacjent {patientPesel} nie jest zarejestrowany na oddziale");
+                return false;
+            }
+        }
+
         public void MarkVisitAsAllowedToLeave(VisitEntity visit)
         {
-            logger.Info($"Rozpoczynamy pozwolenie na wypiskę {visit.PatientPesel}");
+            logger.Info($"Rozpoczęto pozwolenie na wypiskę {visit.PatientPesel}");
             ValidatePesel(visit.PatientPesel);
             ValidatePwz(visit.LeavePermissionDoctorPwz);
             visit.AllowedToLeave = true;
             visitRepository.Save(visit);
-            Console.WriteLine("TODO send message");
+            visitEventRepository.AllowToLeave(visit);
             logger.Info($"Zezwolono na opuszczenie oddziału pacjentowi {visit.PatientPesel}");
         }
 
-        public void SetRoomForPatient(PatientEntity patient, string number)
+        public void MarkVisitAsFinished(IPatientVisitUnregisteredMessage message)
+        {
+            logger.Info($"Rozpocząto oznaczanie wizyty pacjenta {message.PatientPesel} jako zakończoną");
+            ValidatePesel(message.PatientPesel);
+            var visit = visitRepository.GetPatientCurrentVisit(message.PatientPesel);
+            visit.VisitEndDate = message.VisitEndDate;
+            visit.VisitState = VisitEntityState.FINISHED;
+            var patient = patientService.GetPatientByPesel(message.PatientPesel);
+            roomService.RemovePatientFromRoom(patient);
+            visitRepository.Save(visit);
+            logger.Info($"Oznaczono wizytję pacjenta {message.PatientPesel} jako zakończoną");
+        }
+
+        public void MarkVisitAsInProgress(string pesel, string roomNumber)
+        {
+            logger.Info($"Rozpocząto oznaczanie wizyty dla pacjenta {pesel} jako rozpoczętą");
+            ValidatePesel(pesel);
+            var visit = visitRepository.GetPatientCurrentVisit(pesel);
+            if(visit.VisitState != VisitEntityState.NEW)
+            {
+                throw new PatientAlreadyOnVisitException("Pacjent nie jest zgłoszony na wizytę na oddziale");
+            }
+            visit.VisitState = VisitEntityState.IN_PROGRESS;
+            var patient = patientService.GetPatientByPesel(pesel);
+            roomService.AddPatientToRoom(patient, roomNumber);
+            visitRepository.Save(visit);
+            visitEventRepository.ConfirmArrival(visit);
+            logger.Info($"Oznaczono wizytję pacjenta {pesel} jako rozpoczętą");
+        }
+
+        public void UpdateVisitRoom(PatientEntity patient, string number)
         {
             logger.Info($"Rozpoczęto przypisywanie sali dla pacjenta {patient.Pesel}");
             var visit = visitRepository.GetPatientCurrentVisit(patient.Pesel);
             visit.PatientRoomNumber = number;
             visitRepository.Save(visit);
-            Console.WriteLine("TODO send message");
             logger.Info($"Przypisano do pacjenta {patient.Pesel} salę {number}");
         }
 

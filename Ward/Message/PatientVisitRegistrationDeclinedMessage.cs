@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace Ward.Message
 {
-    internal class IsPatientInsuredMessage : IIsPatientInsuredMessage
+    internal class PatientVisitRegistrationDeclinedMessage : IPatientVisitRegistrationDeclinedResponse
     {
-
         public required string PatientPesel { get; set; }
+
+        public required string Reason { get; set; }
+
+        public required string WardIdentifier { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Ward.Visit
 {
     internal interface IVisitEventRepository
     {
-        void Unregister(VisitEntity visit);
-        void Register(VisitEntity visit);
+        void AllowToLeave(VisitEntity visit);
+        void ConfirmArrival(VisitEntity visit);
     }
 }
