@@ -7,7 +7,7 @@ using Ward.Patient;
 using Ward.Room;
 using Ward.Visit;
 
-namespace Ward.Command.Patients.ChangePatientWard
+namespace Ward.Command.Patients.ChangePatientRoom
 {
     internal class ChangePatientRoomLogicCommand : ICommand
     {

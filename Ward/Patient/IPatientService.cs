@@ -12,6 +12,5 @@ namespace Ward.Patient
         PatientEntity GetPatientByPesel(string pesel);
         void AddPatient(PatientEntity patient);
         void EditPatient(PatientEntity patient);
-        Task<IIsPatientInsuredResponse> IsPatientInsured(string pesel);
     }
 }

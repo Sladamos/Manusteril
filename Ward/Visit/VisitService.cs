@@ -41,6 +41,22 @@ namespace Ward.Visit
             return visitRepository.GetPatientCurrentVisit(pesel);
         }
 
+        public bool IsPatientRegisteredInWard(string patientPesel)
+        {
+            logger.Info($"Sprawdzanie czy pacjent jest zarejestrowany na oddziale {patientPesel}");
+            ValidatePesel(patientPesel);
+            try
+            {
+                visitRepository.GetPatientCurrentVisit(patientPesel);
+                logger.Info($"Pacjent {patientPesel} jest zarejestrowany na oddziale");
+                return true;
+            } catch (UnregisteredPatientException) 
+            {
+                logger.Info($"Pacjent {patientPesel} nie jest zarejestrowany na oddziale");
+                return false;
+            }
+        }
+
         public void MarkVisitAsAllowedToLeave(VisitEntity visit)
         {
             logger.Info($"Rozpoczęto pozwolenie na wypiskę {visit.PatientPesel}");

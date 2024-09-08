@@ -1,5 +1,4 @@
 ﻿using Ward.Bus;
-using Ward.Messages;
 using Ward.Middleware;
 using MassTransit;
 using Ninject;

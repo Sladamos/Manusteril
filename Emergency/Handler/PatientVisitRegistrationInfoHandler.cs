@@ -47,6 +47,7 @@ namespace Emergency.Handler
             catch (Exception ex)
             {
                 Console.WriteLine($"Błąd przy obsłusze akceptacji przyjęcia: {ex.Message}");
+                throw;
             }
         }
     }

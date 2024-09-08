@@ -119,7 +119,7 @@ namespace Emergency
                 Room = "115",
                 Ward = WardType.GENERAL,
                 WardIdentifier = "Ogólny I",
-                VisitState = VisitEntityState.IN_PROGRESS
+                VisitState = VisitEntityState.NEW
             };
 
             patientRepository.Save(patientFirst);

@@ -1,5 +1,4 @@
 ﻿using Ward.Bus;
-using Ward.Messages;
 using log4net;
 using System;
 using System.Collections.Generic;

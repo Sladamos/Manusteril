@@ -15,7 +15,7 @@ using Ward.Room;
 using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
-using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
 
 namespace Ward.Command.Factory

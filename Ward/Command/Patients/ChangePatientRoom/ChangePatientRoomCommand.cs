@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ward.Command.Executioner;
 using Ward.Command.Factory;
-using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Room;
 using Ward.Validator;
 

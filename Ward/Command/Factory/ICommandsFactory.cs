@@ -8,7 +8,7 @@ using Messages;
 using Ward.Command.DisplayRoomOccupation;
 using Ward.Command.Patients;
 using Ward.Command.Patients.FindPatientRoom;
-using Ward.Command.Patients.ChangePatientWard;
+using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
 using Ward.Command.Executioner;
