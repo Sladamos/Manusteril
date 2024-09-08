@@ -16,6 +16,6 @@ namespace Ward.Visit.Question
 
         public required bool Answered { get; set; }
 
-        public string? Reason { get; set; }
+        public required string Reason { get; set; }
     }
 }

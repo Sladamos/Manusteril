@@ -54,13 +54,14 @@ namespace Ward.Command.Patients.ConfirmPatientArrival
 
         public async Task Execute()
         {
-            Console.WriteLine("Wypisywanie pacjenta");
+            Console.WriteLine("Potwierdzanie przybycia pacjenta");
             enabled = true;
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);
             }
             pesel = "";
+            roomNumber = "";
         }
 
         private void OnPeselSelected(string pesel)

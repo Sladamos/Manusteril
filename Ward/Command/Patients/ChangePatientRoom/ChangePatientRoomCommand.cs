@@ -58,13 +58,14 @@ namespace Ward.Command.Patients.ChangePatientRoom
 
         public async Task Execute()
         {
-            Console.WriteLine("Wypisywanie pacjenta");
+            Console.WriteLine("Zmiana sali pacjenta");
             enabled = true;
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);
             }
             pesel = "";
+            roomNumber = "";
         }
 
         private void OnPeselSelected(string pesel)

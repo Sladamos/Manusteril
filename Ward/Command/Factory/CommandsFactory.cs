@@ -17,6 +17,8 @@ using Ward.Command.Patients.FindPatientRoom;
 using Ward.Command.Patients.ChangePatientRoom;
 using Ward.Command.Patients.AllowPatientToLeave;
 using Ward.Command.Patients.ConfirmPatientArrival;
+using Ward.Visit.Question;
+using Ward.Command.Patients.ConsidierPatientAcceptance;
 
 namespace Ward.Command.Factory
 {
@@ -32,16 +34,20 @@ namespace Ward.Command.Factory
 
         private readonly IPatientService patientService;
 
+        private readonly IVisitQuestionService visitQuestionService;
+
         public CommandsFactory(ICommandsExecutioner commandsExecutioner,
             IValidatorService validator,
             IRoomService roomService,
             IVisitService visitService,
+            IVisitQuestionService visitQuestionService,
             IPatientService patientService)
         {
             this.commandsExecutioner = commandsExecutioner;
             this.validator = validator;
             this.roomService = roomService;
             this.visitService = visitService;
+            this.visitQuestionService = visitQuestionService;
             this.patientService = patientService;
         }
 
@@ -131,7 +137,7 @@ namespace Ward.Command.Factory
                 DefaultDescription = "Czy na własne żądanie",
                 Name = "Żądanie",
                 ParameterSupplier = parameterSupplier,
-                ParameterTransformator = (value) => value ? "tak" : "nie"
+                ParameterTransformator = (value) => value ? "Tak" : "Nie"
             };
             return new MultichoiceCommand<bool>(multichoice);
         }
@@ -144,6 +150,45 @@ namespace Ward.Command.Factory
         public ConfirmPatientArrivalCommand ConfirmPatientArrivalCommand()
         {
             return new ConfirmPatientArrivalCommand(this, commandsExecutioner, validator);
+        }
+
+        public MultichoiceCommand<string> SelectVisitQuestionsCommand(Func<string> peselProvider)
+        {
+            Multichoice<string> multichoice = new()
+            {
+                DefaultDescription = "Wybierz pytanie o wizytę",
+                Values = () => this.visitQuestionService.GetQuestions()
+                .Where(question => !question.Answered)
+                .Select(question => question.PatientPesel)
+                .ToList(),
+                Name = "Pytanie",
+                ParameterSupplier = peselProvider,
+                ParameterValidator = (pesel) => !string.IsNullOrEmpty(pesel)
+            };
+            return new MultichoiceCommand<string>(multichoice);
+        }
+
+        public MultichoiceCommand<bool> SelectVisitQuestionDecisionCommand(Func<bool> parameterSupplier)
+        {
+            Multichoice<bool> multichoice = new()
+            {
+                Values = () => [true, false],
+                DefaultDescription = "Czy można przyjąć pacjenta",
+                Name = "Decyzja",
+                ParameterSupplier = parameterSupplier,
+                ParameterTransformator = (value) => value ? "Tak" : "Nie"
+            };
+            return new MultichoiceCommand<bool>(multichoice);
+        }
+
+        public ConsiderPatientAcceptanceLogicCommand ConsiderPatientAcceptanceLogicCommand(Func<string> getPesel, Func<bool> value, Func<string> getReason)
+        {
+            return new ConsiderPatientAcceptanceLogicCommand(visitQuestionService, getPesel, value, getReason);
+        }
+
+        public ConsiderPatientAcceptanceCommand ConsiderPatientAcceptanceCommand()
+        {
+            return new ConsiderPatientAcceptanceCommand(this, commandsExecutioner, validator);
         }
     }
 }

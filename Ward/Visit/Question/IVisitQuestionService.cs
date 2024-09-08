@@ -12,5 +12,7 @@ namespace Ward.Visit.Question
         void AcceptQuestion(VisitQuestionEntity question);
         void DeclineQuestion(VisitQuestionEntity question);
         List<VisitQuestionEntity> GetQuestions();
+        bool IsUnansweredQuestionForPatient(string patientPesel);
+        VisitQuestionEntity GetQuestionAboutPatient(string pesel);
     }
 }

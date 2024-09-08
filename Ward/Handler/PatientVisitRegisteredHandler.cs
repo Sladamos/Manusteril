@@ -41,13 +41,17 @@ namespace Ward.Handler
                 if (wardType == message.WardType)
                 {
                     logger.Info($"Otrzymano zapytanie o przyjęcie pacjenta: {message}");
-                    var question = new VisitQuestionEntity
+                    if (!questionService.IsUnansweredQuestionForPatient(message.PatientPesel))
                     {
-                        Id = Guid.NewGuid(),
-                        Answered = false,
-                        PatientPesel = message.PatientPesel
-                    };
-                    questionService.AddQuestion(question);
+                        var question = new VisitQuestionEntity
+                        {
+                            Id = Guid.NewGuid(),
+                            Answered = false,
+                            PatientPesel = message.PatientPesel,
+                            Reason = ""
+                        };
+                        questionService.AddQuestion(question);
+                    }
                 }
             }
             catch (Exception ex)

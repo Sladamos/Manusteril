@@ -56,13 +56,14 @@ namespace Ward.Command.Patients.AllowPatientToLeave
 
         public async Task Execute()
         {
-            Console.WriteLine("Wypisywanie pacjenta");
+            Console.WriteLine("Wydanie wypiski pacjentowi");
             enabled = true;
             while (enabled)
             {
                 await commandsExecutioner.Execute(commands);
             }
             pesel = "";
+            pwzNumber = "";
         }
 
         private void OnPeselSelected(string pesel)

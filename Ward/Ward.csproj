@@ -48,4 +48,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Command\Doctors\AddDoctor\" />
+    <Folder Include="Command\Doctors\EditDoctor\" />
+  </ItemGroup>
+
 </Project>

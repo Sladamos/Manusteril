@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Ward.Command.DisplayRoomOccupation;
 using Ward.Command.Patients;
 using Ward.Handler;
+using Ward.Command.Patients.ConsidierPatientAcceptance;
 
 namespace Ward
 {
@@ -36,10 +37,12 @@ namespace Ward
             ExitProgramCommand exitProgramCommand = commandsFactory.ExitProgramCommand();
             DisplayRoomOccupationCommand displayRoomOccupationCommand = commandsFactory.DisplayRoomOccupationCommand();
             DisplayFreeRoomsCommand displayFreeRoomsCommand = commandsFactory.DisplayFreeRoomsCommand();
+            ConsiderPatientAcceptanceCommand considerPatientAcceptanceCommand = commandsFactory.ConsiderPatientAcceptanceCommand();
             PatientCommands patientCommands = commandsFactory.CreatePatientsCommands();
             commands[exitProgramCommand.Name] = exitProgramCommand;
             commands[displayRoomOccupationCommand.Name] = displayRoomOccupationCommand;
             commands[displayFreeRoomsCommand.Name] = displayFreeRoomsCommand;
+            commands[considerPatientAcceptanceCommand.Name] = considerPatientAcceptanceCommand;
             commands[patientCommands.Name] = patientCommands;
             exitProgramCommand.ProgramExited += () => enabled = false;
         }
